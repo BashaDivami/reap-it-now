@@ -1,0 +1,45 @@
+{
+  "title": "RunbookInvocationPlanResult",
+  "description": "Result of planning a runbook invocation from a saved template version and a partially or fully bound input set.",
+  "type": "object",
+  "properties": {
+    "status": { "type": "string" },
+    "invocation_id": { "type": "string" },
+    "runbook_id": { "type": "string" },
+    "runbook_version_id": { "type": "string" },
+    "runbook_name": { "type": "string" },
+    "template_ir": { "type": "object", "additionalProperties": true },
+    "invocation": { "type": "object", "additionalProperties": true },
+    "bound_execution_plan": { "type": "object", "additionalProperties": true },
+    "executor_ir": { "type": "object", "additionalProperties": true },
+    "step_contracts": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": true }
+    },
+    "diagnostics": { "$ref": "./RunbookCompileDiagnostics.schema.json" },
+    "provided_inputs": { "type": "object", "additionalProperties": true },
+    "normalized_inputs": { "type": "object", "additionalProperties": true },
+    "resolved_inputs": { "type": "object", "additionalProperties": true },
+    "trigger_context": { "type": "object", "additionalProperties": true },
+    "selected_interfaces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step_id": { "type": "string" },
+          "execution_interface_id": { "type": "string" },
+          "strategy": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "missing_inputs": { "type": "array", "items": { "type": "string" } },
+    "missing_input_details": {
+      "type": "array",
+      "items": { "$ref": "./RunbookMissingInputDetail.schema.json" }
+    },
+    "assumptions": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["status"],
+  "additionalProperties": false
+}

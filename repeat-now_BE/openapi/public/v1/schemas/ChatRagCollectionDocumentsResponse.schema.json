@@ -1,0 +1,19 @@
+{
+  "title": "ChatRagCollectionDocumentsResponse",
+  "type": "object",
+  "description": "Distinct document_file values and summaries available for a single RAG collection.",
+  "properties": {
+    "collection": {
+      "type": "string",
+      "description": "Collection name requested by the caller."
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "$ref": "./ChatRagCollectionDocument.schema.json"
+      }
+    }
+  },
+  "required": ["collection", "documents"],
+  "additionalProperties": false
+}

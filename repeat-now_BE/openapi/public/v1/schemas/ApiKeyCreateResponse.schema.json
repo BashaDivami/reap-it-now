@@ -1,0 +1,19 @@
+{
+  "title": "ApiKeyCreateResponse",
+  "description": "Response body for creating an API key. Includes the secret ONCE.",
+  "allOf": [
+    { "$ref": "./ApiKey.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "secret": {
+          "type": "string",
+          "description": "The full API key secret. SHOWN ONLY IN THIS 201 RESPONSE. Store securely; it cannot be retrieved later."
+        }
+      },
+      "required": ["secret"],
+      "additionalProperties": false
+    }
+  ]
+}
+

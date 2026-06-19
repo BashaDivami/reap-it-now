@@ -1,0 +1,15 @@
+{
+  "title": "KnowledgeDocumentsListResponse",
+  "description": "Cursor-paginated collection of knowledge documents.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./KnowledgeDocument.schema.json" },
+      "description": "Documents on this page."
+    },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}

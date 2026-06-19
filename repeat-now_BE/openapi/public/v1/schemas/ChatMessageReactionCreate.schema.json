@@ -1,0 +1,12 @@
+{
+  "title": "ChatMessageReactionCreate",
+  "type": "object",
+  "description": "Reaction to a final assistant message.",
+  "properties": {
+    "reaction": { "type": "string", "enum": ["thumbsUp", "thumbsDown"] },
+    "comment": { "type": "string" }
+  },
+  "required": ["reaction"],
+  "additionalProperties": false
+}
+

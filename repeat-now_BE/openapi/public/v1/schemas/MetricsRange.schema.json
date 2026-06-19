@@ -1,0 +1,17 @@
+{
+  "title": "MetricsRange",
+  "description": "Time range binding for query_range style metric evaluation.",
+  "type": "object",
+  "properties": {
+    "from": { "type": "string", "format": "date-time" },
+    "to": { "type": "string", "format": "date-time" },
+    "stepSec": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Step size in seconds for range queries."
+    }
+  },
+  "required": ["from", "to", "stepSec"],
+  "additionalProperties": false
+}
+

@@ -1,0 +1,74 @@
+{
+  "title": "PasskeyAssertionVerifyRequest",
+  "description": "Verify assertion and issue a loginTx. Echoes the server-issued challengeToken.",
+  "type": "object",
+  "properties": {
+    "challengeToken": {
+      "type": "string",
+      "description": "Stateless token from /auth/passkeys/assert."
+    },
+    "credential": {
+      "type": "object",
+      "description": "Client-returned credential from navigator.credentials.get().",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Credential ID (base64url)."
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "public-key"
+          ]
+        },
+        "rawId": {
+          "type": "string",
+          "description": "base64url-encoded rawId."
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "clientDataJSON": {
+              "type": "string",
+              "description": "base64url-encoded."
+            },
+            "authenticatorData": {
+              "type": "string",
+              "description": "base64url-encoded."
+            },
+            "signature": {
+              "type": "string",
+              "description": "base64url-encoded."
+            },
+            "userHandle": {
+              "type": "string",
+              "nullable": true,
+              "description": "base64url-encoded user handle, if present."
+            }
+          },
+          "required": [
+            "clientDataJSON",
+            "authenticatorData",
+            "signature"
+          ],
+          "additionalProperties": false
+        },
+        "clientExtensionResults": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "response"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "challengeToken",
+    "credential"
+  ],
+  "additionalProperties": false
+}

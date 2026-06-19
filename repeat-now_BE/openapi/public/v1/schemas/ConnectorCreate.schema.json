@@ -1,0 +1,26 @@
+{
+  "title": "ConnectorCreate",
+  "description": "Create a connector within an organization. Server generates id/audit/status/version.",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string", "description": "Human-friendly connector name." },
+    "description": { "type": "string", "nullable": true, "description": "Optional admin notes." },
+    "clusterId": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true,
+      "description": "Optional connector cluster to join at creation. May be null."
+    },
+    "labels": {
+      "type": "object",
+      "description": "Free-form labels for search/organization (e.g., env=prod, region=us-west).",
+      "additionalProperties": { "type": "string" }
+    },
+    "upgradeRing": {
+      "type": "string",
+      "description": "Connector upgrade ring (for staged rollouts)."
+    }
+  },
+  "required": ["name"],
+  "additionalProperties": false
+}

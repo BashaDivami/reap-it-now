@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyActiveRelationshipInstance",
+  "description": "Relationship instance already active in the scoped topology context, usually because the current view binding or an existing layer materialized it.",
+  "type": "object",
+  "properties": {
+    "instanceId": {
+      "type": "string",
+      "description": "Runtime identifier for this active relationship instance."
+    },
+    "relationshipId": {
+      "type": "string",
+      "description": "Stable topology relationship id represented by this active instance.",
+      "pattern": "^topology\\.relationship\\.[a-z][a-z0-9_]*$"
+    },
+    "catalogIds": {
+      "type": "array",
+      "description": "Semantic catalog ids associated with this active relationship instance, when known.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+      },
+      "maxItems": 16,
+      "uniqueItems": true
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Short display label for the active instance."
+    },
+    "status": {
+      "type": "string",
+      "description": "Runtime status for this active relationship instance.",
+      "enum": [
+        "active",
+        "degraded",
+        "stale"
+      ]
+    },
+    "renderMode": {
+      "type": "string",
+      "description": "Render mode currently used for this active relationship instance.",
+      "enum": [
+        "relationship_layer",
+        "graph_overlay",
+        "related_view",
+        "drilldown"
+      ]
+    },
+    "qualifiers": {
+      "type": "object",
+      "description": "Qualifiers bound by this active relationship instance, for example vlanId=100.",
+      "additionalProperties": {
+        "$ref": "./TopologySemanticSelectorValue.schema.json"
+      }
+    },
+    "viewBinding": {
+      "type": "object",
+      "description": "Optional current topology-service view binding that produced this active instance. This is descriptive context; relationshipId remains the public capability identity.",
+      "properties": {
+        "viewId": {
+          "type": "string"
+        },
+        "scopeType": {
+          "$ref": "./TopologyV2ScopeType.schema.json"
+        },
+        "scopeId": {
+          "type": "string"
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "./TopologySemanticSelectorValue.schema.json"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "layerIds": {
+      "type": "array",
+      "description": "Overlay layer ids associated with this active relationship instance.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "graphOverlayIds": {
+      "type": "array",
+      "description": "Graph overlay ids associated with this active relationship instance.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "diagnostics": {
+      "type": "array",
+      "description": "Non-fatal diagnostics for this active relationship instance.",
+      "items": {
+        "$ref": "./TopologySemanticContextDiagnostic.schema.json"
+      }
+    }
+  },
+  "required": [
+    "relationshipId",
+    "status"
+  ],
+  "additionalProperties": false
+}

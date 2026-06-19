@@ -1,0 +1,13 @@
+{
+  "title": "SignalWatchlistListResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./SignalWatchlistItem.schema.json" }
+    }
+  },
+  "required": ["items"]
+}
+

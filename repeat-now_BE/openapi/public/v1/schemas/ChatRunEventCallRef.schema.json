@@ -1,0 +1,11 @@
+{
+  "title": "ChatRunEventCallRef",
+  "description": "Agent call context for an SSE event.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "Agent call id for this invocation." },
+    "parentId": { "type": "string", "description": "Parent agent call id, if any." },
+    "taskKey": { "type": "string", "description": "Logical task key for this invocation." }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,15 @@
+{
+  "title": "SignalIncidentEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ts": { "type": "string", "format": "date-time" },
+    "source": { "type": "string", "description": "Normalized evidence source label for UI, e.g. 'Device Syslog'." },
+    "severity": { "type": "string", "nullable": true, "description": "Normalized severity for display, e.g. info | warn | error | unknown." },
+    "summary": { "type": "string", "description": "Short operator-facing summary of the event." },
+    "deviceName": { "type": "string", "nullable": true, "description": "Friendly device name when REAP can resolve it." },
+    "message": { "type": "string", "nullable": true, "description": "Optional raw or near-raw message text after REAP normalization." },
+    "matchReason": { "type": "string", "nullable": true, "description": "Optional explanation of why REAP included this event as evidence." }
+  },
+  "required": ["ts", "source", "summary"]
+}

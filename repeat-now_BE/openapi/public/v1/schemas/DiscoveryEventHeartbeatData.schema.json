@@ -1,0 +1,24 @@
+{
+  "title": "DiscoveryEventHeartbeatData",
+  "description": "Keep-alive signal from the discovery engine.",
+  "type": "object",
+  "properties": {
+    "intervalMs": {
+      "type": "integer",
+      "minimum": 1000,
+      "description": "Approximate interval between heartbeats."
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "heartbeat"
+      ]
+    }
+  },
+  "required": [
+    "intervalMs",
+    "type"
+  ],
+  "additionalProperties": false,
+  "x-discriminator-value": "heartbeat"
+}

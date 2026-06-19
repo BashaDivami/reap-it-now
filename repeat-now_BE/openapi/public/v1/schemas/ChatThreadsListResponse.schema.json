@@ -1,0 +1,12 @@
+{
+  "title": "ChatThreadsListResponse",
+  "type": "object",
+  "description": "Cursor-paged list of chat threads.",
+  "properties": {
+    "items": { "type": "array", "items": { "$ref": "./ChatThread.schema.json" } },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}
+

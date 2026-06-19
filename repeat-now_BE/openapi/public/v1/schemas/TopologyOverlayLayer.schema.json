@@ -1,0 +1,64 @@
+{
+  "title": "TopologyOverlayLayer",
+  "description": "Materialized topology overlay layer applied on top of a base artifact graph.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable id for upsert and removal. Recommended shape: chat:<kind>:<target>:<qualifier>."
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["highlight", "focus", "hide", "selection", "inspect", "drilldown", "metric", "state", "relationship"],
+      "description": "Semantic layer kind."
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short label for UI layer controls."
+    },
+    "priority": {
+      "type": "integer",
+      "description": "Render conflict ordering. Higher priority applies later."
+    },
+    "visible": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the layer should currently be rendered."
+    },
+    "targets": {
+      "type": "array",
+      "description": "Topology graph elements affected by the layer.",
+      "items": { "$ref": "./TopologyAnnotationTarget.schema.json" }
+    },
+    "effects": {
+      "type": "array",
+      "description": "Existing topology view patch effect vocabulary to apply for this layer.",
+      "items": { "$ref": "./TopologyViewPatchOp.schema.json" }
+    },
+    "graphOverlay": {
+      "$ref": "./TopologyGraphOverlay.schema.json",
+      "description": "Bounded graph overlay when this layer represents a drilldown."
+    },
+    "runtime": {
+      "$ref": "./TopologyOverlayLayerRuntime.schema.json",
+      "description": "Optional runtime metadata for metric/state layers."
+    },
+    "relationship": {
+      "$ref": "./TopologyRelationshipLayerMetadata.schema.json",
+      "description": "Optional typed metadata for layers produced from callable topology relationships."
+    },
+    "save": {
+      "$ref": "./TopologyV2OverlayLayerSave.schema.json",
+      "description": "Optional save/template metadata used when extracting durable custom topology views."
+    },
+    "meta": {
+      "type": "object",
+      "description": "Implementation-defined source, confidence, match, run, and diagnostic metadata.",
+      "additionalProperties": true
+    }
+  },
+  "required": ["id", "kind", "label", "priority"],
+  "additionalProperties": false
+}

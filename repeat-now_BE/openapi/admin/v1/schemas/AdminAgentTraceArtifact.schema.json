@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "required": ["id", "kind", "name"],
+  "properties": {
+    "id": { "type": "string" },
+    "kind": { "type": "string" },
+    "name": { "type": "string" },
+    "summary": { "type": "string" },
+    "sizeBytes": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "hasContent": { "type": "boolean" },
+    "agentCallId": { "type": "string" }
+  },
+  "additionalProperties": false,
+  "title": "AdminAgentTraceArtifact"
+}

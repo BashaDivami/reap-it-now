@@ -1,0 +1,63 @@
+{
+  "title": "File",
+  "description": "Original uploaded or imported file resource. Files represent source objects and may later produce derived Artifacts.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Display label shown in UI."
+        },
+        "filename": {
+          "type": "string",
+          "nullable": true,
+          "description": "Original file name supplied by the uploader."
+        },
+        "mimeType": {
+          "type": "string",
+          "description": "MIME type for the stored file."
+        },
+        "sizeBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Size of the stored file in bytes."
+        },
+        "checksum": {
+          "type": "string",
+          "description": "Checksum of the uploaded payload."
+        },
+        "sourceKind": {
+          "type": "string",
+          "enum": ["user_upload", "system_import", "ticket_attachment"],
+          "description": "Source provenance for the original file."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "ready", "blocked", "deleted"],
+          "description": "Lifecycle status for the file."
+        },
+        "threadId": {
+          "type": "string",
+          "format": "uuid",
+          "nullable": true,
+          "description": "Optional chat thread scope for file uploads created from the chat composer."
+        },
+        "description": {
+          "type": "string",
+          "nullable": true,
+          "description": "Optional user or system description."
+        },
+        "contentUri": {
+          "type": "string",
+          "nullable": true,
+          "description": "Internal blob/object-storage reference for the file."
+        }
+      },
+      "required": ["name", "mimeType", "sizeBytes", "checksum", "status"],
+      "additionalProperties": false
+    }
+  ]
+}

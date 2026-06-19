@@ -1,0 +1,16 @@
+{
+  "title": "OrgScoped",
+  "description": "Mixin for resources that belong to a specific organization.",
+  "type": "object",
+  "properties": {
+    "orgId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Owning organization (tenant) id."
+    }
+  },
+  "required": [
+    "orgId"
+  ],
+  "additionalProperties": false
+}

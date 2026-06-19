@@ -1,0 +1,15 @@
+{
+  "title": "RunbookTemplateSource",
+  "description": "Captured source material and provenance used to derive a saved runbook template version.",
+  "type": "object",
+  "properties": {
+    "source_type": { "type": "string" },
+    "source_hash": { "type": "string" },
+    "source_uri": { "type": "string" },
+    "source_revision": { "type": "string" },
+    "source_text": { "type": "string" },
+    "provenance": { "type": "array", "items": { "type": "string" } },
+    "metadata": { "type": "object", "additionalProperties": true }
+  },
+  "additionalProperties": false
+}

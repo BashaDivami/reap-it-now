@@ -1,0 +1,62 @@
+{
+  "title": "DiscoveryJob",
+  "description": "Org-scoped discovery configuration (where/how to discover). Mutable, long-lived.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "siteId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Site in which this job operates."
+        },
+        "clusterId": {
+          "type": "string",
+          "format": "uuid",
+          "nullable": true,
+          "description": "Connector cluster to use for reachability, if applicable."
+        },
+        "seeds": {
+          "type": "array",
+          "description": "Seed devices/hosts to begin discovery from (IP or hostname).",
+          "items": { "type": "string" }
+        },
+        "targetCidrs": {
+          "type": "array",
+          "description": "CIDR ranges to probe during discovery (e.g., 10.0.0.0/24).",
+          "items": { "type": "string" }
+        },
+        "schedule": {
+          "type": "object",
+          "description": "Optional discovery trigger mode. Omit for on-prem manual jobs; use manual with triggerScope when a manual cloud job needs scoped execution, recurring with cron for scheduled jobs, and auto for event-triggered jobs.",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": ["manual", "recurring", "auto"],
+              "description": "Discovery trigger mode."
+            },
+            "cron": {
+              "type": "string",
+              "description": "Cron expression, e.g., '0 0/6 * * *'. Required when mode=recurring."
+            },
+            "triggerScope": {
+              "type": "string",
+              "description": "Optional discovery trigger scope for site-specific sub-routing. AWS cloud jobs use AWS_CLOUD or AWS_VPN."
+            }
+          },
+          "additionalProperties": false
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "paused"],
+          "default": "active",
+          "description": "When paused, manual or scheduled runs are blocked."
+        }
+      },
+      "required": ["siteId", "status"],
+      "additionalProperties": false
+    }
+  ]
+}

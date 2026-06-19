@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologySemanticContextResolveResponse",
+  "description": "Resolved topology semantic context response.",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Resolve outcome.",
+      "enum": ["ok"]
+    },
+    "context": {
+      "$ref": "./TopologySemanticScopedContext.schema.json"
+    }
+  },
+  "required": ["status", "context"],
+  "additionalProperties": false
+}

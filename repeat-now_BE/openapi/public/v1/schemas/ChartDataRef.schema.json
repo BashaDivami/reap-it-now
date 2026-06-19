@@ -1,0 +1,26 @@
+{
+  "title": "ChartDataRef",
+  "description": "Reference to a source artifact dataset used by a static chart.",
+  "type": "object",
+  "properties": {
+    "artifactId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Source artifact identifier, usually kind=table."
+    },
+    "rep": {
+      "type": "string",
+      "description": "Optional representation selector, for example table:result."
+    },
+    "name": {
+      "type": "string",
+      "description": "Optional dataset name for the renderer."
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional note describing this dataset."
+    }
+  },
+  "required": ["artifactId"],
+  "additionalProperties": false
+}

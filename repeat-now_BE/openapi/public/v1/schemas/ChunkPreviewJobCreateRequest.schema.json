@@ -1,0 +1,34 @@
+{
+  "title": "ChunkPreviewJobCreateRequest",
+  "description": "Multipart request for a chunk preview job. Page normalization rules: if both pages are missing use 1..lastPage; only startPage => startPage..lastPage; only endPage => 1..endPage; both => startPage..endPage.",
+  "type": "object",
+  "properties": {
+    "file": {
+      "type": "string",
+      "format": "binary",
+      "description": "PDF file to preview."
+    },
+    "documentType": { "$ref": "./KnowledgeDocumentType.schema.json" },
+    "startPage": { "type": "integer", "minimum": 1, "nullable": true },
+    "endPage": { "type": "integer", "minimum": 1, "nullable": true },
+    "useCharBasedSplit": {
+      "type": "boolean",
+      "nullable": true,
+      "description": "Preview-only override. If true, apply char-based splitting using chunkSize/chunkOverlap."
+    },
+    "chunkSize": {
+      "type": "integer",
+      "minimum": 1,
+      "nullable": true,
+      "description": "Chunk size in characters when char-based split is enabled."
+    },
+    "chunkOverlap": {
+      "type": "integer",
+      "minimum": 0,
+      "nullable": true,
+      "description": "Chunk overlap in characters when char-based split is enabled."
+    }
+  },
+  "required": ["file", "documentType"],
+  "additionalProperties": false
+}

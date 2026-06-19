@@ -1,0 +1,43 @@
+{
+  "title": "ArtifactDocumentView",
+  "type": "object",
+  "description": "A renderable view of an artifact keyed by a representation id (rep). Views allow a single artifact to expose multiple UI renderings (e.g. raw + primary table) without exposing internal storage keys.",
+  "properties": {
+    "rep": {
+      "type": "string",
+      "description": "Representation id for this view (e.g. raw_lines_exact, table:result)."
+    },
+    "title": {
+      "type": "string",
+      "description": "Optional display title for this view (e.g. Raw output, Parsed table)."
+    },
+    "content": {
+      "description": "View-specific content payload. Discriminated by `content.type`.",
+      "oneOf": [
+        { "$ref": "./ArtifactContentCommandOutput.schema.json" },
+        { "$ref": "./ArtifactContentTable.schema.json" },
+        { "$ref": "./ArtifactContentFile.schema.json" },
+        { "$ref": "./ArtifactContentImage.schema.json" },
+        { "$ref": "./ArtifactContentPcap.schema.json" },
+        { "$ref": "./ArtifactContentConfig.schema.json" },
+        { "$ref": "./ArtifactContentChart.schema.json" },
+        { "$ref": "./ArtifactContentTopology.schema.json" }
+      ],
+      "discriminator": {
+        "propertyName": "type",
+        "mapping": {
+          "commandOutput": "./schemas/ArtifactContentCommandOutput.schema.json",
+          "table": "./schemas/ArtifactContentTable.schema.json",
+          "file": "./schemas/ArtifactContentFile.schema.json",
+          "image": "./schemas/ArtifactContentImage.schema.json",
+          "pcap": "./schemas/ArtifactContentPcap.schema.json",
+          "config": "./schemas/ArtifactContentConfig.schema.json",
+          "chart": "./schemas/ArtifactContentChart.schema.json",
+          "topology": "./schemas/ArtifactContentTopology.schema.json"
+        }
+      }
+    }
+  },
+  "required": ["rep", "content"],
+  "additionalProperties": false
+}

@@ -1,0 +1,20 @@
+{
+  "title": "RunbookTemplateParameter",
+  "description": "One extracted or author-declared parameter in a runbook template.",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "aliases": { "type": "array", "items": { "type": "string" } },
+    "kind": { "type": "string" },
+    "resource_kind": { "type": "string" },
+    "shape": { "type": "string" },
+    "required": { "type": "boolean" },
+    "description": { "type": "string" },
+    "default_value": {},
+    "allowed_values": { "type": "array", "items": { "type": "string" } },
+    "inferred_from": { "type": "array", "items": { "type": "string" } },
+    "selector_hints": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["name"],
+  "additionalProperties": false
+}

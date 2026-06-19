@@ -1,0 +1,48 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "orgId"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "orgId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "connectorCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "healthyConnectorCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "degradedConnectorCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "offlineConnectorCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "siteCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "lastSeenAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "title": "AdminConnectorClusterSummary"
+}

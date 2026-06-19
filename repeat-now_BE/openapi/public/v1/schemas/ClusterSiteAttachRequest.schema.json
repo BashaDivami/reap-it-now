@@ -1,0 +1,17 @@
+{
+  "title": "ClusterSiteAttachRequest",
+  "type": "object",
+  "properties": {
+    "siteIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    }
+  },
+  "required": [
+    "siteIds"
+  ],
+  "description": "Attach sites to cluster."
+}

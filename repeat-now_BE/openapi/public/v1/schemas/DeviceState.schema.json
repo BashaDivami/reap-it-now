@@ -1,0 +1,14 @@
+{
+  "title": "DeviceState",
+  "type": "string",
+  "enum": ["discovered", "validated", "unreachable", "retired", "merged"],
+  "x-enumDescriptions": [
+    "Seen via discovery; identity not yet verified.",
+    "Reachable and identity verified recently.",
+    "Previously seen but currently not reachable.",
+    "Intentionally removed from active service (soft-retired).",
+    "Deduplicated into another device record."
+  ],
+  "description": "Lifecycle state of a device."
+}
+

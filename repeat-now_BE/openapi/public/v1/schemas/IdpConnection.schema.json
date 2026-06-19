@@ -1,0 +1,8 @@
+{
+  "title": "IdpConnection",
+  "description": "Organization-scoped IdP connection (discriminated union of OIDC/SAML).",
+  "oneOf": [
+    { "$ref": "./IdpConnectionOidc.schema.json" },
+    { "$ref": "./IdpConnectionSaml.schema.json" }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "required": ["items", "meta"],
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "./AdminAgentTraceRunSummary.schema.json"
+      }
+    },
+    "meta": {
+      "$ref": "./PageMeta.schema.json"
+    }
+  },
+  "additionalProperties": false,
+  "title": "AdminAgentTraceRunsListResponse"
+}

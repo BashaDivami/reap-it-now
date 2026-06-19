@@ -1,0 +1,33 @@
+{
+  "title": "SignalCondition",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "orgId": { "type": "string", "format": "uuid" },
+    "scopeType": { "type": "string" },
+    "scopeId": { "type": "string" },
+    "family": { "type": "string" },
+    "conditionKey": { "type": "string" },
+    "deviceId": { "type": "string" },
+    "instance": { "type": "string" },
+    "targetType": { "type": "string" },
+    "targetId": { "type": "string" },
+    "state": { "type": "string", "description": "ON | OFF | UNKNOWN" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "attributes": { "type": "object", "additionalProperties": true }
+  },
+  "required": [
+    "orgId",
+    "scopeType",
+    "scopeId",
+    "family",
+    "conditionKey",
+    "deviceId",
+    "instance",
+    "targetType",
+    "targetId",
+    "state",
+    "updatedAt",
+    "attributes"
+  ]
+}

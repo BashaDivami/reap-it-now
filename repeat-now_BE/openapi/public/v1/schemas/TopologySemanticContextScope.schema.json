@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologySemanticContextScope",
+  "description": "Tenant/runtime scope used to build a topology semantic context.",
+  "type": "object",
+  "properties": {
+    "scopeType": {
+      "$ref": "./TopologyV2ScopeType.schema.json",
+      "description": "Topology scope type."
+    },
+    "scopeId": {
+      "type": "string",
+      "description": "Topology scope identifier."
+    }
+  },
+  "required": ["scopeType", "scopeId"],
+  "additionalProperties": false
+}

@@ -1,0 +1,33 @@
+{
+  "title": "SignalFeature",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "orgId": { "type": "string", "format": "uuid" },
+    "scopeType": { "type": "string" },
+    "scopeId": { "type": "string" },
+    "family": { "type": "string" },
+    "featureKey": { "type": "string" },
+    "deviceId": { "type": "string" },
+    "targetType": { "type": "string" },
+    "targetId": { "type": "string" },
+    "instance": { "type": "string" },
+    "value": { "type": "number" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "attributes": { "type": "object", "additionalProperties": true }
+  },
+  "required": [
+    "orgId",
+    "scopeType",
+    "scopeId",
+    "family",
+    "featureKey",
+    "deviceId",
+    "targetType",
+    "targetId",
+    "instance",
+    "value",
+    "updatedAt",
+    "attributes"
+  ]
+}

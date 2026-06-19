@@ -1,0 +1,30 @@
+{
+  "title": "ChunkPreviewJobsListResponse",
+  "description": "Page-based collection of non-expired chunk preview jobs in newest-first order.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "description": "Chunk preview jobs for the requested page.",
+      "items": { "$ref": "./ChunkPreviewJob.schema.json" }
+    },
+    "page": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "1-based page index."
+    },
+    "pageSize": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "description": "Number of jobs per page."
+    },
+    "total": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total non-expired jobs available for this org."
+    }
+  },
+  "required": ["items", "page", "pageSize", "total"],
+  "additionalProperties": false
+}

@@ -1,0 +1,45 @@
+{
+  "title": "ChatFormResponseEntry",
+  "type": "object",
+  "description": "One answered field within a formResponse block. Exactly one value slot should typically be populated per entry.",
+  "properties": {
+    "fieldId": {
+      "type": "string",
+      "description": "Field identifier from the originating form prompt."
+    },
+    "valueText": {
+      "type": "string",
+      "description": "Textual value."
+    },
+    "valueNumber": {
+      "type": "number",
+      "description": "Numeric value."
+    },
+    "valueBoolean": {
+      "type": "boolean",
+      "description": "Boolean value."
+    },
+    "valueChoiceId": {
+      "type": "string",
+      "description": "Selected choice id for single-select fields."
+    },
+    "valueChoiceIds": {
+      "type": "array",
+      "description": "Selected choice ids for multi-select fields.",
+      "items": { "type": "string" },
+      "minItems": 1
+    }
+  },
+  "required": ["fieldId"],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "fieldId": "time_range_minutes",
+      "valueNumber": 30
+    },
+    {
+      "fieldId": "metric",
+      "valueChoiceId": "in_bytes"
+    }
+  ]
+}

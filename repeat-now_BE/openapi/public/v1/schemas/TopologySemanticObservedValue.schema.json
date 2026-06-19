@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologySemanticObservedValue",
+  "description": "One bounded observed value for a catalog-backed topology semantic field.",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "string",
+      "description": "Observed value normalized for resolver display and matching hints."
+    },
+    "count": {
+      "type": "integer",
+      "description": "Number of graph elements in the scoped artifact carrying this observed value.",
+      "minimum": 1
+    }
+  },
+  "required": ["value", "count"],
+  "additionalProperties": false
+}

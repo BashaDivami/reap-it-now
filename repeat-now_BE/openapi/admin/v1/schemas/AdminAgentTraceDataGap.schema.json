@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "required": ["severity", "message"],
+  "properties": {
+    "severity": {
+      "type": "string",
+      "enum": ["info", "warning", "error"]
+    },
+    "message": { "type": "string" },
+    "callId": { "type": "string" }
+  },
+  "additionalProperties": false,
+  "title": "AdminAgentTraceDataGap"
+}

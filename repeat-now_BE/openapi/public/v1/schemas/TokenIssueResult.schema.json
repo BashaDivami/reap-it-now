@@ -1,0 +1,9 @@
+{
+  "title": "TokenIssueResult",
+  "description": "Either TokenResponse (normal success) or a pickOrg handoff.",
+  "oneOf": [
+    { "$ref": "./TokenResponse.schema.json" },
+    { "$ref": "./TokenNextStepPickOrg.schema.json" }
+  ]
+}
+

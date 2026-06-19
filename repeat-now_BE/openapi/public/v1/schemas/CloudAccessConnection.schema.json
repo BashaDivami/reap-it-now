@@ -1,0 +1,44 @@
+{
+  "title": "CloudAccessConnection",
+  "description": "Account-level cloud access connection for discovery or related cloud access setup.",
+  "allOf": [
+    {
+      "$ref": "./ResourceBase.schema.json"
+    },
+    {
+      "$ref": "./OrgScoped.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Display name for the cloud access connection."
+        },
+        "provider": {
+          "type": "string",
+          "description": "Cloud provider, for example aws."
+        },
+        "accountId": {
+          "type": "string",
+          "description": "Cloud account identifier."
+        },
+        "type": {
+          "type": "string",
+          "description": "Cloud access connection type, for example cloudDiscovery."
+        },
+        "status": {
+          "type": "string",
+          "description": "Cloud access connection status."
+        },
+        "roleName": {
+          "type": "string",
+          "nullable": true,
+          "description": "Cloud provider role name associated with this access connection."
+        }
+      },
+      "required": ["name", "provider", "accountId", "type", "status"],
+      "additionalProperties": false
+    }
+  ]
+}

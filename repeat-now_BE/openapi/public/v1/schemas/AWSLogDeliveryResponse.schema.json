@@ -1,0 +1,18 @@
+{
+  "title": "AWSLogDeliveryResponse",
+  "type": "object",
+  "description": "Acknowledgement returned after REAP accepts an AWS log delivery batch.",
+  "properties": {
+    "requestId": {
+      "type": "string",
+      "description": "Delivery request identifier acknowledged by REAP."
+    },
+    "timestamp": {
+      "type": "integer",
+      "format": "int64",
+      "description": "REAP acknowledgement timestamp in milliseconds since the Unix epoch."
+    }
+  },
+  "required": ["requestId", "timestamp"],
+  "additionalProperties": false
+}

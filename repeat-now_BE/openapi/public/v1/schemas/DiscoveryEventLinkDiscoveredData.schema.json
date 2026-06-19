@@ -1,0 +1,50 @@
+{
+  "title": "DiscoveryEventLinkDiscoveredData",
+  "description": "A physical or logical link was discovered.",
+  "type": "object",
+  "properties": {
+    "fromDeviceId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "fromInterface": {
+      "type": "string"
+    },
+    "toDeviceId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "toInterface": {
+      "type": "string"
+    },
+    "layer": {
+      "type": "string",
+      "enum": [
+        "l1",
+        "l2",
+        "l3"
+      ],
+      "x-enumDescriptions": [
+        "Physical link (cable/port).",
+        "Data-link aggregation/forwarding (e.g., VLAN/STP).",
+        "Routing adjacency (e.g., OSPF/BGP)."
+      ]
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "linkDiscovered"
+      ]
+    }
+  },
+  "required": [
+    "fromDeviceId",
+    "fromInterface",
+    "toDeviceId",
+    "toInterface",
+    "layer",
+    "type"
+  ],
+  "additionalProperties": false,
+  "x-discriminator-value": "linkDiscovered"
+}

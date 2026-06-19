@@ -1,0 +1,41 @@
+{
+  "title": "TopologyGraphOverlay",
+  "description": "Bounded graph overlay added on top of an existing topology artifact, usually for drilldown or neighborhood expansion.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable overlay id."
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1,
+      "description": "User-facing overlay label."
+    },
+    "sourceViewId": {
+      "type": "string",
+      "description": "Base view that produced the drilldown request."
+    },
+    "viewId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Topology v2 view identifier used for the overlay graph."
+    },
+    "overlayKey": {
+      "type": "string",
+      "description": "Topology-service overlay key when the view definition exposes one."
+    },
+    "graph": {
+      "$ref": "./TopologyV2Graph.schema.json",
+      "description": "Bounded resolved topology graph payload."
+    },
+    "meta": {
+      "type": "object",
+      "description": "Implementation-defined drilldown provenance and diagnostics.",
+      "additionalProperties": true
+    }
+  },
+  "required": ["id", "label", "viewId", "graph"],
+  "additionalProperties": false
+}

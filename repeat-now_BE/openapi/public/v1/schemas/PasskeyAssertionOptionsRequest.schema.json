@@ -1,0 +1,46 @@
+{
+  "title": "PasskeyAssertionOptionsRequest",
+  "description": "Get WebAuthn assertion options. Choose one mode: email-first (email), email-first (emailTx), or usernameless.",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "userVerification": {
+          "type": "string",
+          "enum": ["required", "preferred", "discouraged"],
+          "nullable": true
+        }
+      },
+      "required": ["email"],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "emailTx": { "type": "string" },
+        "userVerification": {
+          "type": "string",
+          "enum": ["required", "preferred", "discouraged"],
+          "nullable": true
+        }
+      },
+      "required": ["emailTx"],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "usernameless": { "type": "boolean", "enum": [true] },
+        "userVerification": {
+          "type": "string",
+          "enum": ["required", "preferred", "discouraged"],
+          "nullable": true
+        }
+      },
+      "required": ["usernameless"],
+      "additionalProperties": false
+    }
+  ]
+}
+

@@ -1,0 +1,16 @@
+{
+  "title": "AWSCloudWatchLogsIntegrationsListResponse",
+  "type": "object",
+  "description": "Paginated list of AWS CloudWatch Logs onboarding records for an organization.",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./AWSCloudWatchLogsIntegration.schema.json" }
+    },
+    "meta": {
+      "$ref": "./PageMeta.schema.json"
+    }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}

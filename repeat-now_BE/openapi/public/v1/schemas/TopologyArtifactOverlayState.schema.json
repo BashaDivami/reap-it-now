@@ -1,0 +1,52 @@
+{
+  "title": "TopologyArtifactOverlayState",
+  "description": "Durable current overlay projection stored under ArtifactContentTopology.presentation.overlayState.",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "enum": ["topology.artifact.overlay-state.v1"],
+      "description": "Overlay state schema version."
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Monotonic artifact overlay revision."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the overlay state was last updated."
+    },
+    "updatedByRunId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Run id that produced the current revision."
+    },
+    "updatedByMessageId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Message id that triggered the current revision."
+    },
+    "base": {
+      "$ref": "./TopologyOverlayBase.schema.json",
+      "description": "Base graph compatibility key for all layers in this state."
+    },
+    "selection": {
+      "$ref": "./TopologyOverlaySelection.schema.json",
+      "description": "Current selected topology elements."
+    },
+    "layers": {
+      "type": "array",
+      "description": "Current materialized overlay layers.",
+      "items": { "$ref": "./TopologyOverlayLayer.schema.json" }
+    },
+    "graphOverlays": {
+      "type": "array",
+      "description": "Current materialized graph overlays.",
+      "items": { "$ref": "./TopologyGraphOverlay.schema.json" }
+    }
+  },
+  "required": ["schema", "revision", "base", "layers"],
+  "additionalProperties": false
+}

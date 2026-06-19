@@ -1,0 +1,6 @@
+{
+  "title": "TopologyV2ViewPortability",
+  "description": "Portability classification used when deciding whether a materialized layer can be saved into a reusable custom view.",
+  "type": "string",
+  "enum": ["portable", "current_scope_only", "unsaveable"]
+}

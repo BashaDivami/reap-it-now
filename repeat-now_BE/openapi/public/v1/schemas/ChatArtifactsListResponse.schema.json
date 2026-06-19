@@ -1,0 +1,12 @@
+{
+  "title": "ChatArtifactsListResponse",
+  "type": "object",
+  "description": "Cursor-paged list of artifacts for a run.",
+  "properties": {
+    "items": { "type": "array", "items": { "$ref": "./ChatArtifact.schema.json" } },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}
+

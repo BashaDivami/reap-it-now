@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyRelationshipSourceRequirements",
+  "description": "Planner-facing source contract for a relationship. It advertises whether a source is needed and which source forms topology-service can accept without exposing graph internals.",
+  "type": "object",
+  "properties": {
+    "required": {
+      "type": "boolean",
+      "description": "Whether the relationship needs a caller-supplied source beyond the active view binding."
+    },
+    "acceptedForms": {
+      "type": "array",
+      "description": "Source forms supported by topology-service for this relationship in the current context.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "sourceSelection",
+          "sourceSelector",
+          "sourceReference",
+          "sourceScope",
+          "currentViewBinding"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "selectionKinds": {
+      "type": "array",
+      "description": "Concrete topology graph element kinds that are meaningful when acceptedForms includes sourceSelection.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "node",
+          "edge",
+          "layer"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "description": {
+      "type": "string",
+      "description": "Short human-readable source guidance for planner context and diagnostics."
+    }
+  },
+  "required": [
+    "required",
+    "acceptedForms"
+  ],
+  "additionalProperties": false
+}

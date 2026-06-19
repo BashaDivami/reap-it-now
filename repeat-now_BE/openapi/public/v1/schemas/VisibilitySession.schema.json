@@ -1,0 +1,76 @@
+{
+  "title": "VisibilitySession",
+  "description": "User-scoped mutable visibility workspace. Phase 4 sessions are topology workbench sessions created or resumed from the topology page.",
+  "allOf": [
+    {
+      "$ref": "./ResourceBase.schema.json"
+    },
+    {
+      "$ref": "./OrgScoped.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "workspaceFamily": {
+          "$ref": "./VisibilityWorkspaceFamily.schema.json",
+          "description": "Type of workbench session."
+        },
+        "status": {
+          "$ref": "./VisibilitySessionStatus.schema.json",
+          "description": "Lifecycle status of the session."
+        },
+        "mode": {
+          "$ref": "./VisibilitySessionMode.schema.json",
+          "description": "Current render/apply mode of the session state."
+        },
+        "resumeKey": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Server-owned contextual resume key used to reopen this session for the current user."
+        },
+        "bindingHash": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Opaque server-issued hash for the bound topology base."
+        },
+        "chatThreadId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Optional chat thread currently associated with this session."
+        },
+        "pendingProposalId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Currently previewed proposal, when present."
+        },
+        "historyDepth": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of undoable history entries currently retained."
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Optional server-managed expiry timestamp for inactive sessions."
+        },
+        "state": {
+          "$ref": "./VisibilitySessionState.schema.json",
+          "description": "Current materialized session state."
+        }
+      },
+      "required": [
+        "id",
+        "createdAt",
+        "updatedAt",
+        "orgId",
+        "workspaceFamily",
+        "status",
+        "mode",
+        "resumeKey",
+        "bindingHash",
+        "state"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

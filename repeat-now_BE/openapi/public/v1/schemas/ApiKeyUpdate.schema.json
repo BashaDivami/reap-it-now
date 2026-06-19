@@ -1,0 +1,16 @@
+{
+  "title": "ApiKeyUpdate",
+  "description": "Partial update of an API key. Use to rename or extend expiry. Requires If-Match.",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string", "description": "New label for the key." },
+    "roleIds": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "minItems": 1,
+      "description": "Replaces the full role set by UUID (authoritative)."
+    },
+    "expiresAt": { "type": "string", "format": "date-time", "description": "New expiration timestamp (must be in the future)." }
+  },
+  "additionalProperties": false
+}

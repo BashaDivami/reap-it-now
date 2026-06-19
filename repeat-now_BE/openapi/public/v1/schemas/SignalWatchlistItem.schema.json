@@ -1,0 +1,28 @@
+{
+  "title": "SignalWatchlistItem",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "orgId": { "type": "string", "format": "uuid" },
+    "scopeType": { "type": "string" },
+    "scopeId": { "type": "string" },
+    "topicKey": { "type": "string" },
+    "targetType": { "type": "string" },
+    "targetId": { "type": "string" },
+    "tier": { "type": "string", "description": "hot | warm | cold (or org-specific)" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "attributes": { "type": "object", "additionalProperties": true }
+  },
+  "required": [
+    "orgId",
+    "scopeType",
+    "scopeId",
+    "topicKey",
+    "targetType",
+    "targetId",
+    "tier",
+    "updatedAt",
+    "attributes"
+  ]
+}
+

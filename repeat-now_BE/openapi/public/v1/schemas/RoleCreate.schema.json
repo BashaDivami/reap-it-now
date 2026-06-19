@@ -1,0 +1,36 @@
+{
+  "title": "RoleCreate",
+  "type": "object",
+  "description": "Create an organization-scoped role. Server assigns id, scope=org, orgId, created/updated metadata.",
+  "properties": {
+    "slug": {
+      "$ref": "./Slug.schema.json"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-friendly display label (mutable)."
+    },
+    "description": {
+      "type": "string",
+      "description": "What the role grants and when to use it."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "deprecated"],
+      "default": "active",
+      "description": "Set to 'deprecated' to phase out a role without immediate removal."
+    },
+    "permissions": {
+      "type": "array",
+      "minItems": 1,
+      "description": "CRUD/action grants over REAP resources.",
+      "items": { "$ref": "./Permission.schema.json" }
+    },
+    "labels": {
+      "type": "object",
+      "description": "Optional metadata for UI/ops.",
+      "additionalProperties": { "type": "string" }
+    }
+  },
+  "required": ["slug", "permissions"]
+}

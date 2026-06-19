@@ -1,0 +1,13 @@
+{
+  "title": "Vendor",
+  "description": "Canonical vendor identifiers.",
+  "type": "string",
+  "enum": [
+    "Cisco",
+    "Juniper",
+    "Arista",
+    "Palo Alto",
+    "SONiC",
+    "Aruba"
+  ]
+}

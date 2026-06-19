@@ -1,0 +1,19 @@
+{
+  "allOf": [
+    {
+      "$ref": "./AdminWriteContext.schema.json"
+    },
+    {
+      "type": "object",
+      "required": [
+        "state"
+      ],
+      "properties": {
+        "state": {
+          "$ref": "./AdminOrgAccessState.schema.json"
+        }
+      }
+    }
+  ],
+  "title": "AdminOrgAccessChangeRequest"
+}

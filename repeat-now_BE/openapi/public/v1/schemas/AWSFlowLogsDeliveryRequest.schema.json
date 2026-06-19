@@ -1,0 +1,6 @@
+{
+  "title": "AWSFlowLogsDeliveryRequest",
+  "type": "object",
+  "description": "Opaque AWS Flow Logs delivery payload posted to the organization-scoped REAP endpoint. The payload is intentionally left open because log delivery formats can evolve independently of the public control-plane API.",
+  "additionalProperties": true
+}

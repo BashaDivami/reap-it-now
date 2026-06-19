@@ -1,0 +1,13 @@
+{
+  "title": "TopologyV2ViewParamsResponse",
+  "description": "Param schema response for a single viewId (UI-safe).",
+  "type": "object",
+  "properties": {
+    "viewId": { "type": "string" },
+    "params": { "$ref": "./TopologyV2Params.schema.json" },
+    "defaults": { "type": "object", "additionalProperties": true }
+  },
+  "required": ["viewId", "params"],
+  "additionalProperties": false
+}
+

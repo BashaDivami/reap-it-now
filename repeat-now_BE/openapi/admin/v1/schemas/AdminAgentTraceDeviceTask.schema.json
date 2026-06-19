@@ -1,0 +1,32 @@
+{
+  "type": "object",
+  "required": ["id", "agentCallId", "deviceId", "taskKey", "protocol", "clusterId", "status", "createdAt", "updatedAt"],
+  "properties": {
+    "id": { "type": "string" },
+    "agentCallId": { "type": "string" },
+    "deviceId": { "type": "string" },
+    "taskKey": { "type": "string" },
+    "protocol": { "type": "string" },
+    "clusterId": { "type": "string" },
+    "status": { "type": "string" },
+    "errorMessage": { "type": "string" },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "lastEventAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "resultMeta": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "title": "AdminAgentTraceDeviceTask"
+}

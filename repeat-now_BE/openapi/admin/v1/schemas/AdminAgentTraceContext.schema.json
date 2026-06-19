@@ -1,0 +1,49 @@
+{
+  "type": "object",
+  "required": ["orgId", "threadId", "workflowId", "runId", "status"],
+  "properties": {
+    "orgId": {
+      "type": "string"
+    },
+    "orgName": {
+      "type": "string"
+    },
+    "channel": {
+      "type": "string"
+    },
+    "threadId": {
+      "type": "string"
+    },
+    "workflowId": {
+      "type": "string"
+    },
+    "runId": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "startedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Best available trace start time. For existing-table rows this is derived from the first call created_at, not persisted call active time."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "durationMs": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "candidates": {
+      "type": "array",
+      "description": "Resolved workflow/run candidates for workflowId or threadId lookups. The first item is the default selected context.",
+      "items": {
+        "$ref": "./AdminAgentTraceCandidate.schema.json"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "title": "AdminAgentTraceContext"
+}

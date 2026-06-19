@@ -1,0 +1,41 @@
+{
+  "title": "ChartMetricsBinding",
+  "description": "Metrics binding for a dynamic chart. A binding should use exactly one of queryPlan, intent, or capabilityRef; services validate that rule because OpenAPI generator support for oneOf object constraints is weak.",
+  "type": "object",
+  "properties": {
+    "queryPlan": {
+      "$ref": "./MetricQueryPlan.schema.json",
+      "description": "Direct validated query plan authored by telemetry-agent."
+    },
+    "intent": {
+      "type": "string",
+      "description": "Curated metrics intent identifier for current compatibility paths."
+    },
+    "capabilityRef": {
+      "type": "string",
+      "description": "Future stable capability reference. Runtime support is not required in Phase 1A."
+    },
+    "scope": {
+      "$ref": "./MetricsScopeBinding.schema.json"
+    },
+    "selectors": {
+      "type": "object",
+      "description": "Product-level selectors such as siteId, deviceId, targetId, or interface. These are not backend label matchers.",
+      "additionalProperties": { "type": "string" }
+    },
+    "time": {
+      "$ref": "./ChartTimeBinding.schema.json"
+    },
+    "seriesLabelFields": {
+      "type": "array",
+      "description": "Preferred response label fields used to build the chart series name.",
+      "items": { "type": "string" }
+    },
+    "unit": {
+      "type": "string",
+      "description": "Display unit for the chart value."
+    }
+  },
+  "required": ["scope", "time"],
+  "additionalProperties": false
+}

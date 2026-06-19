@@ -1,0 +1,74 @@
+{
+  "title": "VisibilityProposal",
+  "description": "A proposed topology workbench change compiled or authored against a visibility session.",
+  "allOf": [
+    {
+      "$ref": "./ResourceBase.schema.json"
+    },
+    {
+      "$ref": "./OrgScoped.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Visibility session this proposal belongs to."
+        },
+        "origin": {
+          "$ref": "./VisibilityProposalOrigin.schema.json",
+          "description": "How the proposal was authored."
+        },
+        "status": {
+          "$ref": "./VisibilityProposalStatus.schema.json",
+          "description": "Lifecycle status of the proposal."
+        },
+        "requestText": {
+          "type": "string",
+          "description": "Original user request or concise UI action summary that produced the proposal."
+        },
+        "summary": {
+          "type": "string",
+          "description": "Concise summary suitable for proposal banners and chat responses."
+        },
+        "expectedBindingHash": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Binding hash the proposal expects to apply against."
+        },
+        "basedOnRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Session revision this proposal was created against."
+        },
+        "patch": {
+          "$ref": "./TopologyOverlayPatch.schema.json",
+          "description": "Overlay patch represented by this proposal."
+        },
+        "affectedLayerIds": {
+          "type": "array",
+          "description": "Stable layer ids affected by the proposal when known.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "createdAt",
+        "updatedAt",
+        "orgId",
+        "sessionId",
+        "origin",
+        "status",
+        "expectedBindingHash",
+        "basedOnRevision",
+        "patch"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

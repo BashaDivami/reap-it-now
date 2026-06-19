@@ -1,0 +1,71 @@
+{
+  "title": "ChatChoiceResponseBlock",
+  "type": "object",
+  "x-discriminator-value": "choiceResponse",
+  "description": "Structured response to a prior choicePrompt block. Use choiceId for single-select, choiceIds for multi-select, or text for freeform override responses.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["choiceResponse"],
+      "description": "Block kind."
+    },
+    "questionId": {
+      "type": "string",
+      "description": "Correlates this response with the originating prompt."
+    },
+    "responseKind": {
+      "type": "string",
+      "enum": ["choice", "freeform"],
+      "default": "choice",
+      "description": "Whether this response selected provided choices or used a freeform override."
+    },
+    "choiceId": {
+      "type": "string",
+      "description": "Selected choice id for single-select prompts."
+    },
+    "choiceIds": {
+      "type": "array",
+      "description": "Selected choice ids for multi-select prompts.",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "label": {
+      "type": "string",
+      "description": "Optional echoed display label for transcript readability."
+    },
+    "labels": {
+      "type": "array",
+      "description": "Optional echoed display labels for transcript readability.",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "text": {
+      "type": "string",
+      "description": "Freeform response text when responseKind='freeform'."
+    }
+  },
+  "required": ["type", "questionId", "responseKind"],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "type": "choiceResponse",
+      "questionId": "telemetry-source-1",
+      "responseKind": "choice",
+      "choiceId": "metrics",
+      "label": "Metrics"
+    },
+    {
+      "type": "choiceResponse",
+      "questionId": "compare-dimension-1",
+      "responseKind": "choice",
+      "choiceIds": ["in_bytes", "out_bytes"],
+      "labels": ["Inbound bytes", "Outbound bytes"]
+    },
+    {
+      "type": "choiceResponse",
+      "questionId": "custom-site-1",
+      "responseKind": "freeform",
+      "text": "Use the backup collector in site DR."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "title": "TopologyV2ViewsListResponse",
+  "description": "List response for topology v2 view catalog.",
+  "type": "object",
+  "properties": {
+    "items": { "type": "array", "items": { "$ref": "./TopologyV2ViewCatalogItem.schema.json" } },
+    "meta": { "type": "object", "additionalProperties": true }
+  },
+  "required": ["items"],
+  "additionalProperties": false
+}
+

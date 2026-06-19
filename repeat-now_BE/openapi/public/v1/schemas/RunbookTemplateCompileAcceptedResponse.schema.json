@@ -1,0 +1,13 @@
+{
+  "title": "RunbookTemplateCompileAcceptedResponse",
+  "description": "Accepted response for an asynchronous runbook template compilation.",
+  "type": "object",
+  "properties": {
+    "compilation_id": { "type": "string", "format": "uuid" },
+    "status": { "type": "string" },
+    "events_href": { "type": "string" },
+    "result_href": { "type": "string" }
+  },
+  "required": ["compilation_id", "status", "events_href", "result_href"],
+  "additionalProperties": false
+}

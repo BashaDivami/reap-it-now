@@ -1,0 +1,95 @@
+{
+  "title": "PasskeyAssertionOptionsResponse",
+  "description": "WebAuthn PublicKeyCredentialRequestOptions plus a signed `challengeToken` that MUST be echoed to `/auth/passkeys/assert/verify`. In usernameless mode, `allowCredentials` is omitted/empty so browsers surface Conditional UI. Server policy determines fields such as `timeout`, `rpId`, and `userVerification` (clients may request preferences, but the server has final say).",
+  "type": "object",
+  "properties": {
+    "publicKey": {
+      "type": "object",
+      "description": "PublicKeyCredentialRequestOptions (JSON form; binary fields are base64url-encoded).",
+      "properties": {
+        "challenge": {
+          "type": "string",
+          "description": "base64url-encoded."
+        },
+        "timeout": {
+          "type": "integer",
+          "nullable": true
+        },
+        "rpId": {
+          "type": "string",
+          "nullable": true
+        },
+        "allowCredentials": {
+          "type": "array",
+          "description": "Credential descriptors to narrow the assertion ceremony. For usernameless mode this array is omitted/empty so the browser can use Conditional UI.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "public-key"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "base64url-encoded credential id"
+              },
+              "transports": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "usb",
+                    "nfc",
+                    "ble",
+                    "internal",
+                    "hybrid"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "type",
+              "id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "userVerification": {
+          "type": "string",
+          "enum": [
+            "required",
+            "preferred",
+            "discouraged"
+          ],
+          "nullable": true
+        },
+        "extensions": {
+          "type": "object",
+          "nullable": true,
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "challenge"
+      ],
+      "additionalProperties": true
+    },
+    "challengeToken": {
+      "type": "string",
+      "description": "Server-signed, short-lived token. MUST be echoed to /auth/passkeys/assert/verify."
+    },
+    "challengeTokenExpiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true,
+      "description": "TTL hint for the challengeToken."
+    }
+  },
+  "required": [
+    "publicKey",
+    "challengeToken"
+  ],
+  "additionalProperties": false
+}

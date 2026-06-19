@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologySemanticContextResolveIntent",
+  "description": "Bounded semantic hints supplied by agent-core when resolving topology scoped context. These are recall-oriented candidates, not eligibility decisions.",
+  "type": "object",
+  "properties": {
+    "candidateCatalogIds": {
+      "type": "array",
+      "description": "High-recall semantic catalog ids that may match the user request. topology-service intersects these with the active topology artifact and runtime availability.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+      },
+      "maxItems": 100,
+      "uniqueItems": true
+    },
+    "includeUnavailableSignals": {
+      "type": "boolean",
+      "description": "Whether the response should include known but currently unavailable overlay signals with structured unavailable reasons.",
+      "default": true
+    },
+    "maxOverlaySignals": {
+      "type": "integer",
+      "description": "Optional response shaping limit for overlay signal availability cards.",
+      "minimum": 1,
+      "maximum": 100
+    }
+  },
+  "additionalProperties": false
+}

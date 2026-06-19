@@ -1,0 +1,17 @@
+{
+  "title": "CloudAccessQuickCreateResponse",
+  "type": "object",
+  "description": "Backend-owned cloud access launch response.",
+  "properties": {
+    "connection": {
+      "$ref": "./CloudAccessConnection.schema.json"
+    },
+    "quickCreateUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "AWS CloudFormation quick-create URL for the customer to open."
+    }
+  },
+  "required": ["connection", "quickCreateUrl"],
+  "additionalProperties": false
+}

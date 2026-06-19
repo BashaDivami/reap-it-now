@@ -1,0 +1,76 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "orgId",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "orgId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "clusterId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "clusterName": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "provisioning",
+        "registered",
+        "online",
+        "degraded",
+        "offline",
+        "decommissioned"
+      ]
+    },
+    "version": {
+      "type": "string"
+    },
+    "upgradeRing": {
+      "type": "string"
+    },
+    "registeredAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "enrolledAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "lastSeenAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "health": {
+      "$ref": "./AdminConnectorHealthSummary.schema.json"
+    },
+    "runtime": {
+      "$ref": "./AdminConnectorRuntime.schema.json"
+    },
+    "correlation": {
+      "$ref": "./AdminCorrelationLinks.schema.json"
+    },
+    "observability": {
+      "$ref": "./AdminConnectorObservabilityLinks.schema.json"
+    }
+  },
+  "title": "AdminConnectorSummary"
+}

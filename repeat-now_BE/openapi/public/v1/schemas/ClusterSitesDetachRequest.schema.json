@@ -1,0 +1,16 @@
+{
+  "title": "ClusterSitesDetachRequest",
+  "description": "Detach one or more Sites (by UUID) from a Connector Cluster.",
+  "type": "object",
+  "properties": {
+    "siteIds": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "minItems": 1,
+      "description": "Site UUIDs to detach."
+    }
+  },
+  "required": ["siteIds"],
+  "additionalProperties": false
+}
+

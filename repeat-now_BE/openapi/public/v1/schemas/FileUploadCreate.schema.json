@@ -1,0 +1,32 @@
+{
+  "title": "FileUploadCreate",
+  "description": "Multipart upload request for creating a File resource.",
+  "type": "object",
+  "properties": {
+    "file": {
+      "type": "string",
+      "format": "binary",
+      "description": "Uploaded source file."
+    },
+    "name": {
+      "type": "string",
+      "description": "Optional display label shown in UI. Defaults to the original filename when omitted."
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional description or provenance note."
+    },
+    "threadId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Optional thread scope for chat-composer uploads."
+    },
+    "sourceKind": {
+      "type": "string",
+      "enum": ["user_upload", "system_import", "ticket_attachment"],
+      "description": "Source provenance for the file."
+    }
+  },
+  "required": ["file"],
+  "additionalProperties": false
+}

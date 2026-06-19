@@ -1,0 +1,35 @@
+{
+  "title": "VisibilityProposalCreateRequest",
+  "description": "Create a new visibility proposal against an active session. The patch may come from chat-compiled topology intent or bounded UI edits.",
+  "type": "object",
+  "properties": {
+    "origin": {
+      "$ref": "./VisibilityProposalOrigin.schema.json",
+      "description": "How the proposal was authored."
+    },
+    "requestText": {
+      "type": "string",
+      "description": "Original user request or concise UI action summary."
+    },
+    "summary": {
+      "type": "string",
+      "description": "Concise summary for UI banners and chat responses."
+    },
+    "expectedBindingHash": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Binding hash the proposal expects to apply against."
+    },
+    "basedOnRevision": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Session revision the proposal was created against."
+    },
+    "patch": {
+      "$ref": "./TopologyOverlayPatch.schema.json",
+      "description": "Overlay patch to preview/apply."
+    }
+  },
+  "required": ["origin", "expectedBindingHash", "basedOnRevision", "patch"],
+  "additionalProperties": false
+}

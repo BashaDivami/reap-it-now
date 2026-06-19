@@ -1,0 +1,12 @@
+{
+  "title": "ConnectorClusterSettings",
+  "type": "object",
+  "description": "Cluster-scoped runtime settings that influence connector behavior. Omit properties to use platform defaults or to leave existing values unchanged during updates.",
+  "additionalProperties": false,
+  "properties": {
+    "internalInspection": {
+      "$ref": "./ConnectorClusterInternalInspectionSettings.schema.json",
+      "description": "Controls on-box inspection endpoints exposed by command-agent."
+    }
+  }
+}

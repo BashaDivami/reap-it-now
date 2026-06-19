@@ -1,0 +1,56 @@
+{
+  "title": "ChatFormField",
+  "type": "object",
+  "description": "Field definition used inside formPrompt blocks. Select fields may reuse ChatChoiceOption plus selectionMode and allowFreeform metadata.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Stable machine-facing field identifier."
+    },
+    "label": {
+      "type": "string",
+      "description": "User-facing label for the field."
+    },
+    "fieldType": {
+      "type": "string",
+      "enum": ["text", "textarea", "number", "select", "toggle"],
+      "description": "Field input type."
+    },
+    "required": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the field is mandatory."
+    },
+    "placeholder": {
+      "type": "string",
+      "description": "Optional placeholder text."
+    },
+    "helpText": {
+      "type": "string",
+      "description": "Optional helper text shown beneath the field."
+    },
+    "choices": {
+      "type": "array",
+      "description": "Bounded choices for select fields.",
+      "items": { "$ref": "./ChatChoiceOption.schema.json" },
+      "minItems": 1
+    },
+    "selectionMode": {
+      "$ref": "./ChatSelectionMode.schema.json"
+    },
+    "allowFreeform": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether select fields allow a custom value."
+    }
+  },
+  "required": ["id", "label", "fieldType"],
+  "additionalProperties": false,
+  "example": {
+    "id": "time_range_minutes",
+    "label": "Time range (minutes)",
+    "fieldType": "number",
+    "required": true,
+    "helpText": "Enter a value between 5 and 1440."
+  }
+}

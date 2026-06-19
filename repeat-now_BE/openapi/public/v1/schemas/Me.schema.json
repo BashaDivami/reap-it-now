@@ -1,0 +1,38 @@
+{
+  "title": "Me",
+  "description": "Identity view returned by /auth/me. Combines profile, org memberships, and the active org context.",
+  "type": "object",
+  "properties": {
+    "user": {
+      "$ref": "./User.schema.json",
+      "description": "Profile derived from IdP or local account."
+    },
+    "memberships": {
+      "type": "array",
+      "description": "All org memberships for the user.",
+      "items": { "$ref": "./Membership.schema.json" }
+    },
+    "activeOrg": {
+      "type": "object",
+      "nullable": true,
+      "description": "Present when the access token is org-bound; null/omitted for pre-org sessions.",
+      "properties": {
+        "orgId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Active organization id."
+        },
+        "orgSlug": { "$ref": "./Slug.schema.json" },
+        "rolesResolved": {
+          "type": "array",
+          "description": "Resolved roles for convenience (immutable slug + mutable name).",
+          "items": { "$ref": "./RoleResolved.schema.json" }
+        }
+      },
+      "required": ["orgId", "orgSlug", "rolesResolved"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["user", "memberships"],
+  "additionalProperties": false
+}

@@ -1,0 +1,35 @@
+{
+  "title": "PasskeyAttestationVerifyResponse",
+  "description": "Result of registering a new passkey credential.",
+  "type": "object",
+  "properties": {
+    "credentialId": {
+      "type": "string",
+      "description": "Registered credential ID (base64url)."
+    },
+    "registeredAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp when the credential was registered."
+    },
+    "nextStep": {
+      "type": "string",
+      "enum": ["authenticatePasskey", "exchangeLoginTx"],
+      "description": "Guidance for the client. 'exchangeLoginTx' only when issueLoginTx=true and loginTx is present."
+    },
+    "loginTx": {
+      "type": "string",
+      "nullable": true,
+      "description": "Optional login handle to exchange at /auth/token (grantType: 'loginTx')."
+    },
+    "loginTxExpiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true,
+      "description": "TTL hint for loginTx, when present."
+    }
+  },
+  "required": ["credentialId", "registeredAt", "nextStep"],
+  "additionalProperties": false
+}
+

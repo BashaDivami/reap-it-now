@@ -1,0 +1,6 @@
+{
+  "title": "KnowledgeDocumentStatus",
+  "description": "Lifecycle phase of an uploaded knowledge document.",
+  "type": "string",
+  "enum": ["pending", "processing", "ready", "failed", "deleted"]
+}

@@ -1,0 +1,23 @@
+{
+  "title": "AWSFlowLogsIntegrationCreate",
+  "type": "object",
+  "description": "Request body used to onboard an AWS cloud site for flow logs.",
+  "properties": {
+    "siteId": {
+      "type": "string",
+      "description": "AWS cloud site id that owns the flow logs onboarding record."
+    },
+    "vpcIds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Customer-selected local VPC IDs to enable flow logs for."
+    },
+    "transitGatewayIds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Customer-selected local transit gateway IDs to enable flow logs for."
+    }
+  },
+  "required": ["siteId", "vpcIds", "transitGatewayIds"],
+  "additionalProperties": false
+}

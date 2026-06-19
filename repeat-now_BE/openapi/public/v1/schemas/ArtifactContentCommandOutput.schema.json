@@ -1,0 +1,16 @@
+{
+  "title": "ArtifactContentCommandOutput",
+  "type": "object",
+  "description": "Content payload for kind=commandOutput.",
+  "properties": {
+    "type": { "type": "string", "enum": ["commandOutput"] },
+    "protocol": { "type": "string", "nullable": true, "description": "cli|snmp|api (if known)" },
+    "command": { "type": "string", "nullable": true, "description": "Command/OID/path (if known)" },
+    "previewText": { "type": "string", "description": "Preview of the command output (may be truncated)." },
+    "truncated": { "type": "boolean", "description": "True if previewText is truncated relative to fullText." },
+    "fullText": { "type": "string", "nullable": true, "description": "Full command output (present only when requested)." }
+  },
+  "required": ["type", "previewText", "truncated"],
+  "additionalProperties": false
+}
+

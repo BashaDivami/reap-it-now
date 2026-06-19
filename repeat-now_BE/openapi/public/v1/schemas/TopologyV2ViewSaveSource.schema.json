@@ -1,0 +1,28 @@
+{
+  "title": "TopologyV2ViewSaveSource",
+  "description": "Source state from which a new or updated custom topology view should be extracted.",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string",
+      "enum": ["visibility_session", "topology_artifact_snapshot"],
+      "description": "Kind of source object."
+    },
+    "sessionId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Visibility session id when kind=visibility_session."
+    },
+    "artifactId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Topology artifact id when kind=topology_artifact_snapshot."
+    },
+    "artifactRep": {
+      "type": "string",
+      "description": "Optional artifact representation selector when kind=topology_artifact_snapshot."
+    }
+  },
+  "required": ["kind"],
+  "additionalProperties": false
+}

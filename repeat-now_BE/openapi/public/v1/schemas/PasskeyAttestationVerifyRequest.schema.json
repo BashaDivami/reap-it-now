@@ -1,0 +1,70 @@
+{
+  "title": "PasskeyAttestationVerifyRequest",
+  "description": "Verify attestation and register a credential. Echoes the server-issued challengeToken.",
+  "type": "object",
+  "properties": {
+    "challengeToken": {
+      "type": "string",
+      "description": "Stateless token from /auth/passkeys/attest."
+    },
+    "credential": {
+      "type": "object",
+      "description": "Client-returned credential from navigator.credentials.create().",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Credential ID (base64url)."
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "public-key"
+          ]
+        },
+        "rawId": {
+          "type": "string",
+          "description": "base64url-encoded rawId."
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "clientDataJSON": {
+              "type": "string",
+              "description": "base64url-encoded."
+            },
+            "attestationObject": {
+              "type": "string",
+              "description": "base64url-encoded."
+            }
+          },
+          "required": [
+            "clientDataJSON",
+            "attestationObject"
+          ],
+          "additionalProperties": false
+        },
+        "clientExtensionResults": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "response"
+      ],
+      "additionalProperties": false
+    },
+    "deviceDisplayName": {
+      "type": "string",
+      "nullable": true,
+      "maxLength": 200,
+      "description": "Optional human-friendly label for this authenticator (shown in UI)."
+    }
+  },
+  "required": [
+    "challengeToken",
+    "credential"
+  ],
+  "additionalProperties": false
+}

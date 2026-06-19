@@ -1,0 +1,20 @@
+{
+  "title": "InvitationAcceptRequest",
+  "description": "Accept an organization invitation using a signed invite token. No password is collected; the backend returns an emailTx for passkey flows.",
+  "type": "object",
+  "properties": {
+    "inviteToken": {
+      "type": "string",
+      "description": "Signed, single-use invitation token carried by the emailed link."
+    },
+    "name": {
+      "type": "string",
+      "nullable": true,
+      "maxLength": 200,
+      "description": "Optional display name to set for the new/linked user."
+    }
+  },
+  "required": ["inviteToken"],
+  "additionalProperties": false
+}
+

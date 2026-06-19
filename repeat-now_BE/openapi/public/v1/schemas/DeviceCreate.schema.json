@@ -1,0 +1,15 @@
+{
+  "title": "DeviceCreate",
+  "description": "Create a device (useful for testing/beta). Discovery-managed fields (vendor/model/osVersion/serial/firstSeenAt/lastSeenAt) are ignored if provided.",
+  "type": "object",
+  "properties": {
+    "siteId": { "type": "string", "format": "uuid", "description": "Owning site." },
+    "mgmtAddress": { "type": "string", "description": "IPv4/IPv6 or hostname." },
+    "displayName": { "type": "string" },
+    "role": { "type": "string", "description": "Optional role label (for example access, core, firewall, wireless-ap)." },
+    "labels": { "type": "object", "additionalProperties": { "type": "string" } },
+    "notes": { "type": "string" }
+  },
+  "required": ["siteId", "mgmtAddress"],
+  "additionalProperties": false
+}

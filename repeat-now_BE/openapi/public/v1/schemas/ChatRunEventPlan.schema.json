@@ -1,0 +1,20 @@
+{
+  "title": "ChatRunEventPlan",
+  "description": "SSE payload for `event: plan` (plan list for a round).",
+  "type": "object",
+  "properties": {
+    "planId": { "type": "string", "description": "Plan identifier (unique within run/agent)." },
+    "round": { "type": "integer", "minimum": 1, "description": "Planning round number (1-indexed)." },
+    "title": { "type": "string", "description": "Optional plan title or narrative." },
+    "steps": {
+      "type": "array",
+      "items": { "$ref": "./ChatRunPlanStep.schema.json" },
+      "description": "Ordered list of plan steps."
+    },
+    "agent": { "$ref": "./ChatRunEventAgentRef.schema.json" },
+    "call": { "$ref": "./ChatRunEventCallRef.schema.json" },
+    "workflowId": { "type": "string", "format": "uuid", "description": "Workflow identifier, when available." }
+  },
+  "required": ["planId", "steps"],
+  "additionalProperties": false
+}

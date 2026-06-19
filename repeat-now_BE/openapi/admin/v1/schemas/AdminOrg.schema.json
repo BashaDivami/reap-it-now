@@ -1,0 +1,87 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "slug",
+    "name",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "./AdminOrgStatus.schema.json"
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "domains": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "plan": {
+      "type": "string"
+    },
+    "flags": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    },
+    "provisioningStatus": {
+      "type": "string",
+      "enum": [
+        "provisioning",
+        "ready",
+        "degraded",
+        "failed",
+        "suspended"
+      ]
+    },
+    "usageSummary": {
+      "$ref": "./AdminOrgUsageSummary.schema.json"
+    },
+    "recentIncidents": {
+      "type": "array",
+      "items": {
+        "$ref": "./AdminOrgIncidentSummary.schema.json"
+      }
+    },
+    "supportNotes": {
+      "type": "array",
+      "items": {
+        "$ref": "./AdminOrgSupportNote.schema.json"
+      }
+    },
+    "connectorCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "siteCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "deviceCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "lastIncidentAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "title": "AdminOrg"
+}

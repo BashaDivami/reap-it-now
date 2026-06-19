@@ -1,0 +1,29 @@
+{
+  "title": "SiteUpdate",
+  "description": "Partial update for a site. Omitted fields are unchanged.",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string", "description": "New display name." },
+    "siteType": {
+      "type": "string",
+      "enum": ["OnPrem", "awsCloud"],
+      "description": "Site type. Use 'awsCloud' for AWS cloud discovery sites."
+    },
+    "awsRegion": {
+      "type": "string",
+      "nullable": true,
+      "description": "AWS region for awsCloud sites. Omit for OnPrem sites."
+    },
+    "awsAccountId": {
+      "type": "string",
+      "nullable": true,
+      "description": "AWS account ID for awsCloud sites. Omit for OnPrem sites."
+    },
+    "address": {
+      "$ref": "./Address.schema.json",
+      "description": "Postal address for OnPrem sites. Omit for awsCloud sites."
+    },
+    "notes": { "type": "string", "nullable": true, "description": "Admin notes." }
+  },
+  "additionalProperties": false
+}

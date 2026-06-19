@@ -1,0 +1,22 @@
+{
+  "title": "OrganizationCreate",
+  "description": "Payload to create an organization. The server generates id and audit fields.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Display name for the organization (mutable)."
+    },
+    "slug": {
+      "$ref": "./Slug.schema.json",
+      "description": "Optional public org handle (immutable). If omitted, the server generates one."
+    },
+    "notes": {
+      "type": "string",
+      "nullable": true,
+      "description": "Optional admin notes."
+    }
+  },
+  "required": ["name"],
+  "additionalProperties": false
+}

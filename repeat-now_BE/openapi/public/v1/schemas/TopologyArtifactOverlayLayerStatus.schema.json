@@ -1,0 +1,47 @@
+{
+  "title": "TopologyArtifactOverlayLayerStatus",
+  "description": "Runtime status for one materialized topology artifact overlay layer.",
+  "type": "object",
+  "properties": {
+    "layerId": {
+      "type": "string",
+      "description": "Overlay layer id from the artifact overlay state."
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["metric", "state"],
+      "description": "Runtime layer kind."
+    },
+    "catalogId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$",
+      "description": "Semantic catalog id backing this runtime layer."
+    },
+    "deliveryMode": {
+      "type": "string",
+      "enum": ["snapshot", "live"],
+      "description": "Materialized delivery mode for this layer."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "active", "stale", "paused", "degraded", "unavailable", "error"],
+      "description": "Current runtime status for this layer."
+    },
+    "message": {
+      "type": "string",
+      "description": "Concise layer status detail suitable for UI display."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When topology-service last evaluated this layer status."
+    },
+    "overlayRevision": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Artifact overlay revision that produced this layer status."
+    }
+  },
+  "required": ["layerId", "status"],
+  "additionalProperties": false
+}

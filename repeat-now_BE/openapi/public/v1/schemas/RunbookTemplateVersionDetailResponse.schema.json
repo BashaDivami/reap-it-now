@@ -1,0 +1,10 @@
+{
+  "title": "RunbookTemplateVersionDetailResponse",
+  "description": "Envelope used by the runbook template version detail endpoint.",
+  "type": "object",
+  "properties": {
+    "item": { "$ref": "./RunbookTemplateVersionDetail.schema.json" }
+  },
+  "required": ["item"],
+  "additionalProperties": false
+}

@@ -1,0 +1,16 @@
+{
+  "title": "AuditEventsListResponse",
+  "type": "object",
+  "description": "Cursor-paged list of audit events (descending by createdAt by default).",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./AuditEvent.schema.json" },
+      "description": "Audit events in this page."
+    },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}
+

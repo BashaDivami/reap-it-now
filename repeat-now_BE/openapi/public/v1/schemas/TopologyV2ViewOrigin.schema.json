@@ -1,0 +1,6 @@
+{
+  "title": "TopologyV2ViewOrigin",
+  "description": "Whether the topology view is a built-in system template or a saved custom template.",
+  "type": "string",
+  "enum": ["system", "custom"]
+}

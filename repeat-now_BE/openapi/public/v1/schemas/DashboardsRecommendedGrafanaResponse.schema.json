@@ -1,0 +1,14 @@
+{
+  "title": "DashboardsRecommendedGrafanaResponse",
+  "description": "Recommended Grafana iframe URLs for a given context (fast path to interactive charts).",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./DashboardsRecommendedGrafanaItem.schema.json" }
+    }
+  },
+  "required": ["items"],
+  "additionalProperties": false
+}
+

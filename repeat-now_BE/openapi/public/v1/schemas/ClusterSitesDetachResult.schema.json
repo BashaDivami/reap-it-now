@@ -1,0 +1,30 @@
+{
+  "title": "ClusterSitesDetachResult",
+  "description": "Result of detaching Sites from a Connector Cluster (idempotent).",
+  "type": "object",
+  "properties": {
+    "detached": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "description": "Sites removed by this operation."
+    },
+    "notAttached": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "description": "Sites that were not attached to this cluster."
+    },
+    "notFound": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "description": "Provided siteIds not found (or not in the organization)."
+    },
+    "forbidden": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "description": "SiteIds the caller is not authorized to detach."
+    }
+  },
+  "required": ["detached", "notAttached", "notFound", "forbidden"],
+  "additionalProperties": false
+}
+

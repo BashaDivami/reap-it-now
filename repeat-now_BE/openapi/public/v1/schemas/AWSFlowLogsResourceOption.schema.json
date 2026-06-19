@@ -1,0 +1,38 @@
+{
+  "title": "AWSFlowLogsResourceOption",
+  "type": "object",
+  "description": "Discovered AWS resource eligible for Flow Logs onboarding.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "AWS resource ID."
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name from discovery, falling back to the resource ID."
+    },
+    "type": {
+      "type": "string",
+      "enum": ["vpc", "transit_gateway"],
+      "description": "Flow Logs resource type."
+    },
+    "state": {
+      "type": "string",
+      "description": "AWS resource state."
+    },
+    "cidr": {
+      "type": "string",
+      "description": "Primary VPC IPv4 CIDR, when available."
+    },
+    "accountId": {
+      "type": "string",
+      "description": "AWS account ID from discovery."
+    },
+    "region": {
+      "type": "string",
+      "description": "AWS region from discovery."
+    }
+  },
+  "required": ["id", "name", "type"],
+  "additionalProperties": false
+}

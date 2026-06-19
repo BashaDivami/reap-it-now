@@ -1,0 +1,15 @@
+{
+  "title": "SignalIncidentsListResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./SignalIncident.schema.json" }
+    },
+    "meta": {
+      "$ref": "./PageMeta.schema.json"
+    }
+  },
+  "required": ["items", "meta"]
+}

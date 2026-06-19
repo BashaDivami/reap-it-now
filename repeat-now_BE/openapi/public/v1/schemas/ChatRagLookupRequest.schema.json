@@ -1,0 +1,52 @@
+{
+  "title": "ChatRagLookupRequest",
+  "type": "object",
+  "description": "Direct retrieval request for validating RAG chunk lookup in chat.",
+  "properties": {
+    "query": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Free-form user query sent to the retrieval service."
+    },
+    "topK": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Optional number of chunks to retrieve. Service defaults/caps apply."
+    },
+    "collections": {
+      "type": "array",
+      "description": "Required target Weaviate classes to search for retrieval.",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "ChunkApi",
+          "ChunkCLI",
+          "ChunkCli_v2",
+          "ChunkCLISummary",
+          "ChunkCLISummaryOnly",
+          "ChunkConfig",
+          "ChunkGeneral",
+          "ChunkMibs",
+          "ChunkSchool",
+          "ChunkTest",
+          "ChunkTest2",
+          "ChunkValidateDesign",
+          "Doc"
+        ]
+      }
+    },
+    "collectionFilters": {
+      "type": "object",
+      "description": "Optional collection-scoped metadata filters forwarded to rag-service.",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "required": ["query", "collections"],
+  "additionalProperties": false
+}

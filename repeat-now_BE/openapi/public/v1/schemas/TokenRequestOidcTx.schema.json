@@ -1,0 +1,34 @@
+{
+  "title": "TokenRequestOidcTx",
+  "description": "OIDC via short-lived handle issued by the OIDC callback.",
+  "type": "object",
+  "properties": {
+    "grantType": {
+      "type": "string",
+      "description": "OIDC handle-based grant.",
+      "enum": [
+        "oidcTx"
+      ]
+    },
+    "oidcTx": {
+      "type": "string",
+      "description": "Single-use handle created by the OIDC callback (~30\u201360s TTL)."
+    },
+    "orgId": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true,
+      "description": "Optional org context to pin."
+    },
+    "scope": {
+      "type": "string",
+      "nullable": true,
+      "description": "Optional, space-delimited scopes (e.g., 'offline_access')."
+    }
+  },
+  "required": [
+    "grantType",
+    "oidcTx"
+  ],
+  "x-discriminator-value": "oidcTx"
+}

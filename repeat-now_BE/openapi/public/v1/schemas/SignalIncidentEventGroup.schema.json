@@ -1,0 +1,17 @@
+{
+  "title": "SignalIncidentEventGroup",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ts": { "type": "string", "format": "date-time" },
+    "summary": { "type": "string", "description": "Short operator-facing summary of the grouped evidence cluster." },
+    "severity": { "type": "string", "nullable": true, "description": "Normalized severity for the evidence cluster." },
+    "deviceName": { "type": "string", "nullable": true, "description": "Friendly device name when REAP can resolve it." },
+    "matchReason": { "type": "string", "nullable": true, "description": "Optional explanation of why REAP grouped these events together." },
+    "events": {
+      "type": "array",
+      "items": { "$ref": "./SignalIncidentEvent.schema.json" }
+    }
+  },
+  "required": ["ts", "summary", "events"]
+}

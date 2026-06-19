@@ -1,0 +1,12 @@
+{
+  "title": "TopologyViewStreamErrorData",
+  "description": "Type-specific data for a view stream frame of type 'error'.",
+  "type": "object",
+  "properties": {
+    "code": { "type": "string", "description": "Machine-readable error code.", "nullable": true },
+    "message": { "type": "string", "description": "Human-readable error message." }
+  },
+  "required": ["message"],
+  "additionalProperties": false
+}
+

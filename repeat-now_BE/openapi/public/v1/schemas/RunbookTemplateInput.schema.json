@@ -1,0 +1,15 @@
+{
+  "title": "RunbookTemplateInput",
+  "description": "One input binding expected by a runbook template step.",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "kind": { "type": "string" },
+    "ref": { "type": "string" },
+    "shape": { "type": "string" },
+    "required": { "type": "boolean" },
+    "literal_value": {}
+  },
+  "required": ["name"],
+  "additionalProperties": false
+}

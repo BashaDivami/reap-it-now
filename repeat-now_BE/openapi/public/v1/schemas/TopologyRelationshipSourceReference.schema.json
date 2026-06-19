@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyRelationshipSourceReference",
+  "description": "Typed source reference for a relationship intent when the user names a domain object but the caller does not have graph ids. topology-service resolves and validates the reference against the active graph.",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string",
+      "description": "Typed natural source reference kind. Use this when sourceSelector cannot safely express a compound identity as one semantic entity.",
+      "enum": [
+        "device_pair",
+        "site_pair",
+        "device_interface",
+        "site_device",
+        "protocol_instance"
+      ]
+    },
+    "semanticEntity": {
+      "type": "string",
+      "description": "Semantic entity represented by the source reference, for example inventory.interface.",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+    },
+    "id": {
+      "type": "string",
+      "description": "Canonical domain identifier when known."
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Display name or label supplied by the user or UI context."
+    },
+    "text": {
+      "type": "string",
+      "description": "Bounded source text when the source cannot yet be represented as a typed id or selector."
+    },
+    "qualifiers": {
+      "type": "object",
+      "description": "Small typed qualifiers that disambiguate the source reference, for example device name plus interface name, a device pair, a site pair, or protocol plus instance.",
+      "additionalProperties": {
+        "$ref": "./TopologySemanticSelectorValue.schema.json"
+      }
+    }
+  },
+  "additionalProperties": false
+}

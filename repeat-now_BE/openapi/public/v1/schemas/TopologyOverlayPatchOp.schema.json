@@ -1,0 +1,34 @@
+{
+  "title": "TopologyOverlayPatchOp",
+  "description": "One ordered operation that mutates a topology artifact overlay projection. Op-specific required fields are enforced by services.",
+  "type": "object",
+  "properties": {
+    "op": {
+      "type": "string",
+      "enum": ["upsert_layer", "remove_layer", "clear_layers", "set_selection", "upsert_graph_overlay"],
+      "description": "Patch operation type."
+    },
+    "layer": {
+      "$ref": "./TopologyOverlayLayer.schema.json",
+      "description": "Layer payload for op=upsert_layer."
+    },
+    "layerId": {
+      "type": "string",
+      "description": "Layer id for op=remove_layer."
+    },
+    "filter": {
+      "$ref": "./TopologyOverlayLayerFilter.schema.json",
+      "description": "Layer filter for op=clear_layers."
+    },
+    "selection": {
+      "$ref": "./TopologyOverlaySelection.schema.json",
+      "description": "Selection payload for op=set_selection."
+    },
+    "graphOverlay": {
+      "$ref": "./TopologyGraphOverlay.schema.json",
+      "description": "Graph overlay payload for op=upsert_graph_overlay."
+    }
+  },
+  "required": ["op"],
+  "additionalProperties": false
+}

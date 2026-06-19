@@ -1,0 +1,60 @@
+{
+  "title": "RoleMappingRule",
+  "description": "Connection-scoped rule mapping IdP data to REAP roles.",
+  "type": "object",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" }
+  ],
+  "properties": {
+    "id": { "type": "string", "format": "uuid", "description": "Server-generated rule id." },
+    "connectionId": { "type": "string", "format": "uuid", "description": "IdP connection that owns this rule." },
+    "enabled": { "type": "boolean", "default": true, "description": "If false, this rule is skipped." },
+    "priority": { "type": "integer", "minimum": 0, "default": 100, "description": "Evaluation order (lower runs first)." },
+
+    "match": {
+      "type": "object",
+      "description": "Condition to evaluate against IdP-derived identity data.",
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["group", "claim", "attribute"],
+          "description": "Where to read from: normalized group set, an OIDC claim, or a SAML attribute."
+        },
+        "path": {
+          "type": "string",
+          "nullable": true,
+          "description": "When source=claim: JSON Pointer or dotted path. When source=attribute: SAML attribute name. Omit for source=group."
+        },
+        "operator": {
+          "type": "string",
+          "enum": ["equals", "contains", "matches"],
+          "description": "equals = exact or array membership; contains = substring / any-element-contains; matches = regex."
+        },
+        "value": {
+          "type": "string",
+          "description": "Right-hand side string to compare against."
+        }
+      },
+      "required": ["source", "operator", "value"],
+      "additionalProperties": false
+    },
+
+    "result": {
+      "type": "object",
+      "description": "Grant effects when match succeeds.",
+      "properties": {
+        "roleSlugs": {
+          "type": "array",
+          "items": { "$ref": "./Slug.schema.json" },
+          "minItems": 1,
+          "description": "Role slugs (immutable handles) to grant."
+        }
+      },
+      "required": ["roleSlugs"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["id", "orgId", "connectionId", "enabled", "priority", "match", "result", "createdAt", "updatedAt"],
+  "additionalProperties": false
+}

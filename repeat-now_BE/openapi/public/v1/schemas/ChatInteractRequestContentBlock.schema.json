@@ -1,0 +1,34 @@
+{
+  "title": "ChatInteractRequestContentBlock",
+  "description": "Discriminated union of user-authored content blocks accepted by the interact API. This intentionally excludes assistant-owned prompt and card blocks.",
+  "oneOf": [
+    { "$ref": "./ChatTextBlock.schema.json" },
+    { "$ref": "./ChatCodeBlock.schema.json" },
+    { "$ref": "./ChatChoiceResponseBlock.schema.json" },
+    { "$ref": "./ChatConfirmationResponseBlock.schema.json" },
+    { "$ref": "./ChatFormResponseBlock.schema.json" },
+    { "$ref": "./ChatInputResponseBlock.schema.json" }
+  ],
+  "discriminator": {
+    "propertyName": "type",
+    "mapping": {
+      "text": "./ChatTextBlock.schema.json",
+      "code": "./ChatCodeBlock.schema.json",
+      "choiceResponse": "./ChatChoiceResponseBlock.schema.json",
+      "confirmationResponse": "./ChatConfirmationResponseBlock.schema.json",
+      "formResponse": "./ChatFormResponseBlock.schema.json",
+      "inputResponse": "./ChatInputResponseBlock.schema.json"
+    }
+  },
+  "examples": [
+    {
+      "type": "text",
+      "text": "Use metrics for this request."
+    },
+    {
+      "type": "confirmationResponse",
+      "questionId": "rerun-query-1",
+      "decision": "confirm"
+    }
+  ]
+}

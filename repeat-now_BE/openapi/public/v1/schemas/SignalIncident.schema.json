@@ -1,0 +1,53 @@
+{
+  "title": "SignalIncident",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "orgId": { "type": "string", "format": "uuid" },
+    "scopeType": { "type": "string" },
+    "scopeId": { "type": "string" },
+    "subtype": { "type": "string" },
+    "dedupeKey": { "type": "string" },
+    "status": { "type": "string", "description": "OPEN | CLOSING | CLOSED" },
+    "severity": { "type": "string", "description": "warn | crit | unknown" },
+    "conditionKey": { "type": "string" },
+    "instance": { "type": "string" },
+    "targetType": { "type": "string" },
+    "targetId": { "type": "string" },
+    "openedAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "closedAt": { "type": "string", "format": "date-time", "nullable": true },
+    "topologyIntent": {
+      "$ref": "./SignalIncidentTopologyIntent.schema.json"
+    },
+    "telemetryIntent": {
+      "$ref": "./SignalIncidentTelemetryIntent.schema.json"
+    },
+    "analysis": {
+      "$ref": "./SignalIncidentAnalysis.schema.json"
+    },
+    "attributes": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Incident-specific attributes."
+    }
+  },
+  "required": [
+    "id",
+    "orgId",
+    "scopeType",
+    "scopeId",
+    "subtype",
+    "dedupeKey",
+    "status",
+    "severity",
+    "conditionKey",
+    "instance",
+    "targetType",
+    "targetId",
+    "openedAt",
+    "updatedAt",
+    "attributes"
+  ]
+}

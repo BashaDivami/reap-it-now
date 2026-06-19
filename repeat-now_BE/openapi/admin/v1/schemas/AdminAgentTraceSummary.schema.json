@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "required": ["totalCalls", "pendingCalls", "activeCalls", "completedCalls", "failedCalls", "approvalCount", "artifactCount"],
+  "properties": {
+    "totalCalls": { "type": "integer" },
+    "pendingCalls": { "type": "integer" },
+    "activeCalls": { "type": "integer" },
+    "completedCalls": { "type": "integer" },
+    "failedCalls": { "type": "integer" },
+    "approvalCount": { "type": "integer" },
+    "artifactCount": { "type": "integer" },
+    "longestCallId": { "type": "string" },
+    "longestCallDurationMs": {
+      "type": "integer",
+      "format": "int64"
+    }
+  },
+  "additionalProperties": false,
+  "title": "AdminAgentTraceSummary"
+}

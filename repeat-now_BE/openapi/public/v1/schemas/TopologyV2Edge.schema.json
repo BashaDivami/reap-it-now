@@ -1,0 +1,42 @@
+{
+  "title": "TopologyV2Edge",
+  "description": "Topology v2 edge (relationship) between two nodes.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Stable edge identifier. Prefer a canonical upstream id when one exists (circuit id, link id, session id). Otherwise use a deterministic id derived from endpoints and a discriminator. For undirected edges, sort endpoints to keep the id stable: `edge:<min(fromId,toId)>--<max(fromId,toId)>#<discriminator>` where discriminator can include relation/family/domain/instance or a short hash to distinguish parallel edges."
+    },
+    "fromId": { "type": "string", "description": "Source node id." },
+    "toId": { "type": "string", "description": "Target node id." },
+    "directed": { "type": "boolean", "description": "Whether this edge is directed." },
+    "labels": {
+      "type": "object",
+      "description": "Structured metadata for filtering/grouping and view logic (e.g., labels.relation=connects|contains).",
+      "properties": {
+        "family": { "$ref": "./TopologyV2Family.schema.json" },
+        "domain": { "$ref": "./TopologyV2Domain.schema.json" },
+        "instance": { "$ref": "./TopologyV2Instance.schema.json" },
+        "relation": { "$ref": "./TopologyV2Relation.schema.json" }
+      },
+      "additionalProperties": { "type": "string" }
+    },
+    "tags": {
+      "type": "array",
+      "description": "Free-form strings for lightweight categorization/search.",
+      "items": { "type": "string" }
+    },
+    "properties": {
+      "type": "object",
+      "description": "Arbitrary rich attributes (numbers, nested objects, arrays).",
+      "additionalProperties": true
+    },
+    "refs": {
+      "type": "array",
+      "description": "External reference anchors to canonical relationships outside the topology graph (inventory link ids, session ids, cloud attachment ids, etc.). The pair (`type`, `id`) is the reference identity.",
+      "items": { "$ref": "./TopologyV2Ref.schema.json" }
+    }
+  },
+  "required": ["id", "fromId", "toId", "directed"],
+  "additionalProperties": false
+}

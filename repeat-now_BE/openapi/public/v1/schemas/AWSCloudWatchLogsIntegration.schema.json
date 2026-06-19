@@ -1,0 +1,41 @@
+{
+  "title": "AWSCloudWatchLogsIntegration",
+  "description": "Organization-scoped AWS CloudWatch Logs onboarding record.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Display label for this AWS CloudWatch Logs integration record."
+        },
+        "siteId": {
+          "type": "string",
+          "description": "AWS cloud site id linked to this AWS CloudWatch Logs integration."
+        },
+        "awsAccountId": {
+          "type": "string",
+          "description": "AWS account ID that will post CloudWatch Logs into REAP."
+        },
+        "region": {
+          "type": "string",
+          "description": "Customer-selected AWS region stored with the onboarding record."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["enabled", "disabled"],
+          "description": "Whether REAP currently accepts AWS CloudWatch Logs for this record."
+        },
+        "logGroups": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Customer-provided CloudWatch Log Group names tracked by this integration."
+        }
+      },
+      "required": ["name", "siteId", "awsAccountId", "region", "status", "logGroups"],
+      "additionalProperties": false
+    }
+  ]
+}

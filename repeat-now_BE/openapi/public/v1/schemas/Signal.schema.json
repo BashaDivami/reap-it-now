@@ -1,0 +1,35 @@
+{
+  "title": "Signal",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "orgId": { "type": "string", "format": "uuid" },
+    "scopeType": { "type": "string" },
+    "scopeId": { "type": "string" },
+    "family": { "type": "string" },
+    "signalKey": { "type": "string" },
+    "metricName": { "type": "string" },
+    "deviceId": { "type": "string" },
+    "targetType": { "type": "string" },
+    "targetId": { "type": "string" },
+    "instance": { "type": "string" },
+    "value": { "type": "number" },
+    "observedAt": { "type": "string", "format": "date-time" },
+    "attributes": { "type": "object", "additionalProperties": true }
+  },
+  "required": [
+    "orgId",
+    "scopeType",
+    "scopeId",
+    "family",
+    "signalKey",
+    "metricName",
+    "deviceId",
+    "targetType",
+    "targetId",
+    "instance",
+    "value",
+    "observedAt",
+    "attributes"
+  ]
+}

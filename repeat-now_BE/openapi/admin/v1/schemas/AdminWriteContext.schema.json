@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "required": [
+    "reason",
+    "ticketRef"
+  ],
+  "properties": {
+    "reason": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 1000
+    },
+    "ticketRef": {
+      "type": "string",
+      "description": "Internal ticket or incident reference."
+    },
+    "dryRun": {
+      "type": "boolean",
+      "default": false
+    },
+    "confirmationToken": {
+      "type": "string",
+      "description": "Required for high-risk mutations after preview."
+    },
+    "confirmOrgId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Typed org id re-entry for high-risk mutations. Must match the orgId path parameter."
+    },
+    "idempotencyKey": {
+      "type": "string",
+      "maxLength": 128
+    }
+  },
+  "title": "AdminWriteContext"
+}

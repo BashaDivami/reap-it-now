@@ -1,0 +1,26 @@
+{
+  "title": "ChatChoiceOption",
+  "type": "object",
+  "description": "One bounded selectable option shown inside a choicePrompt or select-style form field.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Stable machine-facing choice identifier."
+    },
+    "label": {
+      "type": "string",
+      "description": "User-facing label for the choice."
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional helper text for the choice."
+    }
+  },
+  "required": ["id", "label"],
+  "additionalProperties": false,
+  "example": {
+    "id": "metrics",
+    "label": "Metrics",
+    "description": "Use time-series metric signals."
+  }
+}

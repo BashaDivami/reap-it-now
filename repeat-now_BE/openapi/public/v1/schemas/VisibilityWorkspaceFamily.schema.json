@@ -1,0 +1,6 @@
+{
+  "title": "VisibilityWorkspaceFamily",
+  "description": "Family of mutable visibility workspaces. Phase 4 currently exposes topology workbench sessions only.",
+  "type": "string",
+  "enum": ["topology_workbench"]
+}

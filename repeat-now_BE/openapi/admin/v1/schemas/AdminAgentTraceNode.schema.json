@@ -1,0 +1,62 @@
+{
+  "type": "object",
+  "required": ["id", "targetAgent", "taskKey", "status", "createdAt"],
+  "properties": {
+    "id": { "type": "string" },
+    "parentCallId": {
+      "type": "string",
+      "nullable": true
+    },
+    "parentAgent": {
+      "$ref": "./AdminAgentRef.schema.json"
+    },
+    "targetAgent": {
+      "$ref": "./AdminAgentRef.schema.json"
+    },
+    "taskKey": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "active", "completed", "failed", "cancelled"]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "wallMs": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Wall time computed from created_at to completedAt. It is not pure execution time until startedAt is persisted."
+    },
+    "queueMs": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Optional future precise queue duration when startedAt is persisted."
+    },
+    "executionMs": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Optional future precise execution duration when startedAt is persisted."
+    },
+    "hasResult": { "type": "boolean" },
+    "resultSummary": { "type": "string" },
+    "error": { "type": "string" },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "raw": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "title": "AdminAgentTraceNode"
+}

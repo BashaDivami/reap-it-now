@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "required": [
+    "items",
+    "meta"
+  ],
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "./AdminOrg.schema.json"
+      }
+    },
+    "meta": {
+      "$ref": "./PageMeta.schema.json"
+    }
+  },
+  "title": "AdminOrganizationsListResponse"
+}

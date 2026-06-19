@@ -1,0 +1,59 @@
+{
+  "title": "ChatActiveArtifactContext",
+  "description": "Active artifact and element selection context captured by the UI. Phase 2 topology follow-up tools use this metadata without exposing it as natural-language prompt text.",
+  "type": "object",
+  "properties": {
+    "artifactId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Chat artifact id currently active in the UI. If omitted, agents may resolve the latest applicable artifact from thread state."
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["topology"],
+      "description": "Artifact kind. Phase 2 acts only on topology artifacts."
+    },
+    "title": {
+      "type": "string",
+      "description": "Human-readable artifact title for clarification prompts and diagnostics."
+    },
+    "surface": {
+      "type": "string",
+      "enum": ["chat_card", "inspector", "fullscreen"],
+      "description": "Artifact surface that was active when the message was submitted."
+    },
+    "viewId": {
+      "type": "string",
+      "description": "UI hint copied from the topology artifact binding. Services must validate against the loaded artifact."
+    },
+    "scope": {
+      "$ref": "./TopologyV2Scope.schema.json",
+      "description": "UI hint copied from the topology artifact binding. Services must validate against the loaded artifact."
+    },
+    "selectedNodeIds": {
+      "type": "array",
+      "description": "Stable topology graph node ids selected at submit time.",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "selectedEdgeIds": {
+      "type": "array",
+      "description": "Stable topology graph edge ids selected at submit time.",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "activeLayerIds": {
+      "type": "array",
+      "description": "Overlay layer ids currently selected or focused in the UI.",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "UI's last observed topology overlay state revision."
+    }
+  },
+  "required": ["kind"],
+  "additionalProperties": false
+}

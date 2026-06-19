@@ -1,0 +1,12 @@
+{
+  "title": "RunbookTemplateOutput",
+  "description": "One output a runbook template step is expected to produce.",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "shape": { "type": "string" },
+    "description": { "type": "string" }
+  },
+  "required": ["name"],
+  "additionalProperties": false
+}

@@ -1,0 +1,33 @@
+{
+  "title": "ChatArtifact",
+  "type": "object",
+  "description": "Immutable artifact produced during a run (e.g., command output, table, file).",
+  "properties": {
+    "id": { "type": "string", "format": "uuid", "description": "Artifact identifier." },
+    "threadId": { "type": "string", "format": "uuid", "description": "Thread this artifact belongs to." },
+    "runId": { "type": "string", "format": "uuid", "description": "Run that produced this artifact." },
+    "kind": {
+      "type": "string",
+      "enum": ["commandOutput", "table", "file", "image", "pcap", "config", "chart", "topology"],
+      "x-enumDescriptions": [
+        "Plain text output of a command execution (often large).",
+        "Structured table (may be downloadable as CSV/JSON).",
+        "Generic file blob (binary or text).",
+        "Image produced by the run.",
+        "Packet capture (pcap) file.",
+        "Configuration text or diff.",
+        "Chart artifact rendered by the UI, optionally with a live metrics data binding.",
+        "Topology artifact rendered by the UI from a Topology v2 view binding."
+      ],
+      "description": "Artifact kind."
+    },
+    "mimeType": { "type": "string", "description": "IANA media type for download/preview." },
+    "size": { "type": "integer", "minimum": 0, "description": "Content length in bytes if known." },
+    "summary": { "type": "string", "description": "Short human description for UI (e.g., 'show ip bgp summary on core-rtr-1')." },
+    "labels": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Optional metadata labels." },
+    "checksum": { "type": "string", "description": "Optional checksum (e.g., sha256:...)." },
+    "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp (UTC)." }
+  },
+  "required": ["id", "threadId", "runId", "kind", "mimeType", "createdAt"],
+  "additionalProperties": false
+}

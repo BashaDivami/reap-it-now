@@ -1,0 +1,29 @@
+{
+  "title": "DiscoveryJobCreate",
+  "description": "Create a discovery job.",
+  "type": "object",
+  "properties": {
+    "siteId": { "type": "string", "format": "uuid" },
+    "seeds": { "type": "array", "items": { "type": "string" } },
+    "targetCidrs": { "type": "array", "items": { "type": "string" } },
+    "schedule": {
+      "type": "object",
+      "properties": {
+        "mode": { "type": "string", "enum": ["manual", "recurring", "auto"] },
+        "cron": { "type": "string" },
+        "triggerScope": {
+          "type": "string",
+          "description": "Optional discovery trigger scope for site-specific sub-routing. AWS cloud jobs use AWS_CLOUD or AWS_VPN."
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "paused"],
+      "default": "active"
+    }
+  },
+  "required": ["siteId"],
+  "additionalProperties": false
+}

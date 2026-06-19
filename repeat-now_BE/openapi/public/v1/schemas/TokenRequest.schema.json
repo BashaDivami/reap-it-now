@@ -1,0 +1,11 @@
+{
+  "title": "TokenRequest",
+  "description": "Discriminated union for token issuance using short-lived handles (oidcTx, samlTx, loginTx, emailTx) or refresh rotation.",
+  "oneOf": [
+    { "$ref": "./TokenRequestOidcTx.schema.json" },
+    { "$ref": "./TokenRequestSamlTx.schema.json" },
+    { "$ref": "./TokenRequestLoginTx.schema.json" },
+    { "$ref": "./TokenRequestEmailTx.schema.json" },
+    { "$ref": "./TokenRequestRefresh.schema.json" }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "title": "ChatCodeBlock",
+  "type": "object",
+  "x-discriminator-value": "code",
+  "description": "Code message content block.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["code"],
+      "description": "Block kind."
+    },
+    "code": {
+      "type": "string",
+      "description": "Code text content."
+    },
+    "language": {
+      "type": "string",
+      "description": "Programming language label for syntax highlighting."
+    }
+  },
+  "required": ["type", "code"],
+  "additionalProperties": false,
+  "example": {
+    "type": "code",
+    "code": "fmt.Println(\"hello\")",
+    "language": "go"
+  }
+}

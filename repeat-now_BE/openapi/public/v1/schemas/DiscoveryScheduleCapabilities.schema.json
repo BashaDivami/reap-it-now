@@ -1,0 +1,14 @@
+{
+  "title": "DiscoveryScheduleCapabilities",
+  "description": "Discovery schedule capabilities for a site.",
+  "type": "object",
+  "properties": {
+    "triggerScopes": {
+      "type": "array",
+      "description": "Discovery trigger scopes supported by this site. Empty means the site type does not support scoped discovery jobs.",
+      "items": { "$ref": "./DiscoveryTriggerScope.schema.json" }
+    }
+  },
+  "required": ["triggerScopes"],
+  "additionalProperties": false
+}

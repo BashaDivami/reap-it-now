@@ -1,0 +1,13 @@
+{
+  "title": "CloudTrailIntegrationCreate",
+  "type": "object",
+  "description": "Request body used to onboard an AWS cloud site for CloudTrail event ingestion.",
+  "properties": {
+    "siteId": {
+      "type": "string",
+      "description": "AWS cloud site id that owns the CloudTrail onboarding record."
+    }
+  },
+  "required": ["siteId"],
+  "additionalProperties": false
+}

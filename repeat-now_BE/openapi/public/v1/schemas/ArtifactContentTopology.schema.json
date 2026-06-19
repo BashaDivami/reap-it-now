@@ -1,0 +1,79 @@
+{
+  "title": "ArtifactContentTopology",
+  "description": "Topology content payload for kind=topology. Stores a declarative Topology v2 view binding; topology-service resolves graph data at render time.",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["topology"],
+      "description": "Discriminator for topology content."
+    },
+    "version": {
+      "type": "string",
+      "enum": ["v1"],
+      "description": "Topology artifact content schema version."
+    },
+    "title": {
+      "type": "string",
+      "description": "Optional topology title override."
+    },
+    "binding": {
+      "type": "object",
+      "description": "Declarative render binding for a Topology v2 view.",
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["topology-service"],
+          "description": "Service that owns topology view resolution."
+        },
+        "viewId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Topology v2 view identifier to resolve or stream."
+        },
+        "scope": {
+          "$ref": "./TopologyV2Scope.schema.json"
+        },
+        "params": {
+          "type": "object",
+          "description": "View-specific topology params.",
+          "additionalProperties": true
+        },
+        "limits": {
+          "$ref": "./TopologyV2Limits.schema.json"
+        },
+        "timeMode": {
+          "type": "string",
+          "enum": ["fixed", "current"],
+          "description": "Whether the artifact resolves a fixed asOf topology or current topology."
+        },
+        "asOf": {
+          "type": "string",
+          "format": "date-time",
+          "nullable": true,
+          "description": "Fixed-time resolve timestamp. Required by tool validation when timeMode=fixed and omitted/null when timeMode=current."
+        }
+      },
+      "required": ["source", "viewId", "scope", "timeMode"],
+      "additionalProperties": false
+    },
+    "presentation": {
+      "type": "object",
+      "description": "Optional UI presentation hints for topology artifact rendering.",
+      "properties": {
+        "renderer": {
+          "type": "string",
+          "enum": ["topology-v2"],
+          "description": "Topology renderer identifier."
+        },
+        "overlayState": {
+          "$ref": "./TopologyArtifactOverlayState.schema.json",
+          "description": "Durable current overlay/layer projection for same-artifact visual follow-ups."
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "required": ["type", "version", "binding"],
+  "additionalProperties": false
+}

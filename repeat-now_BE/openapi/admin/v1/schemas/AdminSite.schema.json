@@ -1,0 +1,59 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "orgId",
+    "name"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "orgId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "description": "Current site status shown in admin inventory."
+    },
+    "totalDeviceCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total devices currently mapped to the site."
+    },
+    "staleDeviceCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Devices at this site whose discovery freshness is stale or cold."
+    },
+    "freshnessState": {
+      "type": "string",
+      "enum": [
+        "fresh",
+        "warm",
+        "stale",
+        "cold",
+        "unknown"
+      ],
+      "description": "Derived freshness state for the site's most recently seen device."
+    },
+    "address": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "title": "AdminSite"
+}

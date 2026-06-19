@@ -1,0 +1,21 @@
+{
+  "title": "ChatRunEventPlanStep",
+  "description": "SSE payload for `event: plan_step` (plan step status update).",
+  "type": "object",
+  "properties": {
+    "planId": { "type": "string", "description": "Plan identifier this step belongs to." },
+    "stepId": { "type": "string", "description": "Step identifier (unique within plan)." },
+    "status": {
+      "type": "string",
+      "enum": ["queued", "running", "ok", "error", "skipped"],
+      "description": "Step status update."
+    },
+    "detail": { "type": "string", "description": "Optional step detail." },
+    "percent": { "type": "integer", "minimum": 0, "maximum": 100, "description": "Optional percent complete for this step." },
+    "agent": { "$ref": "./ChatRunEventAgentRef.schema.json" },
+    "call": { "$ref": "./ChatRunEventCallRef.schema.json" },
+    "workflowId": { "type": "string", "format": "uuid", "description": "Workflow identifier, when available." }
+  },
+  "required": ["planId", "stepId", "status"],
+  "additionalProperties": false
+}

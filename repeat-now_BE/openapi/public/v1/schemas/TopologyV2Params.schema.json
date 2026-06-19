@@ -1,0 +1,7 @@
+{
+  "title": "TopologyV2Params",
+  "description": "Map of parameter name to parameter schema for a view.",
+  "type": "object",
+  "additionalProperties": { "$ref": "./TopologyV2ParamSpec.schema.json" }
+}
+

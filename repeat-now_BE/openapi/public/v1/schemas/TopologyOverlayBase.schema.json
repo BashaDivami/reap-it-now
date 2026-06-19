@@ -1,0 +1,43 @@
+{
+  "title": "TopologyOverlayBase",
+  "description": "Topology artifact binding snapshot used to guard overlay patches against the base graph they were compiled for.",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "string",
+      "enum": ["topology-service"],
+      "description": "Service that owns topology view resolution."
+    },
+    "viewId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Topology v2 view identifier the overlay applies to."
+    },
+    "scope": {
+      "$ref": "./TopologyV2Scope.schema.json",
+      "description": "Topology v2 scope the overlay applies to."
+    },
+    "params": {
+      "type": "object",
+      "description": "View-specific topology params used for the base graph.",
+      "additionalProperties": true
+    },
+    "limits": {
+      "$ref": "./TopologyV2Limits.schema.json",
+      "description": "Resolve limits used for the base graph."
+    },
+    "timeMode": {
+      "type": "string",
+      "enum": ["fixed", "current"],
+      "description": "Whether the overlay applies to a fixed or current topology artifact."
+    },
+    "asOf": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true,
+      "description": "Fixed-time resolve timestamp when timeMode=fixed."
+    }
+  },
+  "required": ["source", "viewId", "scope", "timeMode"],
+  "additionalProperties": false
+}

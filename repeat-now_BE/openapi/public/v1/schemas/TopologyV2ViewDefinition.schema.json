@@ -1,0 +1,21 @@
+{
+  "title": "TopologyV2ViewDefinition",
+  "description": "Debug/admin view template definition. This schema is intentionally flexible; the view engine semantics evolve server-side.",
+  "type": "object",
+  "properties": {
+    "viewId": { "type": "string" },
+    "name": { "type": "string" },
+    "description": { "type": "string", "nullable": true },
+    "version": { "type": "string", "nullable": true },
+    "scopeTypes": { "type": "array", "items": { "$ref": "./TopologyV2ScopeType.schema.json" } },
+    "appliesWhen": { "type": "object", "additionalProperties": true },
+    "inputs": { "type": "object", "additionalProperties": true },
+    "params": { "$ref": "./TopologyV2Params.schema.json" },
+    "defaults": { "type": "object", "additionalProperties": true },
+    "rules": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+    "legend": { "$ref": "./TopologyV2Legend.schema.json" },
+    "drilldowns": { "type": "array", "items": { "$ref": "./TopologyV2Drilldown.schema.json" } }
+  },
+  "required": ["viewId", "name"],
+  "additionalProperties": false
+}

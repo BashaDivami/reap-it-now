@@ -1,0 +1,12 @@
+{
+  "title": "DeviceCounts",
+  "description": "Aggregate device counts for a site.",
+  "type": "object",
+  "properties": {
+    "total": { "type": "integer", "minimum": 0, "description": "Total devices for the site." },
+    "active": { "type": "integer", "minimum": 0, "description": "Active devices for the site." },
+    "offline": { "type": "integer", "minimum": 0, "description": "Offline devices for the site." }
+  },
+  "required": ["total", "active", "offline"],
+  "additionalProperties": false
+}

@@ -1,0 +1,34 @@
+{
+  "title": "ChatInfoCardBlock",
+  "type": "object",
+  "x-discriminator-value": "infoCard",
+  "description": "Durable structured informational card left in the transcript. Intended for persisted assistant context, not transient run progress events.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["infoCard"],
+      "description": "Block kind."
+    },
+    "title": {
+      "type": "string",
+      "description": "Optional card title."
+    },
+    "body": {
+      "type": "string",
+      "description": "Primary informational content."
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["info", "success", "warning", "error"],
+      "description": "Optional UI severity hint."
+    }
+  },
+  "required": ["type", "body"],
+  "additionalProperties": false,
+  "example": {
+    "type": "infoCard",
+    "title": "Telemetry scope normalized",
+    "body": "Using device Dist1, interface Te1/0/1, and a 30-minute window.",
+    "severity": "info"
+  }
+}

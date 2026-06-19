@@ -1,0 +1,17 @@
+{
+  "title": "DiscoveryTriggerScope",
+  "description": "Discovery trigger scope option supported for a site.",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "string",
+      "description": "Opaque trigger scope value to send in discovery job schedule.triggerScope."
+    },
+    "label": {
+      "type": "string",
+      "description": "Human-readable label for the trigger scope."
+    }
+  },
+  "required": ["value", "label"],
+  "additionalProperties": false
+}

@@ -1,0 +1,14 @@
+{
+  "title": "ChatRunEventTrace",
+  "description": "SSE payload for `event: trace` (short reasoning or notes).",
+  "type": "object",
+  "properties": {
+    "text": { "type": "string", "description": "Short reasoning or note for UI display." },
+    "kind": { "type": "string", "description": "Optional trace category (e.g., reason, observation)." },
+    "agent": { "$ref": "./ChatRunEventAgentRef.schema.json" },
+    "call": { "$ref": "./ChatRunEventCallRef.schema.json" },
+    "workflowId": { "type": "string", "format": "uuid", "description": "Workflow identifier, when available." }
+  },
+  "required": ["text"],
+  "additionalProperties": false
+}

@@ -1,0 +1,20 @@
+{
+  "allOf": [
+    {
+      "$ref": "./AdminWriteContext.schema.json"
+    },
+    {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "maxLength": 256
+        }
+      }
+    }
+  ],
+  "title": "AdminOrgLabelUpsertRequest"
+}

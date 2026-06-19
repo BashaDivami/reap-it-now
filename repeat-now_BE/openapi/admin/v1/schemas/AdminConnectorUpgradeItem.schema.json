@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "orgId",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "orgId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "clusterId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "clusterName": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "provisioning",
+        "registered",
+        "online",
+        "degraded",
+        "offline",
+        "decommissioned"
+      ]
+    },
+    "upgradeRing": {
+      "type": "string"
+    }
+  },
+  "title": "AdminConnectorUpgradeItem"
+}

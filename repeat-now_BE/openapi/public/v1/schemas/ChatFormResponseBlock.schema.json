@@ -1,0 +1,39 @@
+{
+  "title": "ChatFormResponseBlock",
+  "type": "object",
+  "x-discriminator-value": "formResponse",
+  "description": "Structured response to a prior formPrompt block.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["formResponse"],
+      "description": "Block kind."
+    },
+    "questionId": {
+      "type": "string",
+      "description": "Correlates this response with the originating prompt."
+    },
+    "fields": {
+      "type": "array",
+      "description": "Answered form field values.",
+      "items": { "$ref": "./ChatFormResponseEntry.schema.json" },
+      "minItems": 1
+    }
+  },
+  "required": ["type", "questionId", "fields"],
+  "additionalProperties": false,
+  "example": {
+    "type": "formResponse",
+    "questionId": "telemetry-params-1",
+    "fields": [
+      {
+        "fieldId": "metric",
+        "valueChoiceId": "in_bytes"
+      },
+      {
+        "fieldId": "time_range_minutes",
+        "valueNumber": 30
+      }
+    ]
+  }
+}

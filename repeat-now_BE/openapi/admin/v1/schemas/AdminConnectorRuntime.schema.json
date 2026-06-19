@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "tunnelHealth": {
+      "$ref": "./AdminConnectorRuntimeHealth.schema.json"
+    },
+    "rollout": {
+      "$ref": "./AdminConnectorRolloutStatus.schema.json"
+    }
+  },
+  "title": "AdminConnectorRuntime"
+}

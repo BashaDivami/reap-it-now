@@ -1,0 +1,41 @@
+{
+  "title": "TopologyV2Node",
+  "description": "Topology v2 node (vertex). Networking nuance is expressed as labels/tags/properties, not schema types.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Stable node identifier within the topology domain. Recommended pattern: derive from a canonical ref when possible, e.g. `ref:<ref.type>:<ref.id>`. For derived/computed nodes, use deterministic ids (composite key or hash) so annotations and diffing work over time."
+    },
+    "displayName": { "type": "string", "description": "Human-friendly label for UI." },
+    "labels": {
+      "type": "object",
+      "description": "Structured metadata for filtering/grouping and view logic.",
+      "properties": {
+        "family": { "$ref": "./TopologyV2Family.schema.json" },
+        "level": { "$ref": "./TopologyV2Level.schema.json" },
+        "domain": { "$ref": "./TopologyV2Domain.schema.json" },
+        "instance": { "$ref": "./TopologyV2Instance.schema.json" },
+        "if.kind": { "$ref": "./TopologyV2IfKind.schema.json" }
+      },
+      "additionalProperties": { "type": "string" }
+    },
+    "tags": {
+      "type": "array",
+      "description": "Free-form strings for lightweight categorization/search.",
+      "items": { "type": "string" }
+    },
+    "properties": {
+      "type": "object",
+      "description": "Arbitrary rich attributes (numbers, nested objects, arrays).",
+      "additionalProperties": true
+    },
+    "refs": {
+      "type": "array",
+      "description": "External reference anchors for composition, drilldowns, and linking to upstream systems. Include at least one canonical inventory ref when available (e.g., inventory.device, inventory.interface). `refs` is not used by the UI for rendering directly; it is primarily for back-end composition/join and for stable mapping across producers.",
+      "items": { "$ref": "./TopologyV2Ref.schema.json" }
+    }
+  },
+  "required": ["id", "displayName"],
+  "additionalProperties": false
+}

@@ -1,0 +1,7 @@
+{
+  "title": "SnmpV3AuthProtocol",
+  "type": "string",
+  "enum": ["md5", "sha", "sha224", "sha256", "sha384", "sha512"],
+  "description": "SNMPv3 authentication protocol."
+}
+

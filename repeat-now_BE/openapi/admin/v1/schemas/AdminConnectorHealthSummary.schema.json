@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "properties": {
+    "state": {
+      "type": "string",
+      "enum": [
+        "healthy",
+        "degraded",
+        "offline",
+        "unknown"
+      ]
+    },
+    "summary": {
+      "type": "string"
+    }
+  },
+  "title": "AdminConnectorHealthSummary"
+}

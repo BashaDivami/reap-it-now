@@ -1,0 +1,49 @@
+{
+  "type": "object",
+  "required": [
+    "subject",
+    "email",
+    "roles"
+  ],
+  "properties": {
+    "subject": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "$ref": "./AdminRole.schema.json"
+      }
+    },
+    "mfaAuthenticated": {
+      "type": "boolean"
+    },
+    "issuer": {
+      "type": "string"
+    },
+    "audience": {
+      "type": "string"
+    },
+    "authProvider": {
+      "type": "string",
+      "enum": [
+        "google_workspace",
+        "break_glass"
+      ]
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "title": "AdminPrincipal"
+}

@@ -1,0 +1,41 @@
+{
+  "title": "DiscoveryEventStatusData",
+  "description": "Status transition of a discovery run.",
+  "type": "object",
+  "properties": {
+    "old": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "running",
+        "succeeded",
+        "partial",
+        "failed",
+        null
+      ],
+      "nullable": true
+    },
+    "new": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "running",
+        "succeeded",
+        "partial",
+        "failed"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "status"
+      ]
+    }
+  },
+  "required": [
+    "new",
+    "type"
+  ],
+  "additionalProperties": false,
+  "x-discriminator-value": "status"
+}

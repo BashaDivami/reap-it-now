@@ -1,0 +1,14 @@
+{
+  "title": "RunbookTemplateHealthSummary",
+  "description": "Condensed readiness and publish-state summary for a stored runbook template version.",
+  "type": "object",
+  "properties": {
+    "template_health": { "type": "string" },
+    "warning_count": { "type": "integer", "minimum": 0 },
+    "error_count": { "type": "integer", "minimum": 0 },
+    "required_parameter_count": { "type": "integer", "minimum": 0 },
+    "supported_execution_readiness": { "type": "string" },
+    "publish_state": { "type": "string" }
+  },
+  "additionalProperties": false
+}

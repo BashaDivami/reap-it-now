@@ -1,0 +1,35 @@
+{
+  "title": "SignalIncidentTopologyIntent",
+  "description": "Topology resolve intent for incident-room context. The backend selects the appropriate view and default parameters; the client uses this to call topology resolve without hard-coding view choice.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "viewId": {
+      "type": "string",
+      "description": "Topology view to resolve for this incident."
+    },
+    "scopeType": {
+      "$ref": "./TopologyV2ScopeType.schema.json",
+      "description": "Optional scopeType override for topology resolve. When omitted, clients should use the incident scopeType."
+    },
+    "scopeId": {
+      "type": "string",
+      "description": "Optional scopeId override for topology resolve. When omitted, clients should use the incident scopeId."
+    },
+    "params": {
+      "type": "object",
+      "description": "Concrete view parameters to pass to topology resolve.",
+      "additionalProperties": true
+    },
+    "limits": {
+      "$ref": "./TopologyV2Limits.schema.json",
+      "description": "Suggested resolve limits for the incident topology context."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Optional explanation of why this topology view was selected.",
+      "nullable": true
+    }
+  },
+  "required": ["viewId"]
+}

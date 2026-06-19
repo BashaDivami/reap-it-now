@@ -1,0 +1,14 @@
+{
+  "title": "MembershipsListResponse",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./Membership.schema.json" }
+    },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}
+

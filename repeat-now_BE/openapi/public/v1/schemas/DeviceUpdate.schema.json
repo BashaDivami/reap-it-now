@@ -1,0 +1,17 @@
+{
+  "title": "DeviceUpdate",
+  "description": "Partial update for user-editable fields. Discovery-managed attributes are not mutable here.",
+  "type": "object",
+  "properties": {
+    "displayName": { "type": "string" },
+    "role": { "type": "string", "description": "Optional role label (for example access, core, firewall, wireless-ap)." },
+    "labels": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Overwrites entire map." },
+    "notes": { "type": "string" },
+    "state": {
+      "type": "string",
+      "enum": ["retired"],
+      "description": "Set to 'retired' to soft-retire. Other state transitions are system-managed."
+    }
+  },
+  "additionalProperties": false
+}

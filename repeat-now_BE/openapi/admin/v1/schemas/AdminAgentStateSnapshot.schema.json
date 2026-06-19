@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "properties": {
+    "workflowId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "agentKind": {
+      "type": "string"
+    },
+    "agentId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "revision": {
+      "type": "integer"
+    },
+    "capturedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "title": "AdminAgentStateSnapshot"
+}

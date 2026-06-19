@@ -1,0 +1,16 @@
+{
+  "title": "DelegationAcceptRequest",
+  "type": "object",
+  "description": "Accept a delegation invite as an MSP admin.",
+  "properties": {
+    "inviteToken": { "type": "string", "description": "Single-use invite token (from email link fragment)." },
+    "requestedScopes": {
+      "type": "array",
+      "items": { "$ref": "./DelegationScope.schema.json" },
+      "description": "Optional. If present, the granted scopes are the intersection of allowedScopes and requestedScopes."
+    }
+  },
+  "required": ["inviteToken"],
+  "additionalProperties": false
+}
+

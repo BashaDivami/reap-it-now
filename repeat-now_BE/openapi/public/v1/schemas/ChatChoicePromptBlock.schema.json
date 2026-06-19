@@ -1,0 +1,72 @@
+{
+  "title": "ChatChoicePromptBlock",
+  "type": "object",
+  "x-discriminator-value": "choicePrompt",
+  "description": "Assistant-owned bounded clarification prompt rendered as a first-class interactive block. Supports single-select, multi-select, and optional freeform override flows.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["choicePrompt"],
+      "description": "Block kind."
+    },
+    "questionId": {
+      "type": "string",
+      "description": "Stable prompt identifier used to correlate responses."
+    },
+    "prompt": {
+      "type": "string",
+      "description": "Question text shown to the user."
+    },
+    "choices": {
+      "type": "array",
+      "description": "Bounded answer options.",
+      "items": { "$ref": "./ChatChoiceOption.schema.json" },
+      "minItems": 1
+    },
+    "selectionMode": {
+      "$ref": "./ChatSelectionMode.schema.json"
+    },
+    "allowFreeform": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether a freeform override is allowed in addition to bounded choices."
+    },
+    "freeformLabel": {
+      "type": "string",
+      "description": "Optional UI label for the freeform path."
+    },
+    "minSelections": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Optional lower bound for multi-select prompts."
+    },
+    "maxSelections": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Optional upper bound for multi-select prompts."
+    }
+  },
+  "required": ["type", "questionId", "prompt", "choices", "selectionMode", "allowFreeform"],
+  "additionalProperties": false,
+  "example": {
+    "type": "choicePrompt",
+    "questionId": "telemetry-source-1",
+    "prompt": "Specify a telemetry source type.",
+    "choices": [
+      {
+        "id": "metrics",
+        "label": "Metrics"
+      },
+      {
+        "id": "logs",
+        "label": "Logs"
+      },
+      {
+        "id": "audit_state",
+        "label": "Audit / State"
+      }
+    ],
+    "selectionMode": "single",
+    "allowFreeform": false
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "title": "DashboardContext",
+  "description": "Context passed to dashboards-service to compute recommendations.",
+  "type": "object",
+  "properties": {
+    "scopeType": { "$ref": "./TopologyV2ScopeType.schema.json" },
+    "scopeId": { "type": "string" },
+    "incidentId": { "type": "string", "format": "uuid" }
+  },
+  "required": ["scopeType", "scopeId"],
+  "additionalProperties": false
+}
+

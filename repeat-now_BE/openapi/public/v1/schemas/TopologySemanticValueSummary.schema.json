@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologySemanticValueSummary",
+  "description": "Bounded observed values for one semantic catalog field in a scoped topology artifact.",
+  "type": "object",
+  "properties": {
+    "catalogId": {
+      "type": "string",
+      "description": "Semantic catalog field id summarized by this entry.",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+    },
+    "values": {
+      "type": "array",
+      "description": "Most useful observed values for the catalog field, bounded by request/service limits.",
+      "items": {
+        "$ref": "./TopologySemanticObservedValue.schema.json"
+      }
+    },
+    "truncated": {
+      "type": "boolean",
+      "description": "Whether additional observed values existed but were omitted because of limits."
+    }
+  },
+  "required": ["catalogId", "values", "truncated"],
+  "additionalProperties": false
+}

@@ -1,0 +1,24 @@
+{
+  "title": "TokenRequestEmailTx",
+  "description": "Obtain a pre-org session after email verification (emailTx).",
+  "type": "object",
+  "properties": {
+    "grantType": {
+      "type": "string",
+      "description": "Bootstrap user or invited user Grant name.",
+      "enum": [
+        "emailTx"
+      ]
+    },
+    "emailTx": {
+      "type": "string",
+      "description": "Short-lived email verification handle from /auth/discover/verify or /auth/invitations/accept."
+    }
+  },
+  "required": [
+    "grantType",
+    "emailTx"
+  ],
+  "additionalProperties": false,
+  "x-discriminator-value": "emailTx"
+}

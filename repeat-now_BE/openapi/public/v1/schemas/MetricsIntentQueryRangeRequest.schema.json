@@ -1,0 +1,29 @@
+{
+  "title": "MetricsIntentQueryRangeRequest",
+  "description": "Metrics query_range request. Provide exactly one of intent or queryPlan. The backend compiles the selected source plus bindings to the underlying TSDB query language (e.g., PromQL query_range).",
+  "type": "object",
+  "properties": {
+    "intent": {
+      "type": "string",
+      "description": "Stable curated intent identifier (e.g., `interface.util_pct_p95_5m`, `condition.transitions.rate`). Mutually exclusive with queryPlan."
+    },
+    "queryPlan": {
+      "$ref": "./MetricQueryPlan.schema.json",
+      "description": "Structured direct metric query plan authored by an agent after metric discovery/validation. Mutually exclusive with intent."
+    },
+    "scope": { "$ref": "./MetricsScopeBinding.schema.json" },
+    "selectors": {
+      "type": "object",
+      "description": "Optional product-level selectors for the request (e.g., `targetId`, `conditionKey`). These are not backend label matchers.",
+      "additionalProperties": { "type": "string" }
+    },
+    "range": { "$ref": "./MetricsRange.schema.json" },
+    "asOf": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional time cursor for snapshot/time-travel mode."
+    }
+  },
+  "required": ["scope", "range"],
+  "additionalProperties": false
+}

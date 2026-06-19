@@ -1,0 +1,56 @@
+{
+  "title": "ChatMessageContentBlock",
+  "description": "Discriminated union of persisted chat message content blocks. Assistant messages may contain prompts, responses, or informational cards; user messages should typically contain only response-capable or plain text blocks.",
+  "oneOf": [
+    { "$ref": "./ChatTextBlock.schema.json" },
+    { "$ref": "./ChatCodeBlock.schema.json" },
+    { "$ref": "./ChatChoicePromptBlock.schema.json" },
+    { "$ref": "./ChatChoiceResponseBlock.schema.json" },
+    { "$ref": "./ChatConfirmationPromptBlock.schema.json" },
+    { "$ref": "./ChatConfirmationResponseBlock.schema.json" },
+    { "$ref": "./ChatFormPromptBlock.schema.json" },
+    { "$ref": "./ChatFormResponseBlock.schema.json" },
+    { "$ref": "./ChatInfoCardBlock.schema.json" },
+    { "$ref": "./ChatInputPromptBlock.schema.json" },
+    { "$ref": "./ChatInputResponseBlock.schema.json" }
+  ],
+  "discriminator": {
+    "propertyName": "type",
+    "mapping": {
+      "text": "./ChatTextBlock.schema.json",
+      "code": "./ChatCodeBlock.schema.json",
+      "choicePrompt": "./ChatChoicePromptBlock.schema.json",
+      "choiceResponse": "./ChatChoiceResponseBlock.schema.json",
+      "confirmationPrompt": "./ChatConfirmationPromptBlock.schema.json",
+      "confirmationResponse": "./ChatConfirmationResponseBlock.schema.json",
+      "formPrompt": "./ChatFormPromptBlock.schema.json",
+      "formResponse": "./ChatFormResponseBlock.schema.json",
+      "infoCard": "./ChatInfoCardBlock.schema.json",
+      "inputPrompt": "./ChatInputPromptBlock.schema.json",
+      "inputResponse": "./ChatInputResponseBlock.schema.json"
+    }
+  },
+  "examples": [
+    {
+      "type": "text",
+      "text": "I need one clarification before I continue."
+    },
+    {
+      "type": "choicePrompt",
+      "questionId": "telemetry-source-1",
+      "prompt": "Specify a telemetry source type.",
+      "choices": [
+        {
+          "id": "metrics",
+          "label": "Metrics"
+        },
+        {
+          "id": "logs",
+          "label": "Logs"
+        }
+      ],
+      "selectionMode": "single",
+      "allowFreeform": false
+    }
+  ]
+}

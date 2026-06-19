@@ -1,0 +1,44 @@
+{
+  "title": "ChatConfirmationPromptBlock",
+  "type": "object",
+  "x-discriminator-value": "confirmationPrompt",
+  "description": "Lightweight assistant confirmation prompt for yes/no style acknowledgement. This is conversational confirmation only and is distinct from approval workflows.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["confirmationPrompt"],
+      "description": "Block kind."
+    },
+    "questionId": {
+      "type": "string",
+      "description": "Stable prompt identifier used to correlate responses."
+    },
+    "prompt": {
+      "type": "string",
+      "description": "Confirmation question shown to the user."
+    },
+    "confirmLabel": {
+      "type": "string",
+      "description": "Optional label for the affirmative action."
+    },
+    "cancelLabel": {
+      "type": "string",
+      "description": "Optional label for the negative action."
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["info", "warning", "danger"],
+      "description": "Optional UI severity hint."
+    }
+  },
+  "required": ["type", "questionId", "prompt"],
+  "additionalProperties": false,
+  "example": {
+    "type": "confirmationPrompt",
+    "questionId": "rerun-query-1",
+    "prompt": "Rerun the query with a 24-hour window? This may take longer.",
+    "confirmLabel": "Rerun",
+    "cancelLabel": "Keep current range",
+    "severity": "warning"
+  }
+}

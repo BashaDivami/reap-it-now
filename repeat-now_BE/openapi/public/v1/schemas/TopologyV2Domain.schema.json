@@ -1,0 +1,7 @@
+{
+  "title": "TopologyV2Domain",
+  "description": "Feature namespace that produced/owns the semantics of a node/edge. This is intentionally not an enum. Examples: stp, ospf, bgp, isis, routing, traffic, latency, aws, ipsec, vxlan.",
+  "type": "string",
+  "examples": ["stp", "routing", "traffic", "aws"]
+}
+

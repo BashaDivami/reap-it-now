@@ -1,0 +1,26 @@
+{
+  "title": "RoleUpdate",
+  "type": "object",
+  "description": "Partial update for a role. Use If-Match for optimistic concurrency. The slug is immutable and not updatable.",
+  "properties": {
+    "name": { "type": "string", "description": "Human-friendly display label (mutable)." },
+    "description": { "type": "string", "description": "What the role grants." },
+    "status": {
+      "type": "string",
+      "enum": ["active", "deprecated"],
+      "description": "Deprecate to discourage new assignments without deletion."
+    },
+    "permissions": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Complete replacement list of permissions.",
+      "items": { "$ref": "./Permission.schema.json" }
+    },
+    "labels": {
+      "type": "object",
+      "description": "Replace the labels map.",
+      "additionalProperties": { "type": "string" }
+    }
+  },
+  "minProperties": 1
+}

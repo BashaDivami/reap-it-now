@@ -1,0 +1,13 @@
+{
+  "title": "RunbookTemplateVersionsResponse",
+  "description": "List of saved versions for one runbook template.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./RunbookTemplateSummary.schema.json" }
+    }
+  },
+  "required": ["items"],
+  "additionalProperties": false
+}

@@ -1,0 +1,11 @@
+{
+  "title": "TopologyViewStreamHeartbeatData",
+  "description": "Type-specific data for a view stream frame of type 'heartbeat'.",
+  "type": "object",
+  "properties": {
+    "intervalMs": { "type": "integer", "minimum": 1, "description": "Server heartbeat interval in milliseconds." }
+  },
+  "required": ["intervalMs"],
+  "additionalProperties": false
+}
+

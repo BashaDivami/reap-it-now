@@ -1,0 +1,60 @@
+{
+  "title": "ChatFormPromptBlock",
+  "type": "object",
+  "x-discriminator-value": "formPrompt",
+  "description": "Assistant-owned grouped input form for collecting multiple related values in one structured interaction.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["formPrompt"],
+      "description": "Block kind."
+    },
+    "questionId": {
+      "type": "string",
+      "description": "Stable prompt identifier used to correlate responses."
+    },
+    "prompt": {
+      "type": "string",
+      "description": "Short prompt or title shown above the form."
+    },
+    "fields": {
+      "type": "array",
+      "description": "Ordered form field definitions.",
+      "items": { "$ref": "./ChatFormField.schema.json" },
+      "minItems": 1
+    }
+  },
+  "required": ["type", "questionId", "prompt", "fields"],
+  "additionalProperties": false,
+  "example": {
+    "type": "formPrompt",
+    "questionId": "telemetry-params-1",
+    "prompt": "Confirm the telemetry query parameters.",
+    "fields": [
+      {
+        "id": "metric",
+        "label": "Metric",
+        "fieldType": "select",
+        "required": true,
+        "choices": [
+          {
+            "id": "in_bytes",
+            "label": "Inbound bytes"
+          },
+          {
+            "id": "out_bytes",
+            "label": "Outbound bytes"
+          }
+        ],
+        "selectionMode": "single",
+        "allowFreeform": false
+      },
+      {
+        "id": "time_range_minutes",
+        "label": "Time range (minutes)",
+        "fieldType": "number",
+        "required": true
+      }
+    ]
+  }
+}

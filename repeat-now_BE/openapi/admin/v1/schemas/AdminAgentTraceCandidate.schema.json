@@ -1,0 +1,27 @@
+{
+  "type": "object",
+  "required": ["threadId", "workflowId", "runId", "status"],
+  "properties": {
+    "channel": {
+      "type": "string"
+    },
+    "threadId": {
+      "type": "string"
+    },
+    "workflowId": {
+      "type": "string"
+    },
+    "runId": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false,
+  "title": "AdminAgentTraceCandidate"
+}

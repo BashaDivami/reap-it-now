@@ -1,0 +1,42 @@
+{
+  "title": "RoleMappingRuleUpdate",
+  "description": "Partial update of a role mapping rule. Omitted fields are unchanged.",
+  "type": "object",
+  "properties": {
+    "enabled": { "type": "boolean", "description": "Enable/disable this rule." },
+    "priority": { "type": "integer", "minimum": 0, "description": "Evaluation order (lower runs first)." },
+
+    "match": {
+      "type": "object",
+      "description": "If provided, replaces the entire match object.",
+      "properties": {
+        "source": { "type": "string", "enum": ["group", "claim", "attribute"] },
+        "path": {
+          "type": "string",
+          "nullable": true,
+          "description": "When source=claim: JSON Pointer or dotted path. When source=attribute: SAML attribute name. Omit for source=group."
+        },
+        "operator": { "type": "string", "enum": ["equals", "contains", "matches"] },
+        "value": { "type": "string" }
+      },
+      "required": ["source", "operator", "value"],
+      "additionalProperties": false
+    },
+
+    "result": {
+      "type": "object",
+      "description": "If provided, replaces the entire result object.",
+      "properties": {
+        "roleSlugs": {
+          "type": "array",
+          "items": { "$ref": "./Slug.schema.json" },
+          "minItems": 1,
+          "description": "Role slugs (immutable handles) to grant."
+        }
+      },
+      "required": ["roleSlugs"],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

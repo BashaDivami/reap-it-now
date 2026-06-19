@@ -1,0 +1,17 @@
+{
+  "title": "OrganizationUpdate",
+  "description": "Partial update of an organization. Omitted fields are unchanged. The slug is immutable and cannot be updated.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "New display name (mutable)."
+    },
+    "notes": {
+      "type": "string",
+      "nullable": true,
+      "description": "Admin notes."
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,16 @@
+{
+  "title": "SignalIncidentTimelineResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "incidentId": { "type": "string", "format": "uuid" },
+    "from": { "type": "string", "format": "date-time" },
+    "to": { "type": "string", "format": "date-time" },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./SignalTimelineEvent.schema.json" }
+    }
+  },
+  "required": ["incidentId", "from", "to", "items"]
+}
+

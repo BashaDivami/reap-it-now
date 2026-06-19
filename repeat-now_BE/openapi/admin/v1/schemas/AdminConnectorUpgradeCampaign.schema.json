@@ -1,0 +1,76 @@
+{
+  "type": "object",
+  "required": [
+    "status",
+    "targetRing",
+    "requestedAt",
+    "dryRun",
+    "matchedConnectorCount",
+    "updatedConnectorCount",
+    "skippedConnectorCount",
+    "blastRadius",
+    "items"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "preview",
+        "completed",
+        "partially_completed",
+        "failed"
+      ]
+    },
+    "targetRing": {
+      "type": "string",
+      "enum": [
+        "alpha",
+        "beta",
+        "prod"
+      ]
+    },
+    "requestedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "dryRun": {
+      "type": "boolean"
+    },
+    "maxConcurrent": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "matchedConnectorCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "updatedConnectorCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "skippedConnectorCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "blastRadius": {
+      "$ref": "./BlastRadius.schema.json"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "./AdminConnectorUpgradeItem.schema.json"
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "title": "AdminConnectorUpgradeCampaign"
+}

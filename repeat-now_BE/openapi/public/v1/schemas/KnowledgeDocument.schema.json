@@ -1,0 +1,25 @@
+{
+  "title": "KnowledgeDocument",
+  "description": "Document uploaded to enrich the shared knowledge base.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Display label shown in the console." },
+        "description": { "type": "string", "nullable": true, "description": "Optional operator notes or provenance." },
+        "filename": { "type": "string", "nullable": true, "description": "Original file name supplied by the uploader." },
+        "contentType": { "type": "string", "description": "MIME type inferred from the upload." },
+        "sizeBytes": { "type": "integer", "minimum": 0, "description": "Size of the uploaded file in bytes." },
+        "checksum": { "type": "string", "description": "SHA-256 checksum of the uploaded payload." },
+        "documentType": { "$ref": "./KnowledgeDocumentType.schema.json" },
+        "status": { "$ref": "./KnowledgeDocumentStatus.schema.json" },
+        "runId": { "type": "string", "format": "uuid", "nullable": true, "description": "Ingestion run tracking identifier." },
+        "contentUri": { "type": "string", "nullable": true, "description": "Internal storage URI for the uploaded document." }
+      },
+      "required": ["status"],
+      "additionalProperties": false
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "title": "Endpoint",
+  "description": "Latest reconciled endpoint attachment and attribute state for a discovered MAC address.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "endpointKey": {
+          "type": "string",
+          "description": "Stable endpoint identity key used for reconciliation."
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Current endpoint version counter."
+        },
+        "siteId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Site where the endpoint is currently observed."
+        },
+        "macAddress": {
+          "type": "string",
+          "description": "Canonical MAC address for the endpoint."
+        },
+        "ipAddress": {
+          "type": "string",
+          "description": "Most recent IP address correlated from ARP, when available."
+        },
+        "switchDeviceId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Switch currently reporting the endpoint attachment."
+        },
+        "switchPort": {
+          "type": "string",
+          "description": "Switch port currently reporting the endpoint attachment."
+        },
+        "vlan": {
+          "type": "string",
+          "description": "Observed VLAN for the endpoint attachment."
+        },
+        "arpDeviceId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Router or L3 device whose ARP table supplied the current IP correlation."
+        },
+        "sourceMacSnapshotId": {
+          "type": "string",
+          "description": "Normalized MAC snapshot id used for the latest reconciliation."
+        },
+        "sourceArpSnapshotId": {
+          "type": "string",
+          "description": "Normalized ARP snapshot id used for the latest reconciliation."
+        },
+        "firstSeenAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "First time this endpoint identity was observed."
+        },
+        "lastSeenAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Most recent successful observation time."
+        },
+        "attrs": {
+          "type": "object",
+          "description": "Additional derived endpoint attributes preserved for future enrichment.",
+          "additionalProperties": true
+        },
+        "sections": {
+          "type": "array",
+          "description": "Backend-provided detail sections for rendering endpoint facts without frontend business logic.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    },
+                    "tone": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "value"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "title",
+              "items"
+            ]
+          }
+        },
+        "actions": {
+          "type": "array",
+          "description": "Backend-provided endpoint actions. Disabled actions are rendered but not followed.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "href": {
+                "type": "string"
+              },
+              "disabled": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "label"
+            ]
+          }
+        }
+      },
+      "required": [
+        "endpointKey",
+        "version",
+        "macAddress",
+        "firstSeenAt",
+        "lastSeenAt"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

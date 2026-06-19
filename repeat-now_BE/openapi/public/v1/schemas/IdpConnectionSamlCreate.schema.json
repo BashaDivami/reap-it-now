@@ -1,0 +1,29 @@
+{
+  "title": "IdpConnectionSamlCreate",
+  "type": "object",
+  "properties": {
+    "type": { "type": "string", "enum": ["saml"] },
+    "name": { "type": "string", "maxLength": 200 },
+    "status": { "type": "string", "enum": ["active","disabled"] },
+    "description": { "type": "string", "nullable": true, "maxLength": 1000 },
+    "config": {
+      "type": "object",
+      "properties": {
+        "idpMetadataUrl": { "type": "string", "format": "uri", "nullable": true },
+        "idpEntityId": { "type": "string", "nullable": true },
+        "idpSsoUrl": { "type": "string", "format": "uri", "nullable": true },
+        "idpCertificate": { "type": "string", "nullable": true },
+        "nameIdFormat": { "type": "string", "enum": ["unspecified","emailAddress","persistent"] },
+        "groupsAttributeName": { "type": "string", "nullable": true },
+        "rolesAttributeName": { "type": "string", "nullable": true },
+        "allowIdpInitiated": { "type": "boolean" },
+        "clockSkewSeconds": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["type","name","config"],
+  "additionalProperties": false,
+  "x-discriminator-value": "saml"
+}
+

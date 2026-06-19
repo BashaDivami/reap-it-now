@@ -1,0 +1,17 @@
+{
+  "title": "DiscoverStartResponsePicker",
+  "type": "object",
+  "properties": {
+    "nextStep": {
+      "type": "string",
+      "enum": ["picker"]
+    },
+    "choices": {
+      "type": "array",
+      "items": { "$ref": "./ConnectionTarget.schema.json" },
+      "minItems": 1
+    }
+  },
+  "required": ["nextStep", "choices"],
+  "additionalProperties": false
+}

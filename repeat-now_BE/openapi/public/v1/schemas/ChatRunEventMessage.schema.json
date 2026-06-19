@@ -1,0 +1,13 @@
+{
+  "title": "ChatRunEventMessage",
+  "description": "SSE payload for `event: message` (final assistant message persisted).",
+  "type": "object",
+  "properties": {
+    "messageId": { "type": "string", "format": "uuid", "description": "Assistant ChatMessage id you can fetch via the messages API." },
+    "agent": { "$ref": "./ChatRunEventAgentRef.schema.json" },
+    "call": { "$ref": "./ChatRunEventCallRef.schema.json" },
+    "workflowId": { "type": "string", "format": "uuid", "description": "Workflow identifier, when available." }
+  },
+  "required": ["messageId"],
+  "additionalProperties": false
+}

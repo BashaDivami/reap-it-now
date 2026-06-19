@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyOverlayLayerRuntime",
+  "description": "Optional runtime metadata for materialized metric/state topology overlay layers. This is execution/status metadata for an applied layer, not an agent-facing semantic planning card.",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Current runtime status for this overlay layer.",
+      "enum": ["active", "stale", "paused", "degraded", "unavailable", "error"]
+    },
+    "catalogIds": {
+      "type": "array",
+      "description": "Semantic catalog ids backing this materialized runtime layer.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+      },
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true
+    },
+    "deliveryMode": {
+      "type": "string",
+      "description": "Materialized delivery mode for this layer.",
+      "enum": ["snapshot", "live"]
+    },
+    "lastUpdatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When topology-service last evaluated or refreshed this layer."
+    },
+    "staleAfterSeconds": {
+      "type": "integer",
+      "description": "Optional layer-local freshness hint for UI status display.",
+      "minimum": 1
+    },
+    "planRef": {
+      "type": "string",
+      "description": "Opaque topology-service runtime plan reference for reconnect/resume diagnostics. Clients must not interpret it."
+    },
+    "specHash": {
+      "type": "string",
+      "description": "Opaque hash of the compiled runtime spec used to detect stale stream subscriptions."
+    },
+    "message": {
+      "type": "string",
+      "description": "Optional concise status or error message for layer details."
+    }
+  },
+  "required": ["status", "catalogIds", "deliveryMode"],
+  "additionalProperties": false
+}

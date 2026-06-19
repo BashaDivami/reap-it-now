@@ -1,0 +1,12 @@
+{
+  "title": "AWSCloudWatchLogsIntegrationOnboardResponse",
+  "type": "object",
+  "description": "Response returned when AWS CloudWatch Logs onboarding is created.",
+  "properties": {
+    "integration": {
+      "$ref": "./AWSCloudWatchLogsIntegration.schema.json"
+    }
+  },
+  "required": ["integration"],
+  "additionalProperties": false
+}

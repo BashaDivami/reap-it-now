@@ -1,0 +1,36 @@
+{
+  "title": "MembershipCreateByUserId",
+  "type": "object",
+  "x-discriminator-value": "userId",
+  "properties": {
+    "by": {
+      "type": "string",
+      "enum": ["userId"],
+      "description": "Discriminator: create by userId."
+    },
+    "userId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Existing user id."
+    },
+    "roleIds": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "minItems": 1,
+      "description": "Initial role set by UUID (authoritative)."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "suspended"],
+      "default": "active",
+      "description": "Initial status."
+    },
+    "labels": {
+      "type": "object",
+      "description": "Optional labels.",
+      "additionalProperties": { "type": "string" }
+    }
+  },
+  "required": ["by", "userId", "roleIds"],
+  "additionalProperties": false
+}

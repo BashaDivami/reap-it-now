@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "required": ["from", "to", "kind"],
+  "properties": {
+    "from": { "type": "string" },
+    "to": { "type": "string" },
+    "kind": {
+      "type": "string",
+      "enum": ["parent_child"]
+    }
+  },
+  "additionalProperties": false,
+  "title": "AdminAgentTraceEdge"
+}

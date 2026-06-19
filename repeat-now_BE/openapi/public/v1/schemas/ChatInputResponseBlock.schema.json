@@ -1,0 +1,28 @@
+{
+  "title": "ChatInputResponseBlock",
+  "type": "object",
+  "x-discriminator-value": "inputResponse",
+  "description": "Structured response to a prior inputPrompt block.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["inputResponse"],
+      "description": "Block kind."
+    },
+    "questionId": {
+      "type": "string",
+      "description": "Correlates this response with the originating prompt."
+    },
+    "text": {
+      "type": "string",
+      "description": "Returned freeform value."
+    }
+  },
+  "required": ["type", "questionId", "text"],
+  "additionalProperties": false,
+  "example": {
+    "type": "inputResponse",
+    "questionId": "custom-metric-name-1",
+    "text": "interface_octets_total"
+  }
+}

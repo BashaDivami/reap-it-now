@@ -1,0 +1,74 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "actor",
+    "action",
+    "occurredAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "actor": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "$ref": "./AdminRole.schema.json"
+          }
+        },
+        "sourceIp": {
+          "type": "string"
+        }
+      }
+    },
+    "requestId": {
+      "type": "string"
+    },
+    "traceId": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string"
+    },
+    "orgId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "resourceType": {
+      "type": "string"
+    },
+    "resourceId": {
+      "type": "string"
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failure"
+      ]
+    },
+    "errorCode": {
+      "type": "string"
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "title": "AdminAuditEvent"
+}

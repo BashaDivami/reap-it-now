@@ -1,0 +1,18 @@
+{
+  "title": "OrganizationsListResponse",
+  "description": "Paginated list of organizations visible to the caller.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "description": "Organizations in this page.",
+      "items": { "$ref": "./Organization.schema.json" }
+    },
+    "meta": {
+      "$ref": "./PageMeta.schema.json"
+    }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}
+

@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "required": [
+    "scopeType",
+    "scopeId"
+  ],
+  "properties": {
+    "scopeType": {
+      "type": "string",
+      "enum": [
+        "org",
+        "site",
+        "device"
+      ]
+    },
+    "scopeId": {
+      "type": "string"
+    },
+    "asOf": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "params": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "title": "AdminTopologyResolveRequest"
+}

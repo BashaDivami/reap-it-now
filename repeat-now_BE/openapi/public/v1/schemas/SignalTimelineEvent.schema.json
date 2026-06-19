@@ -1,0 +1,16 @@
+{
+  "title": "SignalTimelineEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "type": { "type": "string", "description": "l3_event | l2_transition" },
+    "ts": { "type": "string", "format": "date-time" },
+    "eventType": { "type": "string", "nullable": true, "description": "For l3_event only." },
+    "conditionKey": { "type": "string", "nullable": true, "description": "For l2_transition only." },
+    "oldState": { "type": "string", "nullable": true, "description": "For l2_transition only." },
+    "newState": { "type": "string", "nullable": true, "description": "For l2_transition only." },
+    "attributes": { "type": "object", "additionalProperties": true, "nullable": true }
+  },
+  "required": ["type", "ts"]
+}
+

@@ -1,0 +1,26 @@
+{
+  "title": "TopologyV2OverlayLayerSave",
+  "description": "Optional save/template metadata attached to a materialized topology overlay layer.",
+  "type": "object",
+  "properties": {
+    "portability": {
+      "$ref": "./TopologyV2ViewPortability.schema.json",
+      "description": "Whether the layer can be saved portably, only for the current scope, or not at all."
+    },
+    "requiredCatalogIds": {
+      "type": "array",
+      "description": "Semantic catalog ids the saved layer depends on when reopened later.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+      }
+    },
+    "requiredGraphCapabilities": {
+      "type": "array",
+      "description": "Optional graph/runtime capability ids required for this layer when a saved custom view is reopened.",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "required": ["portability"],
+  "additionalProperties": false
+}

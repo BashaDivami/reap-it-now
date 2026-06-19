@@ -1,0 +1,46 @@
+{
+  "title": "ChunkPreviewResult",
+  "description": "Chunk preview payload returned for terminal jobs.",
+  "type": "object",
+  "properties": {
+    "jobId": { "type": "string", "format": "uuid" },
+    "orgId": { "type": "string", "format": "uuid" },
+    "documentType": { "$ref": "./KnowledgeDocumentType.schema.json" },
+    "fileName": { "type": "string" },
+    "mimeType": { "type": "string" },
+    "totalPages": { "type": "integer", "minimum": 1, "nullable": true },
+    "normalizedStartPage": { "type": "integer", "minimum": 1 },
+    "normalizedEndPage": { "type": "integer", "minimum": 1 },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "terminalStatus": {
+      "type": "string",
+      "enum": ["completed", "failed", "canceled"],
+      "description": "Terminal job status when this result was produced."
+    },
+    "isPartial": {
+      "type": "boolean",
+      "description": "True for failed/canceled jobs or otherwise incomplete outputs."
+    },
+    "error": { "$ref": "./ChunkPreviewJobError.schema.json", "nullable": true },
+    "cancelReason": { "type": "string", "nullable": true },
+    "items": {
+      "type": "array",
+      "description": "Ordered in original document order: pageNumber asc, then chunkStartOffset asc, then chunkIndex asc. For complex layouts this follows PDF parser extraction order.",
+      "items": { "$ref": "./ChunkPreviewResultItem.schema.json" }
+    }
+  },
+  "required": [
+    "jobId",
+    "orgId",
+    "documentType",
+    "fileName",
+    "mimeType",
+    "normalizedStartPage",
+    "normalizedEndPage",
+    "generatedAt",
+    "terminalStatus",
+    "isPartial",
+    "items"
+  ],
+  "additionalProperties": false
+}

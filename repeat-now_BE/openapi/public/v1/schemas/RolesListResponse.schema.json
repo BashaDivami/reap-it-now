@@ -1,0 +1,17 @@
+{
+  "title": "RolesListResponse",
+  "type": "object",
+  "description": "Cursor-paginated list of roles (system + org) visible in an org.",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./Role.schema.json" },
+      "description": "Page of roles."
+    },
+    "meta": {
+      "$ref": "./PageMeta.schema.json"
+    }
+  },
+  "required": ["items", "meta"]
+}
+

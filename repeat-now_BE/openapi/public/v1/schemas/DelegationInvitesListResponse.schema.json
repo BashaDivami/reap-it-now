@@ -1,0 +1,11 @@
+{
+  "title": "DelegationInvitesListResponse",
+  "type": "object",
+  "properties": {
+    "items": { "type": "array", "items": { "$ref": "./DelegationInvite.schema.json" } },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}
+

@@ -1,0 +1,17 @@
+{
+  "title": "ChatRagCollectionDocument",
+  "type": "object",
+  "description": "One distinct document entry available within a RAG collection.",
+  "properties": {
+    "documentFile": {
+      "type": "string",
+      "description": "Distinct document_file value stored for the collection."
+    },
+    "summary": {
+      "type": "string",
+      "description": "Human-readable summary associated with the document_file value."
+    }
+  },
+  "required": ["documentFile"],
+  "additionalProperties": false
+}

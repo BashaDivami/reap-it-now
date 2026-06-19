@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyResultScope",
+  "description": "Opaque, topology-service-owned handle for targeting the result of a relationship compile in a later follow-up. The handle must be pod-independent and resolvable through shared service state such as Redis plus durable session/artifact state.",
+  "type": "object",
+  "properties": {
+    "scopeId": {
+      "type": "string",
+      "description": "Opaque result scope id. Clients pass it back but do not interpret it."
+    },
+    "kind": {
+      "type": "string",
+      "description": "Kind of result captured by this scope.",
+      "enum": [
+        "relationship_result",
+        "relationship_sources",
+        "graph_elements"
+      ]
+    },
+    "relationshipId": {
+      "type": "string",
+      "description": "Relationship id that produced this scope, when applicable.",
+      "pattern": "^topology\\.relationship\\.[a-z][a-z0-9_]*$"
+    },
+    "catalogIds": {
+      "type": "array",
+      "description": "Semantic catalog ids associated with the scoped result, when known.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+      },
+      "maxItems": 16,
+      "uniqueItems": true
+    },
+    "qualifiers": {
+      "type": "object",
+      "description": "Relationship qualifiers used to produce this scope.",
+      "additionalProperties": {
+        "$ref": "./TopologySemanticSelectorValue.schema.json"
+      }
+    },
+    "graphElementKinds": {
+      "type": "array",
+      "description": "Graph element kinds represented by the scoped result.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "node",
+          "edge",
+          "layer",
+          "graph_overlay"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "base": {
+      "$ref": "./TopologyOverlayBase.schema.json",
+      "description": "Base graph compatibility key used to validate later targetScope use."
+    },
+    "sessionId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Visibility session id that owns this scope, when compiled for a workbench session."
+    },
+    "artifactId": {
+      "type": "string",
+      "description": "Artifact id that owns this scope, when compiled for an artifact document."
+    },
+    "sessionRevision": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Visibility session revision observed when this scope was produced."
+    },
+    "overlayRevision": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Artifact overlay revision observed when this scope was produced."
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional expiry time for conservative client behavior. topology-service remains authoritative for TTL and compatibility validation."
+    },
+    "diagnostics": {
+      "type": "array",
+      "description": "Non-fatal diagnostics associated with this result scope.",
+      "items": {
+        "$ref": "./TopologySemanticContextDiagnostic.schema.json"
+      }
+    }
+  },
+  "required": [
+    "scopeId",
+    "kind"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,6 @@
+{
+  "title": "CloudTrailEventIngressRequest",
+  "type": "object",
+  "description": "Opaque CloudTrail or EventBridge event payload forwarded by the customer-managed delivery setup. Shape is intentionally left open for the initial rollout.",
+  "additionalProperties": true
+}

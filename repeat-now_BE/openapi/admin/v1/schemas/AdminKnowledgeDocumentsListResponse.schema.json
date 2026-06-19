@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "required": [
+    "items",
+    "meta"
+  ],
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "./AdminKnowledgeDocument.schema.json"
+      }
+    },
+    "meta": {
+      "$ref": "./PageMeta.schema.json"
+    }
+  },
+  "title": "AdminKnowledgeDocumentsListResponse"
+}

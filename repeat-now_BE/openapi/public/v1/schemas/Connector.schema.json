@@ -1,0 +1,62 @@
+{
+  "title": "Connector",
+  "allOf": [
+    {
+      "$ref": "./ResourceBase.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "orgId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "provisioning",
+            "registered",
+            "online",
+            "offline",
+            "decommissioned"
+          ]
+        },
+        "lastSeenAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "registeredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "labels": {
+          "type": "object"
+        },
+        "clusterId": {
+          "type": "string",
+          "format": "uuid",
+          "nullable": true
+        },
+        "upgradeRing": {
+          "type": "string",
+          "description": "Connector upgrade ring (for staged rollouts)."
+        }
+      },
+      "required": [
+        "orgId",
+        "name",
+        "status"
+      ]
+    }
+  ],
+  "description": "Connector VM/agent."
+}

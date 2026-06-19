@@ -1,0 +1,36 @@
+{
+  "title": "CloudTrailIntegration",
+  "description": "Organization-scoped AWS CloudTrail onboarding record.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Display label for this CloudTrail integration record."
+        },
+        "siteId": {
+          "type": "string",
+          "description": "AWS cloud site id linked to this CloudTrail integration."
+        },
+        "awsAccountId": {
+          "type": "string",
+          "description": "AWS account ID that will post CloudTrail events into REAP."
+        },
+        "region": {
+          "type": "string",
+          "description": "Customer-selected AWS region stored with the onboarding record."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["enabled", "disabled"],
+          "description": "Whether REAP currently accepts CloudTrail events for this record."
+        }
+      },
+      "required": ["name", "siteId", "awsAccountId", "region", "status"],
+      "additionalProperties": false
+    }
+  ]
+}

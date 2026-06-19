@@ -1,0 +1,34 @@
+{
+  "title": "TopologyV2ResolveRequestPatch",
+  "description": "A partial resolve request used by drilldowns to override/inject request fields for the target view resolve. Fields are optional; when absent, the UI should inherit the current resolve request values.",
+  "type": "object",
+  "properties": {
+    "scopeType": {
+      "type": "string",
+      "description": "Optional scopeType override for the target resolve. Typically a literal TopologyV2ScopeType value (e.g., \"site\"), but may also be a client-evaluated expression (e.g., \"request.scopeType\")."
+    },
+    "scopeId": {
+      "description": "Optional scopeId override for the target resolve. May be a literal id or a client-evaluated expression (e.g., \"request.scopeId\").",
+      "type": "string"
+    },
+    "asOf": {
+      "type": "string",
+      "nullable": true,
+      "description": "Optional time-travel timestamp override for the target resolve. Typically a literal RFC3339 timestamp, but may also be a client-evaluated expression (e.g., \"request.asOf\")."
+    },
+    "params": {
+      "type": "object",
+      "description": "View-specific knobs to merge into the resolve request for the target view. Values may be literals or client-evaluated expressions (e.g., \"node.id\", \"edge.fromId\").",
+      "additionalProperties": true
+    },
+    "limits": {
+      "$ref": "./TopologyV2Limits.schema.json",
+      "description": "Optional limits override for the target resolve."
+    },
+    "overlayKey": {
+      "type": "string",
+      "description": "Optional stable key used by the UI to identify/toggle an overlay result (when drilldown mode is \"overlay\"). May be a literal or a client-evaluated expression (e.g., \"edge.id\")."
+    }
+  },
+  "additionalProperties": false
+}

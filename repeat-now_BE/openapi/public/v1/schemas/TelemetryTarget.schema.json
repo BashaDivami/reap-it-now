@@ -1,0 +1,29 @@
+{
+  "title": "TelemetryTarget",
+  "description": "Monitored target metadata exposed for Telemetry Explorer selectors. These entries are sourced from monitored telemetry metadata (for example `promon_target_info`) and are broader than the watchlist subset used by cockpit and incidents.",
+  "type": "object",
+  "properties": {
+    "targetId": {
+      "type": "string",
+      "description": "Stable target identifier used in telemetry queries and Grafana selector bindings."
+    },
+    "targetLabel": {
+      "type": "string",
+      "description": "Human-friendly label suitable for selector display and Grafana legends."
+    },
+    "targetKind": {
+      "type": "string",
+      "description": "Logical target kind. Common values today are `interface` and `lag`."
+    },
+    "deviceName": {
+      "type": "string",
+      "description": "Owning device name when known."
+    },
+    "siteName": {
+      "type": "string",
+      "description": "Site display name when known."
+    }
+  },
+  "required": ["targetId", "targetLabel", "targetKind"],
+  "additionalProperties": false
+}

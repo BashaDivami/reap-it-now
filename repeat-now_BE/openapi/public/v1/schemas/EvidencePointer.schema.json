@@ -1,0 +1,69 @@
+{
+  "title": "EvidencePointer",
+  "type": "object",
+  "description": "Pointer to a specific slice of an artifact (lines/rows/keys) used as supporting evidence for an assistant response.",
+  "properties": {
+    "kind": {
+      "type": "string",
+      "description": "Evidence pointer kind.",
+      "enum": ["raw", "table", "list", "map", "rag"]
+    },
+    "rep": {
+      "type": "string",
+      "description": "Representation id within the artifact (e.g. raw_lines_exact, table:mac_table)."
+    },
+    "startLine": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "1-based start line for raw evidence."
+    },
+    "endLine": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "1-based end line for raw evidence."
+    },
+    "rowKeys": {
+      "type": "array",
+      "description": "Row keys used as evidence (table).",
+      "items": { "type": "string" }
+    },
+    "indexes": {
+      "type": "array",
+      "description": "List indices used as evidence (list).",
+      "items": { "type": "integer", "minimum": 0 }
+    },
+    "keys": {
+      "type": "array",
+      "description": "Map keys used as evidence (map).",
+      "items": { "type": "string" }
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional short note describing what this evidence supports."
+    },
+    "ragDocId": {
+      "type": "string",
+      "description": "RAG document identifier (kind=rag)."
+    },
+    "ragChunkId": {
+      "type": "string",
+      "description": "RAG chunk identifier (kind=rag)."
+    },
+    "startOffset": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Start offset in the chunk content (kind=rag)."
+    },
+    "endOffset": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "End offset in the chunk content (kind=rag)."
+    },
+    "matchText": {
+      "type": "string",
+      "description": "Validated match text inside the chunk (kind=rag)."
+    }
+  },
+  "required": ["kind", "rep"],
+  "additionalProperties": false
+}

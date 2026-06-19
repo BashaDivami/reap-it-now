@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologySemanticContextBuildLimits",
+  "description": "Safety and payload-shaping limits used when topology-service builds scoped semantic context for an active topology artifact.",
+  "type": "object",
+  "properties": {
+    "maxSelections": {
+      "type": "integer",
+      "description": "Maximum number of available selection groups returned.",
+      "minimum": 1,
+      "maximum": 200
+    },
+    "maxCatalogIdsPerSelection": {
+      "type": "integer",
+      "description": "Maximum catalog field ids returned inside one available selection group.",
+      "minimum": 1,
+      "maximum": 200
+    },
+    "maxValueSummaryFields": {
+      "type": "integer",
+      "description": "Maximum number of catalog fields for which observed value summaries may be returned.",
+      "minimum": 0,
+      "maximum": 200
+    },
+    "maxValuesPerField": {
+      "type": "integer",
+      "description": "Maximum number of observed values returned for one summarized catalog field.",
+      "minimum": 1,
+      "maximum": 100
+    },
+    "maxStringValueBytes": {
+      "type": "integer",
+      "description": "Maximum UTF-8 byte length for one observed string value included in summaries.",
+      "minimum": 8,
+      "maximum": 1024
+    },
+    "valueSummariesMayTruncate": {
+      "type": "boolean",
+      "description": "Whether topology-service may truncate observed value summaries to satisfy response limits."
+    }
+  },
+  "additionalProperties": false
+}

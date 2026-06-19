@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyRelationshipLayerMetadata",
+  "description": "Typed metadata for an overlay layer produced from a topology relationship. It keeps relationship identity and qualifiers visible for UI controls, save policy, and diagnostics without requiring result chaining.",
+  "type": "object",
+  "properties": {
+    "relationshipId": {
+      "type": "string",
+      "description": "Stable topology relationship id that produced the layer.",
+      "pattern": "^topology\\.relationship\\.[a-z][a-z0-9_]*$"
+    },
+    "catalogIds": {
+      "type": "array",
+      "description": "Semantic catalog ids associated with the relationship layer, when known.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+      },
+      "maxItems": 16,
+      "uniqueItems": true
+    },
+    "renderMode": {
+      "type": "string",
+      "description": "Render mode used by topology-service for this materialized layer.",
+      "enum": [
+        "relationship_layer",
+        "graph_overlay",
+        "related_view",
+        "drilldown"
+      ]
+    },
+    "qualifiers": {
+      "type": "object",
+      "description": "Relationship qualifiers used to produce this layer.",
+      "additionalProperties": {
+        "$ref": "./TopologySemanticSelectorValue.schema.json"
+      }
+    },
+    "sourceSummary": {
+      "type": "string",
+      "description": "Human-readable summary of the source used for this layer, for example current VLAN view, selected LAG edge, or all visible site links."
+    },
+    "activeInstanceId": {
+      "type": "string",
+      "description": "Optional active relationship instance id when this layer corresponds to an advertised active relationship."
+    }
+  },
+  "required": [
+    "relationshipId"
+  ],
+  "additionalProperties": false
+}

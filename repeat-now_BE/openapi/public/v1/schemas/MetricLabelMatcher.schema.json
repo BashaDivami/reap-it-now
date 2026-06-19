@@ -1,0 +1,22 @@
+{
+  "title": "MetricLabelMatcher",
+  "description": "Backend metric label matcher used by a direct MetricQueryPlan after selector resolution and validation.",
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string",
+      "description": "Backend label key, for example device_id or ifName."
+    },
+    "op": {
+      "type": "string",
+      "enum": ["eq", "neq", "regex", "nregex"],
+      "description": "Matcher operator."
+    },
+    "value": {
+      "type": "string",
+      "description": "Matcher value."
+    }
+  },
+  "required": ["label", "op", "value"],
+  "additionalProperties": false
+}

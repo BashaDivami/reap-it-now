@@ -1,0 +1,13 @@
+{
+  "title": "WeaviateClassesListResponse",
+  "description": "List of available Weaviate classes for schema selection.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["items"],
+  "additionalProperties": false
+}

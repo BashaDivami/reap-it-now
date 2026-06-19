@@ -1,0 +1,53 @@
+{
+  "title": "Invitation",
+  "description": "Organization invitation resource.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Invitee's email."
+        },
+        "rolesResolved": {
+          "type": "array",
+          "description": "Resolved roles to grant upon acceptance (for UI/display).",
+          "items": { "$ref": "./RoleResolved.schema.json" },
+          "minItems": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "accepted", "revoked", "expired"],
+          "description": "Lifecycle state of the invitation."
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Expiration timestamp (UTC)."
+        },
+        "invitedBy": {
+          "type": "string",
+          "format": "uuid",
+          "description": "User id of the inviter."
+        },
+        "acceptedAt": {
+          "type": "string",
+          "format": "date-time",
+          "nullable": true,
+          "description": "When the invitation was accepted."
+        },
+        "acceptedBy": {
+          "type": "string",
+          "format": "uuid",
+          "nullable": true,
+          "description": "User id created/linked by acceptance."
+        }
+      },
+      "required": ["email", "rolesResolved", "status", "expiresAt", "invitedBy"],
+      "additionalProperties": false
+    }
+  ]
+}

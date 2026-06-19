@@ -1,0 +1,14 @@
+{
+  "title": "RunbookValidationIssue",
+  "description": "Structured validation or lowering issue emitted by the runbook compiler.",
+  "type": "object",
+  "properties": {
+    "code": { "type": "string", "description": "Stable machine-readable issue code." },
+    "stage": { "type": "string", "description": "Compiler stage that emitted the issue." },
+    "step_id": { "type": "string", "description": "Related step identifier when applicable." },
+    "path": { "type": "string", "description": "Optional path inside the generated IR or source-derived structure." },
+    "message": { "type": "string", "description": "Human-readable explanation of the issue." },
+    "repairable": { "type": "boolean", "description": "Whether automatic repair is expected to be possible." }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,26 @@
+{
+  "title": "ChartSnapshot",
+  "description": "Bounded preview dataset stored with a chart artifact. This is a UX helper, not the source of truth for live charts.",
+  "type": "object",
+  "properties": {
+    "datasetName": {
+      "type": "string",
+      "description": "Dataset name populated by these rows."
+    },
+    "sampledAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp when the preview rows were sampled."
+    },
+    "rows": {
+      "type": "array",
+      "description": "Preview rows shaped for the renderer dataset.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  },
+  "required": ["datasetName", "sampledAt", "rows"],
+  "additionalProperties": false
+}

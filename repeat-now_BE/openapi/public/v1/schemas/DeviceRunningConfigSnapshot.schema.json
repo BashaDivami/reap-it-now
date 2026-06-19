@@ -1,0 +1,15 @@
+{
+  "title": "DeviceRunningConfigSnapshot",
+  "description": "Latest or requested running configuration snapshot, including the raw text.",
+  "allOf": [
+    { "$ref": "./DeviceRunningConfigVersion.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "text": { "type": "string", "description": "Raw running configuration text." }
+      },
+      "required": ["text"]
+    }
+  ]
+}
+

@@ -1,0 +1,49 @@
+{
+  "title": "ChatMessage",
+  "description": "A single message in a thread. User messages are created by clients; assistant messages are created by the system at the end of a run. At least one of content or attachments must be present; services validate this cross-field rule because OpenAPI generator support for anyOf object constraints is weak.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "x-reap-at-least-one-of": ["content", "attachments"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid", "description": "Message identifier." },
+        "threadId": { "type": "string", "format": "uuid", "description": "Owning thread." },
+        "runId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Run that produced this message (user input or assistant response)."
+        },
+        "role": {
+          "type": "string",
+          "enum": ["user", "assistant"],
+          "x-enumDescriptions": [
+            "End-user authored message.",
+            "System-authored answer generated after a run completes."
+          ],
+          "description": "Message author role."
+        },
+        "content": {
+          "type": "array",
+          "description": "Ordered content blocks composing the message body when present.",
+          "items": { "$ref": "./ChatMessageContentBlock.schema.json" },
+          "minItems": 1
+        },
+        "attachments": {
+          "type": "array",
+          "description": "Generalized resource attachments promoted alongside a message.",
+          "items": { "$ref": "./ChatAttachmentRef.schema.json" }
+        }
+      },
+      "required": [
+        "id",
+        "threadId",
+        "role",
+        "createdAt",
+        "orgId"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

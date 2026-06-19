@@ -1,0 +1,13 @@
+{
+  "title": "TopologyViewPatchOp",
+  "description": "One patch operation emitted in a view stream frame. Similar to TopologyAnnotationEvent but tailored to UI consumption.",
+  "type": "object",
+  "properties": {
+    "target": { "$ref": "./TopologyAnnotationTarget.schema.json" },
+    "op": { "$ref": "./TopologyAnnotationOp.schema.json" },
+    "payload": { "type": "object", "additionalProperties": true }
+  },
+  "required": ["target", "op", "payload"],
+  "additionalProperties": false
+}
+

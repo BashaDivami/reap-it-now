@@ -1,0 +1,19 @@
+{
+  "title": "AWSCloudWatchLogsIntegrationCreate",
+  "type": "object",
+  "description": "Request body used to create an AWS CloudWatch Logs integration for an AWS cloud site.",
+  "properties": {
+    "siteId": {
+      "type": "string",
+      "description": "AWS cloud site id that owns the CloudWatch Logs integration record."
+    },
+    "logGroups": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Existing CloudWatch Log Group names the customer intends to forward to REAP.",
+      "minItems": 1
+    }
+  },
+  "required": ["siteId", "logGroups"],
+  "additionalProperties": false
+}

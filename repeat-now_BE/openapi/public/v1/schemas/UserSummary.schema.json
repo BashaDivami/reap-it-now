@@ -1,0 +1,14 @@
+{
+  "title": "UserSummary",
+  "type": "object",
+  "description": "Lightweight user projection for list views.",
+  "properties": {
+    "id": { "type": "string", "format": "uuid", "description": "User id." },
+    "email": { "type": "string", "format": "email", "description": "Primary email." },
+    "name": { "type": "string", "description": "Display name, if available." },
+    "picture": { "type": "string", "format": "uri", "description": "Avatar URL, if available." }
+  },
+  "required": ["id", "email"],
+  "additionalProperties": false
+}
+

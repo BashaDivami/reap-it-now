@@ -1,0 +1,8 @@
+{
+  "title": "IdpConnectionUpdate",
+  "description": "Partial update for IdP connections (PATCH). Discriminated by type.",
+  "oneOf": [
+    { "$ref": "./IdpConnectionOidcUpdate.schema.json" },
+    { "$ref": "./IdpConnectionSamlUpdate.schema.json" }
+  ]
+}

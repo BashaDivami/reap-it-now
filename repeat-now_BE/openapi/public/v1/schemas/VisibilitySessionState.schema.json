@@ -1,0 +1,56 @@
+{
+  "title": "VisibilitySessionState",
+  "description": "Current materialized topology workbench state stored for a visibility session.",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "enum": ["visibility.session.state.topology.v1"],
+      "description": "Visibility session state schema version."
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Monotonic session state revision."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the session state was last updated."
+    },
+    "updatedByRunId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Run id that last updated the session state."
+    },
+    "updatedByMessageId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Message id that last updated the session state."
+    },
+    "base": {
+      "$ref": "./TopologyOverlayBase.schema.json",
+      "description": "Base graph compatibility key for all layers in this session state."
+    },
+    "selection": {
+      "$ref": "./TopologyOverlaySelection.schema.json",
+      "description": "Current selected topology elements."
+    },
+    "layers": {
+      "type": "array",
+      "description": "Current materialized overlay layers in the session.",
+      "items": {
+        "$ref": "./TopologyOverlayLayer.schema.json"
+      }
+    },
+    "graphOverlays": {
+      "type": "array",
+      "description": "Current materialized graph overlays in the session.",
+      "items": {
+        "$ref": "./TopologyGraphOverlay.schema.json"
+      }
+    }
+  },
+  "required": ["schema", "revision", "base", "layers"],
+  "additionalProperties": false
+}

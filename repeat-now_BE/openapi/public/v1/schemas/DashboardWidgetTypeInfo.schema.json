@@ -1,0 +1,16 @@
+{
+  "title": "DashboardWidgetTypeInfo",
+  "description": "Discovery/debugging info for supported widget types and their bindings.",
+  "type": "object",
+  "properties": {
+    "type": { "$ref": "./DashboardWidgetType.schema.json" },
+    "bindings": {
+      "type": "object",
+      "description": "A loose description of what bindings this widget type expects. This is primarily informational (UI/dev tooling).",
+      "additionalProperties": true
+    }
+  },
+  "required": ["type", "bindings"],
+  "additionalProperties": false
+}
+

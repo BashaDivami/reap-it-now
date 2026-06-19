@@ -1,0 +1,13 @@
+{
+  "title": "SignalListResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./Signal.schema.json" }
+    },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"]
+}

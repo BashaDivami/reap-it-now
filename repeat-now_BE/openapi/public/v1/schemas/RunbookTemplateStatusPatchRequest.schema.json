@@ -1,0 +1,10 @@
+{
+  "title": "RunbookTemplateStatusPatchRequest",
+  "description": "Patch payload used to transition a saved runbook template or template version to a new status such as `published`.",
+  "type": "object",
+  "properties": {
+    "status": { "type": "string" }
+  },
+  "required": ["status"],
+  "additionalProperties": false
+}

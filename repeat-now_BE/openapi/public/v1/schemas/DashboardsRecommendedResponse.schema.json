@@ -1,0 +1,16 @@
+{
+  "title": "DashboardsRecommendedResponse",
+  "description": "Recommended widget composition for a given REAP page and context.",
+  "type": "object",
+  "properties": {
+    "pageKey": { "$ref": "./DashboardPageKey.schema.json" },
+    "context": { "$ref": "./DashboardContext.schema.json" },
+    "widgets": {
+      "type": "array",
+      "items": { "$ref": "./DashboardWidgetSpec.schema.json" }
+    }
+  },
+  "required": ["pageKey", "context", "widgets"],
+  "additionalProperties": false
+}
+

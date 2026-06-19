@@ -1,0 +1,103 @@
+{
+  "title": "InvitationAcceptResponse",
+  "description": "Outcome of accepting an invitation. Returns emailTx for the passwordless passkey flow.",
+  "type": "object",
+  "properties": {
+    "userId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "User id now associated (or to be associated) with the membership."
+    },
+    "orgId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Target organization id."
+    },
+    "membershipStatus": {
+      "type": "string",
+      "enum": ["active", "pending"],
+      "description": "Resulting membership state. 'pending' when further steps/approvals are required."
+    },
+    "emailTx": {
+      "type": "string",
+      "description": "Short-lived handle proving email ownership. Use with passkey endpoints, then exchange loginTx at /auth/token."
+    },
+    "emailTxExpiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true,
+      "description": "UTC timestamp when the emailTx expires (hint for clients)."
+    },
+    "localConnections": {
+      "type": "array",
+      "description": "User-level local methods available after email verification.",
+      "items": {
+        "type": "string",
+        "enum": ["passkey", "password"]
+      }
+    },
+    "membership": {
+      "title": "InvitationAcceptResponseInvitedMembership",
+      "type": "object",
+      "description": "Invited org view (single item mirroring Discover.memberships[]).",
+      "properties": {
+        "orgId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "orgSlug": {
+          "type": "string"
+        },
+        "orgName": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "pending", "suspended"]
+        },
+        "policy": {
+          "type": "object",
+          "properties": {
+            "requiresSso": {
+              "type": "boolean",
+              "description": "If true, only SSO should be offered."
+            }
+          },
+          "required": ["requiresSso"],
+          "additionalProperties": false
+        },
+        "connections": {
+          "type": "array",
+          "description": "Org-scoped SSO connections.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["oidc", "saml"]
+              },
+              "name": {
+                "type": "string"
+              },
+              "startUrl": {
+                "type": "string",
+                "format": "uri",
+                "nullable": true
+              },
+              "idpInitiated": {
+                "type": "boolean",
+                "nullable": true
+              }
+            },
+            "required": ["type", "name"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["orgId", "orgName", "status", "policy"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["userId", "orgId", "membershipStatus", "emailTx"],
+  "additionalProperties": false
+}

@@ -1,0 +1,50 @@
+{
+  "title": "ChatAttachmentRef",
+  "description": "Generalized attachment reference carried on chat requests and persisted chat messages. Attachments may point to original Files or derived Artifacts.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "enum": ["file", "artifact"],
+      "description": "Kind of referenced resource."
+    },
+    "resourceId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Identifier of the referenced resource."
+    },
+    "name": {
+      "type": "string",
+      "description": "Optional friendly display name."
+    },
+    "mimeType": {
+      "type": "string",
+      "description": "Optional MIME type hint for rendering or routing."
+    },
+    "sizeBytes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Optional size hint in bytes."
+    },
+    "inlinePreview": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, UI may show a small inline preview when supported."
+    },
+    "evidence": {
+      "type": "array",
+      "description": "Optional evidence pointers that the UI can use to highlight specific slices of an attached Artifact. This is expected mainly on assistant-authored attachments.",
+      "items": { "$ref": "./EvidencePointer.schema.json" }
+    }
+  },
+  "required": ["resourceType", "resourceId"],
+  "additionalProperties": false,
+  "example": {
+    "resourceType": "file",
+    "resourceId": "11111111-1111-1111-1111-111111111111",
+    "name": "core1-running-config.txt",
+    "mimeType": "text/plain",
+    "sizeBytes": 182344,
+    "inlinePreview": false
+  }
+}

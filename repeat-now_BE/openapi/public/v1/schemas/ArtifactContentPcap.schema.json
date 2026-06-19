@@ -1,0 +1,13 @@
+{
+  "title": "ArtifactContentPcap",
+  "type": "object",
+  "description": "Content payload for kind=pcap. (Reserved for future structured PCAP metadata; may be extended.)",
+  "properties": {
+    "type": { "type": "string", "enum": ["pcap"] },
+    "status": { "type": "string", "nullable": true },
+    "message": { "type": "string", "nullable": true }
+  },
+  "required": ["type"],
+  "additionalProperties": true
+}
+

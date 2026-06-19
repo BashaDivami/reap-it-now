@@ -1,0 +1,19 @@
+{
+  "title": "ChatRunEventStatus",
+  "description": "SSE payload for `event: status`.",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["queued", "running", "succeeded", "failed", "cancelled", "needs_input"],
+      "description": "Run lifecycle state."
+    },
+    "startedAt": { "type": "string", "format": "date-time", "description": "When execution began (UTC)." },
+    "finishedAt": { "type": "string", "format": "date-time", "description": "When execution ended (UTC)." },
+    "agent": { "$ref": "./ChatRunEventAgentRef.schema.json" },
+    "call": { "$ref": "./ChatRunEventCallRef.schema.json" },
+    "workflowId": { "type": "string", "format": "uuid", "description": "Workflow identifier, when available." }
+  },
+  "required": ["status"],
+  "additionalProperties": false
+}

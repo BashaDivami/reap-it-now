@@ -1,0 +1,54 @@
+{
+  "title": "ChatVisibilitySessionContext",
+  "description": "Active visibility workbench session context captured by the UI when contextual page chat is submitted.",
+  "type": "object",
+  "properties": {
+    "sessionId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Active visibility session id."
+    },
+    "workspaceFamily": {
+      "$ref": "./VisibilityWorkspaceFamily.schema.json",
+      "description": "Type of workbench session attached to this chat turn."
+    },
+    "mode": {
+      "$ref": "./VisibilitySessionMode.schema.json",
+      "description": "UI's last observed session mode."
+    },
+    "bindingHash": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Opaque server-issued hash for the topology binding currently attached to the session."
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "UI's last observed session revision."
+    },
+    "pendingProposalId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Pending proposal previewed in the UI, when present."
+    },
+    "selectedElements": {
+      "type": "array",
+      "description": "Current selected elements on the workbench surface.",
+      "items": {
+        "$ref": "./VisibilitySelectedElement.schema.json"
+      },
+      "uniqueItems": true
+    },
+    "selectedLayerIds": {
+      "type": "array",
+      "description": "Workbench layer ids currently selected or focused in the UI.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": ["sessionId", "workspaceFamily", "mode", "bindingHash", "revision"],
+  "additionalProperties": false
+}

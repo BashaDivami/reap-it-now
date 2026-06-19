@@ -1,0 +1,6 @@
+{
+  "title": "TopologyV2ViewScopeMode",
+  "description": "Whether a saved custom topology view is portable across compatible scopes or bound to one scope.",
+  "type": "string",
+  "enum": ["reusable", "current_scope"]
+}

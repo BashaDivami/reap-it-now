@@ -1,0 +1,186 @@
+{
+  "title": "PasskeyAttestationOptionsResponse",
+  "description": "WebAuthn creation options plus a stateless challengeToken.",
+  "type": "object",
+  "properties": {
+    "publicKey": {
+      "type": "object",
+      "description": "PublicKeyCredentialCreationOptions (JSON form; binary fields are base64url-encoded).",
+      "properties": {
+        "rp": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        "user": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "base64url-encoded user id."
+            },
+            "name": {
+              "type": "string"
+            },
+            "displayName": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "displayName"
+          ],
+          "additionalProperties": false
+        },
+        "challenge": {
+          "type": "string",
+          "description": "base64url-encoded."
+        },
+        "pubKeyCredParams": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "public-key"
+                ]
+              },
+              "alg": {
+                "type": "integer",
+                "description": "COSE algorithm identifier (e.g., -7 for ES256)."
+              }
+            },
+            "required": [
+              "type",
+              "alg"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "timeout": {
+          "type": "integer",
+          "nullable": true
+        },
+        "attestation": {
+          "type": "string",
+          "enum": [
+            "none",
+            "indirect",
+            "direct",
+            "enterprise"
+          ],
+          "nullable": true
+        },
+        "authenticatorSelection": {
+          "type": "object",
+          "nullable": true,
+          "properties": {
+            "authenticatorAttachment": {
+              "type": "string",
+              "enum": [
+                "platform",
+                "cross-platform"
+              ],
+              "nullable": true
+            },
+            "residentKey": {
+              "type": "string",
+              "enum": [
+                "discouraged",
+                "preferred",
+                "required"
+              ],
+              "nullable": true
+            },
+            "userVerification": {
+              "type": "string",
+              "enum": [
+                "required",
+                "preferred",
+                "discouraged"
+              ],
+              "nullable": true
+            }
+          },
+          "additionalProperties": true
+        },
+        "excludeCredentials": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "public-key"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "description": "base64url-encoded credential id"
+              },
+              "transports": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "usb",
+                    "nfc",
+                    "ble",
+                    "internal",
+                    "hybrid"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "type",
+              "id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "extensions": {
+          "type": "object",
+          "nullable": true,
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "rp",
+        "user",
+        "challenge",
+        "pubKeyCredParams"
+      ],
+      "additionalProperties": true
+    },
+    "challengeToken": {
+      "type": "string",
+      "description": "Server-signed, short-lived token. MUST be echoed to /auth/passkeys/attest/verify."
+    },
+    "challengeTokenExpiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true,
+      "description": "TTL hint for the challengeToken."
+    }
+  },
+  "required": [
+    "publicKey",
+    "challengeToken"
+  ],
+  "additionalProperties": false
+}

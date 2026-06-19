@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologySemanticContextResolveRequest",
+  "description": "Resolve compact, catalog-backed semantic context for an active topology artifact so agent-core can ground follow-up selectors without receiving graph internals.",
+  "type": "object",
+  "properties": {
+    "artifact": {
+      "$ref": "./TopologyOverlayBase.schema.json",
+      "description": "Validated topology base binding that identifies the active view, scope, params, limits, and time mode for either an artifact or a workbench session."
+    },
+    "context": {
+      "$ref": "./TopologySemanticContextResolveContext.schema.json",
+      "description": "Optional runtime artifact metadata."
+    },
+    "intent": {
+      "$ref": "./TopologySemanticContextResolveIntent.schema.json",
+      "description": "Optional high-recall semantic hints from agent-core, such as candidate catalog ids for live topology overlay signals."
+    },
+    "limits": {
+      "$ref": "./TopologySemanticContextBuildLimits.schema.json",
+      "description": "Optional context response shaping limits. topology-service applies safe defaults when omitted."
+    }
+  },
+  "required": ["artifact"],
+  "additionalProperties": false
+}

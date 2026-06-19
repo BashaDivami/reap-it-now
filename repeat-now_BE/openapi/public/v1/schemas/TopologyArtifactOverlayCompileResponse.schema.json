@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyArtifactOverlayCompileResponse",
+  "description": "Result of compiling a topology artifact follow-up into overlay operations.",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Compile outcome. Only status=ready includes a patch to apply.",
+      "enum": [
+        "ready",
+        "needs_clarification",
+        "not_found",
+        "unsupported",
+        "unavailable"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Concise service-generated summary suitable for the agent's final answer."
+    },
+    "patch": {
+      "$ref": "./TopologyOverlayPatch.schema.json",
+      "description": "Self-contained overlay patch to persist and relay when status=ready."
+    },
+    "matches": {
+      "type": "array",
+      "description": "Resolved matches used to build the patch or explain an inspect response.",
+      "items": {
+        "$ref": "./TopologyArtifactOverlayCompileMatch.schema.json"
+      }
+    },
+    "resultScopes": {
+      "type": "array",
+      "description": "Opaque topology-service result scopes produced by this compile result for later chained follow-ups.",
+      "items": {
+        "$ref": "./TopologyResultScope.schema.json"
+      }
+    },
+    "question": {
+      "type": "string",
+      "description": "Clarification question when status=needs_clarification."
+    },
+    "choices": {
+      "type": "array",
+      "description": "Clarification choices when status=needs_clarification.",
+      "items": {
+        "$ref": "./TopologyArtifactOverlayCompileChoice.schema.json"
+      }
+    },
+    "reason": {
+      "type": "string",
+      "description": "Developer-oriented reason for not_found or unsupported outcomes."
+    }
+  },
+  "required": [
+    "status"
+  ],
+  "additionalProperties": false
+}

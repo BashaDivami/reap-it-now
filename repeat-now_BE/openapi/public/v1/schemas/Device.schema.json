@@ -1,0 +1,81 @@
+{
+  "title": "Device",
+  "description": "A network device known to REAP. Some attributes are discovery-managed (read-only via API).",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "siteId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Site that currently owns/reaches this device."
+        },
+        "mgmtAddress": {
+          "type": "string",
+          "description": "Management address (IPv4/IPv6 or resolvable hostname)."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Friendly name for UI (editable)."
+        },
+        "hostname": {
+          "type": "string",
+          "description": "Most recently discovered system hostname (read-only)."
+        },
+        "vendor": {
+          "$ref": "./Vendor.schema.json",
+          "description": "Vendor/manufacturer as discovered (read-only)."
+        },
+        "model": {
+          "type": "string",
+          "description": "Model identifier as discovered (read-only)."
+        },
+        "osVersion": {
+          "type": "string",
+          "description": "Operating system / firmware version as discovered (read-only)."
+        },
+        "serial": {
+          "type": "string",
+          "description": "Serial number as discovered (read-only)."
+        },
+        "role": {
+          "type": "string",
+          "description": "Optional free-form role label for grouping (for example access, core, firewall, wireless-ap)."
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "Case-insensitive keys normalized server-side; PATCH overwrites the full map."
+        },
+        "featuresEnabled": {
+          "type": "array",
+          "description": "Derived list of device features inferred to be enabled from collected configuration and telemetry.",
+          "items": { "type": "string" }
+        },
+        "state": { "$ref": "./DeviceState.schema.json" },
+        "firstSeenAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the device was first discovered (read-only)."
+        },
+        "lastSeenAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Most recent time the device was observed/reached (read-only)."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Optional operator notes."
+        },
+        "runningConfigStatus": {
+          "$ref": "./DeviceRunningConfigStatus.schema.json",
+          "description": "Latest running configuration status, when available."
+        }
+      },
+      "required": ["siteId", "mgmtAddress", "state"],
+      "additionalProperties": false
+    }
+  ]
+}

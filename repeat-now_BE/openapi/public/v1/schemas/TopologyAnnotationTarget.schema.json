@@ -1,0 +1,12 @@
+{
+  "title": "TopologyAnnotationTarget",
+  "description": "Target element for an annotation event (node or edge by stable id).",
+  "type": "object",
+  "properties": {
+    "type": { "type": "string", "enum": ["node", "edge"] },
+    "id": { "type": "string", "description": "Must match a stable node.id or edge.id in the resolved graph." }
+  },
+  "required": ["type", "id"],
+  "additionalProperties": false
+}
+

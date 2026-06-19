@@ -1,0 +1,31 @@
+{
+  "title": "RunbookTemplateStep",
+  "description": "One lowered template step in a saved runbook template.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "kind": { "type": "string" },
+    "title": { "type": "string" },
+    "description": { "type": "string" },
+    "goal": { "type": "string" },
+    "capability_ref": { "type": "string" },
+    "inputs": {
+      "type": "array",
+      "items": { "$ref": "./RunbookTemplateInput.schema.json" }
+    },
+    "outputs": {
+      "type": "array",
+      "items": { "$ref": "./RunbookTemplateOutput.schema.json" }
+    },
+    "depends_on": { "type": "array", "items": { "type": "string" } },
+    "condition": { "type": "string" },
+    "failure_policy": { "type": "string" },
+    "failure_branch_to": { "type": "string" },
+    "interface_family_hint": { "type": "string" },
+    "decision": { "type": "object", "additionalProperties": true },
+    "loop": { "type": "object", "additionalProperties": true },
+    "approval": { "type": "object", "additionalProperties": true }
+  },
+  "required": ["id"],
+  "additionalProperties": false
+}

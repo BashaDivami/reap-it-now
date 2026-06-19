@@ -1,0 +1,12 @@
+{
+  "title": "TopologyViewStreamPatchData",
+  "description": "Type-specific data for a view stream frame of type 'patch'.",
+  "type": "object",
+  "properties": {
+    "windowMs": { "type": "integer", "minimum": 1, "description": "Aggregation window used to batch/coalesce high-rate updates.", "nullable": true },
+    "ops": { "type": "array", "items": { "$ref": "./TopologyViewPatchOp.schema.json" } }
+  },
+  "required": ["ops"],
+  "additionalProperties": false
+}
+

@@ -1,0 +1,34 @@
+{
+  "title": "TokenRequestSamlTx",
+  "description": "SAML via short-lived handle issued by the ACS.",
+  "type": "object",
+  "properties": {
+    "grantType": {
+      "type": "string",
+      "description": "SAML 2.0 handle-based grant.",
+      "enum": [
+        "samlTx"
+      ]
+    },
+    "samlTx": {
+      "type": "string",
+      "description": "Single-use SAML handle created by the ACS (~30\u201360s TTL)."
+    },
+    "orgId": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true,
+      "description": "Optional org context to pin."
+    },
+    "scope": {
+      "type": "string",
+      "nullable": true,
+      "description": "Optional scopes (e.g., 'offline_access')."
+    }
+  },
+  "required": [
+    "grantType",
+    "samlTx"
+  ],
+  "x-discriminator-value": "samlTx"
+}

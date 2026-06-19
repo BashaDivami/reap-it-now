@@ -1,0 +1,28 @@
+{
+  "title": "TopologyV2ViewOverlayState",
+  "description": "Materialized overlay projection carried alongside a resolved topology view.",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "enum": ["topology.view.overlay-state.v1"],
+      "description": "Overlay state schema version."
+    },
+    "base": {
+      "$ref": "./TopologyOverlayBase.schema.json",
+      "description": "Base graph compatibility key for the materialized overlay state."
+    },
+    "layers": {
+      "type": "array",
+      "description": "Materialized overlay layers for this resolved view.",
+      "items": { "$ref": "./TopologyOverlayLayer.schema.json" }
+    },
+    "graphOverlays": {
+      "type": "array",
+      "description": "Materialized graph overlays for this resolved view.",
+      "items": { "$ref": "./TopologyGraphOverlay.schema.json" }
+    }
+  },
+  "required": ["schema", "base", "layers"],
+  "additionalProperties": false
+}

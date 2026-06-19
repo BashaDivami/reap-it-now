@@ -1,0 +1,18 @@
+{
+  "title": "DiscoverStartResponse",
+  "description": "Inline HRD decision: sso_redirect (1 target), picker (several), or verify_email.",
+  "oneOf": [
+    { "$ref": "./DiscoverStartResponseSsoRedirect.schema.json" },
+    { "$ref": "./DiscoverStartResponsePicker.schema.json" },
+    { "$ref": "./DiscoverStartResponseVerifyEmail.schema.json" }
+  ],
+  "discriminator": {
+    "propertyName": "nextStep",
+    "mapping": {
+      "sso_redirect": "./DiscoverStartResponseSsoRedirect.schema.json",
+      "picker": "./DiscoverStartResponsePicker.schema.json",
+      "verify_email": "./DiscoverStartResponseVerifyEmail.schema.json"
+    }
+  }
+}
+

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyRelationshipIntent",
+  "description": "Request payload for compiling a callable topology relationship through the overlays:compile endpoint. The caller selects a relationship id and provides optional source and qualifier hints; topology-service owns validation, graph binding, and rendering.",
+  "type": "object",
+  "properties": {
+    "relationshipId": {
+      "type": "string",
+      "description": "Stable topology relationship id selected from scoped relationship availability.",
+      "pattern": "^topology\\.relationship\\.[a-z][a-z0-9_]*$"
+    },
+    "renderMode": {
+      "type": "string",
+      "description": "Requested render mode. topology-service validates it against relationship availability.",
+      "enum": [
+        "relationship_layer",
+        "graph_overlay",
+        "related_view",
+        "drilldown"
+      ]
+    },
+    "qualifiers": {
+      "type": "object",
+      "description": "Typed relationship qualifiers such as vlanId, vrf, protocol, siteId, or cloudAccountId.",
+      "additionalProperties": {
+        "$ref": "./TopologySemanticSelectorValue.schema.json"
+      }
+    },
+    "sourceSelection": {
+      "$ref": "./TopologyRelationshipSourceSelection.schema.json"
+    },
+    "sourceSelector": {
+      "$ref": "./TopologyRelationshipSourceSelector.schema.json"
+    },
+    "sourceReference": {
+      "$ref": "./TopologyRelationshipSourceReference.schema.json"
+    },
+    "sourceScope": {
+      "$ref": "./TopologyRelationshipSourceScope.schema.json"
+    },
+    "label": {
+      "type": "string",
+      "description": "Optional short layer label requested by the caller."
+    }
+  },
+  "required": [
+    "relationshipId"
+  ],
+  "additionalProperties": false
+}

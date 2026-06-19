@@ -1,0 +1,37 @@
+{
+  "title": "Membership",
+  "description": "A user's membership within an organization.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "format": "uuid", "description": "Membership identifier." },
+        "userId": { "type": "string", "format": "uuid", "description": "User who holds this membership." },
+        "orgSlug": { "$ref": "./Slug.schema.json" },
+        "rolesResolved": {
+          "type": "array",
+          "description": "Resolved roles for UI convenience. Each role includes both immutable slug and mutable name.",
+          "items": { "$ref": "./RoleResolved.schema.json" }
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "suspended"],
+          "description": "Membership state. Invitations control pre-join workflow."
+        },
+        "labels": {
+          "type": "object",
+          "description": "Optional key/value labels for admin workflows.",
+          "additionalProperties": { "type": "string" }
+        },
+        "user": {
+          "$ref": "./UserSummary.schema.json",
+          "description": "Populated only when requested via `expand=user`."
+        }
+      },
+      "required": ["id", "orgId", "orgSlug", "userId", "status", "createdAt", "updatedAt"],
+      "additionalProperties": false
+    }
+  ]
+}

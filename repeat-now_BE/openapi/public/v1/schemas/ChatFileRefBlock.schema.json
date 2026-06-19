@@ -1,0 +1,33 @@
+{
+  "title": "ChatFileRefBlock",
+  "type": "object",
+  "x-discriminator-value": "fileRef",
+  "description": "Reference to an uploaded file object.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["fileRef"],
+      "description": "Block kind."
+    },
+    "name": {
+      "type": "string",
+      "description": "Original filename."
+    },
+    "mime": {
+      "type": "string",
+      "description": "MIME type of the referenced file."
+    },
+    "fileId": {
+      "type": "string",
+      "description": "Identifier for an uploaded file."
+    }
+  },
+  "required": ["type", "fileId"],
+  "additionalProperties": false,
+  "example": {
+    "type": "fileRef",
+    "fileId": "file-123",
+    "name": "report.txt",
+    "mime": "text/plain"
+  }
+}

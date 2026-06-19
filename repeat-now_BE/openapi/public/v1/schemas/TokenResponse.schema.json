@@ -1,0 +1,29 @@
+{
+  "title": "TokenResponse",
+  "description": "Tokens issued by /auth/token.",
+  "type": "object",
+  "properties": {
+    "accessToken": {
+      "type": "string",
+      "description": "Bearer JWT for API calls."
+    },
+    "refreshToken": {
+      "type": "string",
+      "description": "Opaque token for rotation/renewal."
+    },
+    "tokenType": {
+      "type": "string",
+      "description": "Token type. Always 'Bearer'."
+    },
+    "expiresIn": {
+      "type": "integer",
+      "description": "Access token lifetime in seconds."
+    }
+  },
+  "required": [
+    "accessToken",
+    "refreshToken",
+    "tokenType",
+    "expiresIn"
+  ]
+}

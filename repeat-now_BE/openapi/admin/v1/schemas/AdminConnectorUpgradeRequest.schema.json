@@ -1,0 +1,51 @@
+{
+  "allOf": [
+    {
+      "$ref": "./AdminWriteContext.schema.json"
+    },
+    {
+      "type": "object",
+      "required": [
+        "targetRing"
+      ],
+      "properties": {
+        "targetRing": {
+          "type": "string",
+          "enum": [
+            "alpha",
+            "beta",
+            "prod"
+          ]
+        },
+        "labelSelectors": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "connectorIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "excludeConnectorIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "maxConcurrent": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 1,
+          "description": "Operator-requested concurrency. In thin v1 this is accepted and echoed back, while Fleet plans remain infra-defined."
+        }
+      }
+    }
+  ],
+  "title": "AdminConnectorUpgradeRequest"
+}

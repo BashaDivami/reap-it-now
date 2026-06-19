@@ -1,0 +1,9 @@
+{
+  "title": "IdpConnectionCreate",
+  "description": "Create payload for an IdP connection.",
+  "oneOf": [
+    { "$ref": "./IdpConnectionOidcCreate.schema.json" },
+    { "$ref": "./IdpConnectionSamlCreate.schema.json" }
+  ]
+}
+

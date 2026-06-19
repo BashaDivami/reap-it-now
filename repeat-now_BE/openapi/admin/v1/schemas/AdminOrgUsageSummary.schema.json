@@ -1,0 +1,38 @@
+{
+  "type": "object",
+  "properties": {
+    "activeUsers30d": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "workflowRuns24h": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "workflowRuns7d": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "llmTokens7d": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "llmCostUsd7d": {
+      "type": "number",
+      "minimum": 0
+    },
+    "storageBytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "exact": {
+      "type": "boolean",
+      "description": "True when numbers are exact; false when values are estimates."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "title": "AdminOrgUsageSummary"
+}

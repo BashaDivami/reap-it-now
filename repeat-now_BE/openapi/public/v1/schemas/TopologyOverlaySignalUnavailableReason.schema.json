@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyOverlaySignalUnavailableReason",
+  "description": "Structured reason explaining why a catalog-backed overlay signal is known but not currently renderable for this topology artifact.",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Machine-readable unavailable reason.",
+      "enum": [
+        "candidate_not_found",
+        "target_not_represented",
+        "graph_context_incompatible",
+        "source_not_declared",
+        "source_not_current",
+        "no_supported_rendering_effect",
+        "permission_denied",
+        "limit_exceeded",
+        "unknown"
+      ]
+    },
+    "message": {
+      "type": "string",
+      "description": "Short human-readable explanation suitable for agent responses and diagnostics."
+    },
+    "alternatives": {
+      "type": "array",
+      "description": "Alternative catalog ids that may be renderable in this context.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": ["code"],
+  "additionalProperties": false
+}

@@ -1,0 +1,42 @@
+{
+  "title": "RoleMappingRuleCreate",
+  "description": "Create a role mapping rule. Server generates id and audit fields.",
+  "type": "object",
+  "properties": {
+    "enabled": { "type": "boolean", "default": true, "description": "Create as enabled/disabled." },
+    "priority": { "type": "integer", "minimum": 0, "default": 100, "description": "Evaluation order (lower runs first)." },
+
+    "match": {
+      "type": "object",
+      "description": "Condition to evaluate against IdP-derived identity data.",
+      "properties": {
+        "source": { "type": "string", "enum": ["group", "claim", "attribute"] },
+        "path": {
+          "type": "string",
+          "nullable": true,
+          "description": "When source=claim: JSON Pointer or dotted path. When source=attribute: SAML attribute name. Omit for source=group."
+        },
+        "operator": { "type": "string", "enum": ["equals", "contains", "matches"] },
+        "value": { "type": "string" }
+      },
+      "required": ["source", "operator", "value"],
+      "additionalProperties": false
+    },
+
+    "result": {
+      "type": "object",
+      "properties": {
+        "roleSlugs": {
+          "type": "array",
+          "items": { "$ref": "./Slug.schema.json" },
+          "minItems": 1,
+          "description": "Role slugs (immutable handles) to grant."
+        }
+      },
+      "required": ["roleSlugs"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["match", "result"],
+  "additionalProperties": false
+}

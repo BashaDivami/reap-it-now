@@ -1,0 +1,15 @@
+{
+  "title": "InvitationsListResponse",
+  "description": "Paginated invitation list.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./Invitation.schema.json" },
+      "description": "Invitations in the current page."
+    },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}

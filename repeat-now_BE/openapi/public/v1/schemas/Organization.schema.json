@@ -1,0 +1,23 @@
+{
+  "title": "Organization",
+  "description": "Tenant (org).",
+  "type": "object",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" }
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Human-friendly display name of the organization (mutable)."
+    },
+    "slug": {
+      "$ref": "./Slug.schema.json"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional admin notes or free-form description.",
+      "nullable": true
+    }
+  },
+  "required": ["name"]
+}

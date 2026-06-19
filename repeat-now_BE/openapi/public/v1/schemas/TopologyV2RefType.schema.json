@@ -1,0 +1,20 @@
+{
+  "title": "TopologyV2RefType",
+  "description": "Reference namespace for `TopologyV2Ref.type`. This list is intentionally extensible; new namespaces can be introduced without breaking clients. Recommended namespaces include inventory.* (platform inventory IDs) and cloud provider IDs (e.g., aws.*).",
+  "type": "string",
+  "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$",
+  "x-extensible-enum": [
+    "inventory.site",
+    "inventory.device",
+    "inventory.interface",
+    "aws.vpc",
+    "aws.subnet",
+    "aws.eni",
+    "aws.route_table",
+    "aws.security_group",
+    "aws.igw",
+    "aws.ec2_instance"
+  ],
+  "examples": ["inventory.device", "inventory.interface", "aws.vpc"]
+}
+

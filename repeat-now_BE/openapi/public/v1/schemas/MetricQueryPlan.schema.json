@@ -1,0 +1,61 @@
+{
+  "title": "MetricQueryPlan",
+  "description": "Structured, replayable metric query plan. Raw query languages such as PromQL are intentionally not part of this contract.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "enum": ["v1"],
+      "description": "Query-plan schema version."
+    },
+    "backend": {
+      "type": "string",
+      "enum": ["prometheus"],
+      "description": "Metric backend family."
+    },
+    "metric": {
+      "type": "string",
+      "description": "Backend metric name."
+    },
+    "metricKind": {
+      "type": "string",
+      "enum": ["counter", "gauge", "histogram", "summary", "unknown"],
+      "description": "Metric kind used for validation and aggregation compatibility."
+    },
+    "matchers": {
+      "type": "array",
+      "description": "Validated backend label matchers. These are not product-level selectors.",
+      "items": { "$ref": "./MetricLabelMatcher.schema.json" }
+    },
+    "aggregation": {
+      "type": "string",
+      "enum": ["none", "rate", "increase", "sum", "avg", "min", "max", "count", "last"],
+      "description": "Allowed query aggregation/operator."
+    },
+    "rangeVectorSec": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Range-vector window for rate/increase style operations."
+    },
+    "groupBy": {
+      "type": "array",
+      "description": "Backend labels used to keep multiple series distinct.",
+      "items": { "type": "string" }
+    },
+    "unit": {
+      "type": "string",
+      "description": "Display unit."
+    },
+    "transform": {
+      "type": "string",
+      "description": "Optional allowlisted transform hint, for example octets_to_bits."
+    },
+    "seriesLabelFields": {
+      "type": "array",
+      "description": "Preferred backend labels used to build display series names.",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["version", "backend", "metric", "metricKind"],
+  "additionalProperties": false
+}

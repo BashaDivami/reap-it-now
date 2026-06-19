@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyRelationshipQualifierOptionItem",
+  "description": "One scoped option for a relationship qualifier. The value is typed so numeric VLAN ids, string VRF names, and boolean qualifiers do not need lossy string coercion.",
+  "type": "object",
+  "properties": {
+    "value": {
+      "$ref": "./TopologySemanticSelectorValue.schema.json",
+      "description": "Typed qualifier value to send back in TopologyRelationshipIntent.qualifiers."
+    },
+    "label": {
+      "type": "string",
+      "description": "Human display label for clarification prompts or UI controls."
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional short explanation of the option."
+    },
+    "catalogIds": {
+      "type": "array",
+      "description": "Optional semantic catalog ids that help explain this option.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+      },
+      "maxItems": 16,
+      "uniqueItems": true
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Optional non-contractual metadata for diagnostics or display. Clients must not depend on hidden view ids or graph internals here.",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "value",
+    "label"
+  ],
+  "additionalProperties": false
+}

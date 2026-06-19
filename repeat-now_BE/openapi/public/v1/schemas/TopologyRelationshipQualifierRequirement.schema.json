@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyRelationshipQualifierRequirement",
+  "description": "One qualifier that may be needed to compile a relationship intent, for example VLAN id, VRF, routing protocol, site id, or cloud account.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Stable qualifier name used in TopologyRelationshipIntent.qualifiers.",
+      "pattern": "^[a-z][a-zA-Z0-9_]*$"
+    },
+    "catalogId": {
+      "type": "string",
+      "description": "Optional semantic catalog field id that defines this qualifier's meaning.",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Short display name for prompt context and diagnostics."
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief explanation of when this qualifier is required."
+    },
+    "required": {
+      "type": "boolean",
+      "description": "Whether this qualifier must be present for compile."
+    },
+    "valueType": {
+      "type": "string",
+      "description": "Expected scalar value kind.",
+      "enum": [
+        "string",
+        "number",
+        "boolean"
+      ]
+    },
+    "allowedValues": {
+      "type": "array",
+      "description": "Legacy/simple bounded candidate values when topology-service can safely advertise them. Prefer options for relationship-facing clarification because it includes labels, status, truncation, and diagnostics.",
+      "items": {
+        "$ref": "./TopologySemanticSelectorValue.schema.json"
+      },
+      "uniqueItems": true
+    },
+    "options": {
+      "$ref": "./TopologyRelationshipQualifierOptions.schema.json",
+      "description": "Optional scoped option discovery result for this qualifier. Absence means the caller may ask free-form and topology-service validates at compile time."
+    }
+  },
+  "required": [
+    "name",
+    "required"
+  ],
+  "additionalProperties": false
+}

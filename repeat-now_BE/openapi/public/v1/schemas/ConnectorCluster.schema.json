@@ -1,0 +1,40 @@
+{
+  "title": "ConnectorCluster",
+  "allOf": [
+    {
+      "$ref": "./ResourceBase.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "orgId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "paused"
+          ]
+        },
+        "settings": {
+          "$ref": "./ConnectorClusterSettings.schema.json",
+          "description": "Cluster-scoped runtime settings applied to all connectors in the cluster."
+        }
+      },
+      "required": [
+        "orgId",
+        "name",
+        "status"
+      ]
+    }
+  ],
+  "description": "Connector cluster."
+}

@@ -1,0 +1,19 @@
+{
+  "title": "DashboardsRecommendedGrafanaItem",
+  "description": "A recommended Grafana iframe (Grafana renders; REAP recommends and provides the embed URL and explanation).",
+  "type": "object",
+  "properties": {
+    "title": { "type": "string" },
+    "iframeUrl": {
+      "type": "string",
+      "description": "Relative iframe URL under the REAP domain (typically `/grafana/...`)."
+    },
+    "why": {
+      "type": "string",
+      "description": "Deterministic explanation for why this embed is recommended for the given context."
+    }
+  },
+  "required": ["title", "iframeUrl", "why"],
+  "additionalProperties": false
+}
+

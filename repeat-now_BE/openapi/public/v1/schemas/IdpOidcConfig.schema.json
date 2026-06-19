@@ -1,0 +1,61 @@
+{
+  "title": "IdpOidcConfig",
+  "type": "object",
+  "description": "OIDC configuration. Some fields are computed by REAP and marked readOnly.",
+  "properties": {
+    "issuer": {
+      "type": "string",
+      "format": "uri",
+      "description": "OP Issuer URL (/.well-known/openid-configuration is used for discovery)."
+    },
+    "clientId": {
+      "type": "string",
+      "description": "OAuth2 client_id registered at the IdP."
+    },
+    "clientSecretId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to a Secret containing client_secret. The secret value is never returned here."
+    },
+    "tokenAuthMethod": {
+      "type": "string",
+      "enum": ["client_secret_basic", "client_secret_post"],
+      "default": "client_secret_basic",
+      "description": "Client authentication at the token endpoint."
+    },
+    "redirectUris": {
+      "type": "array",
+      "readOnly": true,
+      "description": "Callback URLs that must be registered at the IdP; computed by REAP.",
+      "items": { "type": "string", "format": "uri" }
+    },
+    "scopes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "OIDC scopes to request (e.g., openid, email, profile, groups)."
+    },
+    "enforcePkce": {
+      "type": "boolean",
+      "default": false,
+      "description": "Require PKCE on authorization code flow."
+    },
+    "groupsClaimPath": {
+      "type": "string",
+      "nullable": true,
+      "description": "JSON pointer or dotted path to the claim providing groups."
+    },
+    "rolesClaimPath": {
+      "type": "string",
+      "nullable": true,
+      "description": "Optional path to a custom roles claim."
+    },
+    "clockSkewSeconds": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 120,
+      "description": "Allowed clock skew when validating tokens."
+    }
+  },
+  "required": ["issuer", "clientId", "clientSecretId"],
+  "additionalProperties": false
+}

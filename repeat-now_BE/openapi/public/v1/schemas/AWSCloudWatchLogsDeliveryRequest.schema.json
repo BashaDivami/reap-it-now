@@ -1,0 +1,6 @@
+{
+  "title": "AWSCloudWatchLogsDeliveryRequest",
+  "type": "object",
+  "description": "Opaque AWS CloudWatch Logs delivery payload posted to the organization-scoped REAP endpoint.",
+  "additionalProperties": true
+}

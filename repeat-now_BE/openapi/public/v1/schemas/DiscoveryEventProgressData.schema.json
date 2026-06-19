@@ -1,0 +1,39 @@
+{
+  "title": "DiscoveryEventProgressData",
+  "description": "Incremental counters for the running discovery.",
+  "type": "object",
+  "properties": {
+    "percent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "devicesDiscovered": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "devicesUpdated": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "devicesUnreachable": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "linksDiscovered": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "progress"
+      ]
+    }
+  },
+  "required": [
+    "type"
+  ],
+  "additionalProperties": false,
+  "x-discriminator-value": "progress"
+}

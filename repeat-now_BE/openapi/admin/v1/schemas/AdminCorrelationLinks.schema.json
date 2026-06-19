@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "organizationPath": {
+      "type": "string"
+    },
+    "connectorInventoryPath": {
+      "type": "string"
+    },
+    "clusterInventoryPath": {
+      "type": "string"
+    }
+  },
+  "title": "AdminCorrelationLinks"
+}

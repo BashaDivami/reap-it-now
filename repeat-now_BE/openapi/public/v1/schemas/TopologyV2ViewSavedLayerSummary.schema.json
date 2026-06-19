@@ -1,0 +1,21 @@
+{
+  "title": "TopologyV2ViewSavedLayerSummary",
+  "description": "Counts describing how many layers were saved portably, bound to the current scope, or omitted.",
+  "type": "object",
+  "properties": {
+    "portableLayers": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "currentScopeLayers": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "omittedLayers": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "required": ["portableLayers", "currentScopeLayers", "omittedLayers"],
+  "additionalProperties": false
+}

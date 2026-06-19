@@ -1,0 +1,29 @@
+{
+  "title": "ChatRagLookupResponse",
+  "type": "object",
+  "description": "Direct retrieval response for Validate Rag Lookup debugging flow.",
+  "properties": {
+    "query": {
+      "type": "string",
+      "description": "Normalized query used for retrieval."
+    },
+    "topK": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Effective topK applied by retrieval service after defaults/caps."
+    },
+    "latencyMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "End-to-end retrieval latency in milliseconds."
+    },
+    "chunks": {
+      "type": "array",
+      "items": {
+        "$ref": "./ChatRagLookupChunk.schema.json"
+      }
+    }
+  },
+  "required": ["query", "topK", "latencyMs", "chunks"],
+  "additionalProperties": false
+}

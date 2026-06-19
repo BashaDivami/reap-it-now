@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologySemanticSelector",
+  "description": "Typed, catalog-backed selector for compiling a topology artifact overlay. Natural language is resolved before this request; topology-service validates and executes catalog ids against the active topology graph.",
+  "type": "object",
+  "properties": {
+    "actionCatalogId": {
+      "type": "string",
+      "description": "Semantic catalog action id corresponding to the overlay action being compiled.",
+      "enum": [
+        "topology.action.highlight",
+        "topology.action.focus",
+        "topology.action.hide",
+        "topology.action.show",
+        "topology.action.inspect",
+        "topology.action.drilldown"
+      ]
+    },
+    "semanticEntity": {
+      "type": "string",
+      "description": "Semantic entity being selected, for example inventory.device or inventory.interface.",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+    },
+    "surfaceEntity": {
+      "type": "string",
+      "description": "Topology surface entity that represents the semantic entity, for example topology.node or topology.edge.",
+      "enum": [
+        "topology.node",
+        "topology.edge"
+      ]
+    },
+    "targetKind": {
+      "type": "string",
+      "description": "Topology overlay target kind produced by this selector.",
+      "enum": [
+        "node",
+        "edge"
+      ]
+    },
+    "predicates": {
+      "type": "array",
+      "description": "Catalog-backed predicates combined with AND semantics. Multiple backend paths for one catalog id are evaluated as OR by topology-service.",
+      "items": {
+        "$ref": "./TopologySemanticSelectorPredicate.schema.json"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "actionCatalogId",
+    "semanticEntity",
+    "surfaceEntity",
+    "targetKind",
+    "predicates"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,14 @@
+{
+  "title": "ConnectionTarget",
+  "description": "Target org + org-scoped SSO connection (reuses ConnectionChoice).",
+  "type": "object",
+  "properties": {
+    "orgId": { "type": "string", "format": "uuid" },
+    "orgSlug": { "$ref": "./Slug.schema.json" },
+    "orgName": { "type": "string" },
+    "connection": { "$ref": "./ConnectionChoice.schema.json" }
+  },
+  "required": ["orgId", "orgSlug", "orgName", "connection"],
+  "additionalProperties": false
+}
+

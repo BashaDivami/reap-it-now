@@ -1,0 +1,38 @@
+{
+  "title": "DiscoveryEventDeviceDiscoveredData",
+  "description": "A device record was discovered/created/linked into inventory.",
+  "type": "object",
+  "properties": {
+    "deviceId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "mgmtAddress": {
+      "type": "string"
+    },
+    "vendor": {
+      "$ref": "./Vendor.schema.json"
+    },
+    "model": {
+      "type": "string"
+    },
+    "siteId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "deviceDiscovered"
+      ]
+    }
+  },
+  "required": [
+    "deviceId",
+    "mgmtAddress",
+    "siteId",
+    "type"
+  ],
+  "additionalProperties": false,
+  "x-discriminator-value": "deviceDiscovered"
+}

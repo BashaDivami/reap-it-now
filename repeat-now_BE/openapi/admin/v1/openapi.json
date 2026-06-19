@@ -1,0 +1,3242 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "REAP Admin API",
+    "version": "0.1.0",
+    "license": {
+      "name": "Proprietary",
+      "url": "https://reapitnow.ai"
+    },
+    "description": "Internal admin API contract for `reap-admin-ui` and `admin-api-server`.\n\nThis surface is intentionally separate from public APIs and is the canonical\ncontract for privileged internal operations.\n\n## Security posture\n- Accept only internal admin JWTs (distinct audience/issuer from customer tokens).\n- Enforce role-based authorization for every operation.\n- All write operations require reason/ticket metadata and must emit immutable audit events.\n\n## Baseline roles\n- `admin.readonly`: read-only access.\n- `admin.ops`: operational actions (role-gated write operations).\n- `admin.super`: tenant-impacting or high-risk actions.\n"
+  },
+  "servers": [
+    {
+      "url": "https://admin-api.reap.cloud"
+    }
+  ],
+  "tags": [
+    {
+      "name": "AdminIdentity",
+      "description": "Internal admin actor and effective role context."
+    },
+    {
+      "name": "AdminOrgs",
+      "description": "Cross-tenant organization search, status, labels, and flag controls."
+    },
+    {
+      "name": "AdminAgentObservability",
+      "description": "Admin-only deep observability APIs for agent workflows and artifacts."
+    },
+    {
+      "name": "AdminInventory",
+      "description": "Admin inventory views across org resources with internal-only metadata."
+    },
+    {
+      "name": "AdminDiscovery",
+      "description": "Discovery operations, run streaming, and detection-gap analysis for operators."
+    },
+    {
+      "name": "AdminTopology",
+      "description": "Topology support views for internal ops and investigation workflows."
+    },
+    {
+      "name": "AdminConnectors",
+      "description": "Connector fleet operations, rollouts, and remote diagnostics."
+    },
+    {
+      "name": "AdminSecrets",
+      "description": "High-risk secret and credential operations with strict guardrails."
+    },
+    {
+      "name": "AdminKnowledge",
+      "description": "Internal knowledge ingestion and administration endpoints."
+    },
+    {
+      "name": "AdminRunTriage",
+      "description": "Bad-run queue and quality triage views for internal operators."
+    },
+    {
+      "name": "AdminAudit",
+      "description": "Immutable audit trail for internal admin actions."
+    }
+  ],
+  "security": [
+    {
+      "AdminBearerAuth": [
+
+      ]
+    }
+  ],
+  "paths": {
+    "/admin/v1/me": {
+      "get": {
+        "tags": [
+          "AdminIdentity"
+        ],
+        "summary": "Get current admin actor",
+        "description": "Returns the authenticated internal admin principal and effective roles.",
+        "operationId": "getAdminMe",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "responses": {
+          "200": {
+            "description": "Current admin actor.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminPrincipal"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/admin/v1/dashboard/health": {
+      "get": {
+        "tags": [
+          "AdminOrgs"
+        ],
+        "summary": "Get platform health summary",
+        "operationId": "getAdminDashboardHealth",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/EnvironmentParam"
+          },
+          {
+            "$ref": "#/components/parameters/ClusterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WindowParam"
+          },
+          {
+            "$ref": "#/components/parameters/FromParam"
+          },
+          {
+            "$ref": "#/components/parameters/ToParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "System-health dashboard with incidents, SLO snapshots, infra widgets, and operational context.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminDashboardHealth"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs": {
+      "get": {
+        "tags": [
+          "AdminOrgs"
+        ],
+        "summary": "Search organizations (cross-tenant)",
+        "description": "Server-side organization search and filtering.\n\nSupported search dimensions:\n- `id`\n- `name`\n- `domain`\n- `connectorId`\n- `userEmail`\n\nUse `searchField=auto` (default) for best-effort matching across all supported dimensions.\n",
+        "operationId": "listAdminOrganizations",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgSearchQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/OrgSearchFieldParam"
+          },
+          {
+            "$ref": "#/components/parameters/OrgIdFastPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/LabelQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/OrgStatusParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/components/parameters/AfterParam"
+          },
+          {
+            "$ref": "#/components/parameters/BeforeParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matching organizations.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminOrganizationsListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}": {
+      "get": {
+        "tags": [
+          "AdminOrgs"
+        ],
+        "summary": "Get one organization summary",
+        "operationId": "getAdminOrganization",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Organization summary and admin metadata.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminOrg"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/access:change": {
+      "post": {
+        "tags": [
+          "AdminOrgs"
+        ],
+        "summary": "Change organization access state (soft lock/enable)",
+        "operationId": "changeAdminOrganizationAccess",
+        "x-required-roles": [
+          "admin.super"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminOrgAccessChangeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Access state change accepted or previewed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminMutationResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "description": "Confirmation token mismatch or stale version.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/labels/{labelKey}": {
+      "put": {
+        "tags": [
+          "AdminOrgs"
+        ],
+        "summary": "Upsert org label",
+        "operationId": "upsertAdminOrgLabel",
+        "x-required-roles": [
+          "admin.ops"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/LabelKeyPath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminOrgLabelUpsertRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Label update accepted or previewed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminMutationResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "AdminOrgs"
+        ],
+        "summary": "Remove org label",
+        "operationId": "deleteAdminOrgLabel",
+        "x-required-roles": [
+          "admin.ops"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/LabelKeyPath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminWriteContext"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Label removal accepted or previewed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminMutationResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/beta-flags/{flagKey}": {
+      "put": {
+        "tags": [
+          "AdminOrgs"
+        ],
+        "summary": "Enable/disable a beta feature flag for one org",
+        "operationId": "setAdminOrgBetaFlag",
+        "x-required-roles": [
+          "admin.ops"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/FlagKeyPath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminBetaFlagSetRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Flag update accepted or previewed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminMutationResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/beta-flags/{flagKey}:bulk-apply": {
+      "post": {
+        "tags": [
+          "AdminOrgs"
+        ],
+        "summary": "Bulk apply a beta feature flag to org cohorts",
+        "operationId": "bulkApplyAdminBetaFlag",
+        "x-required-roles": [
+          "admin.super"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/FlagKeyPath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminBetaFlagBulkApplyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Bulk operation accepted or previewed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminMutationResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/agent-context": {
+      "get": {
+        "tags": [
+          "AdminAgentObservability"
+        ],
+        "summary": "Resolve run/workflow/thread context",
+        "description": "Accepts one of `runId`, `workflowId`, or `threadId` and returns a normalized\ncontext header that admin UI pages can reuse.\n",
+        "operationId": "getAdminAgentContext",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/RunIdQuery"
+          },
+          {
+            "$ref": "#/components/parameters/WorkflowIdQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ThreadIdQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Normalized context.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminAgentContext"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/agent-calls": {
+      "get": {
+        "tags": [
+          "AdminAgentObservability"
+        ],
+        "summary": "List agent calls for a context",
+        "operationId": "listAdminAgentCalls",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/RunIdQuery"
+          },
+          {
+            "$ref": "#/components/parameters/WorkflowIdQuery"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/components/parameters/AfterParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agent calls.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminAgentCallsListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/agent-calls/{callId}": {
+      "get": {
+        "tags": [
+          "AdminAgentObservability"
+        ],
+        "summary": "Get one agent call",
+        "operationId": "getAdminAgentCall",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/CallIdPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agent call detail.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminAgentCall"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/agent-approvals": {
+      "get": {
+        "tags": [
+          "AdminAgentObservability"
+        ],
+        "summary": "List approvals for a run/workflow context",
+        "operationId": "listAdminAgentApprovals",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/RunIdQuery"
+          },
+          {
+            "$ref": "#/components/parameters/WorkflowIdQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Approval records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminApprovalsListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/agent-trace": {
+      "get": {
+        "tags": [
+          "AdminAgentObservability"
+        ],
+        "summary": "Get composed agent execution trace",
+        "description": "Resolves one of `runId`, `workflowId`, or `threadId` into a normalized\ntrace response using existing DB_CORE/Postgres records. In Phase 1 this\nendpoint is composed directly by admin-api-server using the same\nread-only Postgres store pattern as RAG observability, not by proxying\nthrough inventory-service. The response reports wall time from\n`created_at` to `completedAt`; precise queue and execution timing remain\noptional until `startedAt` is persisted.\n",
+        "operationId": "getAdminAgentTrace",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/RunIdQuery"
+          },
+          {
+            "$ref": "#/components/parameters/WorkflowIdQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ThreadIdQuery"
+          },
+          {
+            "name": "channel",
+            "in": "query",
+            "description": "Optional channel discriminator when resolving by threadId.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Composed trace graph, timeline, state, approvals, artifacts, and data gaps.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminAgentTraceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/agent-trace/runs": {
+      "get": {
+        "tags": [
+          "AdminAgentObservability"
+        ],
+        "summary": "List recent agent execution traces",
+        "description": "Lists recent distinct trace runs for an org from existing\nDB_CORE/Postgres agent call records. This endpoint lets the admin UI\noffer a run picker before loading the full composed trace.\n",
+        "operationId": "listAdminAgentTraceRuns",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recent trace run summaries.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminAgentTraceRunsListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/workflow-state/{workflowId}": {
+      "get": {
+        "tags": [
+          "AdminAgentObservability"
+        ],
+        "summary": "Get workflow state snapshot",
+        "operationId": "getAdminWorkflowState",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/WorkflowIdPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Workflow state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminWorkflowStateSnapshot"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/agent-state/{workflowId}": {
+      "get": {
+        "tags": [
+          "AdminAgentObservability"
+        ],
+        "summary": "Get per-agent state for a workflow",
+        "operationId": "getAdminAgentState",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/WorkflowIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/AgentKindParam"
+          },
+          {
+            "$ref": "#/components/parameters/AgentIdParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agent state snapshot.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminAgentStateSnapshot"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/artifacts": {
+      "get": {
+        "tags": [
+          "AdminAgentObservability"
+        ],
+        "summary": "List artifacts for a run/workflow/thread context",
+        "operationId": "listAdminArtifacts",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/RunIdQuery"
+          },
+          {
+            "$ref": "#/components/parameters/WorkflowIdQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ThreadIdQuery"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/components/parameters/AfterParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Artifacts.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminArtifactsListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/artifacts/{artifactId}": {
+      "get": {
+        "tags": [
+          "AdminAgentObservability"
+        ],
+        "summary": "Get one artifact metadata",
+        "operationId": "getAdminArtifact",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/ArtifactIdPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Artifact metadata.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminArtifact"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/artifacts/{artifactId}/content": {
+      "get": {
+        "tags": [
+          "AdminAgentObservability"
+        ],
+        "summary": "Get artifact content envelope",
+        "operationId": "getAdminArtifactContent",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/ArtifactIdPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Artifact content reference or inline payload.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminArtifactContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/sites": {
+      "get": {
+        "tags": [
+          "AdminInventory"
+        ],
+        "summary": "List sites (admin)",
+        "description": "Admin-scoped site listing with pagination and internal operational visibility.\n",
+        "operationId": "listAdminSites",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/components/parameters/AfterParam"
+          },
+          {
+            "$ref": "#/components/parameters/BeforeParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sites list.",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminSitesListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/devices": {
+      "get": {
+        "tags": [
+          "AdminInventory"
+        ],
+        "summary": "List devices (admin)",
+        "description": "Admin-scoped device listing for support and operations.\n",
+        "operationId": "listAdminDevices",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/SiteIdQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/DeviceStateQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/QueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/components/parameters/AfterParam"
+          },
+          {
+            "$ref": "#/components/parameters/BeforeParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Devices list.",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminDevicesListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/connectors": {
+      "get": {
+        "tags": [
+          "AdminInventory"
+        ],
+        "summary": "List connectors (admin)",
+        "description": "Admin connector inventory enriched with cluster display context, derived\nhealth, and observability links used by thin v1 fleet operations.\n",
+        "operationId": "listAdminConnectors",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/QueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/ConnectorStatusQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/ConnectorVersionQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/ConnectorRingQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/ConnectorClusterIdQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LabelQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/components/parameters/AfterParam"
+          },
+          {
+            "$ref": "#/components/parameters/BeforeParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Connectors list.",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminConnectorsListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/connectors:refresh-runtime": {
+      "post": {
+        "tags": [
+          "AdminInventory"
+        ],
+        "summary": "Refresh connector runtime status (admin)",
+        "description": "Forces an immediate connector runtime sync from Fleet through\ninventory-service, then returns a small completion summary. Use this\nwhen the admin UI needs a sync-now action instead of waiting for the\nnext background poll.\n",
+        "operationId": "refreshAdminConnectorRuntime",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Runtime refresh result.",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminConnectorRuntimeRefreshResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/connector-runtime-metrics": {
+      "get": {
+        "tags": [
+          "AdminInventory"
+        ],
+        "summary": "Get connector runtime metrics (admin)",
+        "description": "Returns compact connector VM runtime health for otel-agent,\ncommand-agent, and connector VPN. The response includes live chart\nseries from Prometheus Infra plus Grafana dashboard and embed links.\nBy default the response is scoped to all reporting connectors in the\norganization. When connector VM metrics expose `connector_id`, callers\nmay pass `connectorId` to scope the same native health panels and\nGrafana links to one connector. The connector selector payload includes\nconnector names when they are available.\n",
+        "operationId": "getAdminConnectorRuntimeMetrics",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/ConnectorRuntimeMetricsWindowParam"
+          },
+          {
+            "$ref": "#/components/parameters/ConnectorRuntimeMetricsConnectorIdParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Connector runtime metrics.",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminConnectorRuntimeMetricsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/connector-clusters": {
+      "get": {
+        "tags": [
+          "AdminInventory"
+        ],
+        "summary": "List connector clusters (admin)",
+        "operationId": "listAdminConnectorClusters",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/components/parameters/AfterParam"
+          },
+          {
+            "$ref": "#/components/parameters/BeforeParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Connector cluster list.",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminConnectorClustersListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/discovery/jobs": {
+      "get": {
+        "tags": [
+          "AdminDiscovery"
+        ],
+        "summary": "List discovery jobs (admin)",
+        "description": "Admin discovery job list with pagination and operational filtering.\n",
+        "operationId": "listAdminDiscoveryJobs",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/components/parameters/AfterParam"
+          },
+          {
+            "$ref": "#/components/parameters/BeforeParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Discovery jobs.",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminDiscoveryJobsListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/discovery/jobs/{jobId}/runs": {
+      "get": {
+        "tags": [
+          "AdminDiscovery"
+        ],
+        "summary": "List discovery runs for a job (admin)",
+        "operationId": "listAdminDiscoveryRuns",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/JobIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/components/parameters/AfterParam"
+          },
+          {
+            "$ref": "#/components/parameters/BeforeParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Discovery runs.",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminDiscoveryRunsListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/discovery/jobs/{jobId}/runs/{runId}/events": {
+      "get": {
+        "tags": [
+          "AdminDiscovery"
+        ],
+        "summary": "Stream discovery events (admin SSE)",
+        "description": "Server-Sent Events stream for a discovery run.\n",
+        "operationId": "streamAdminDiscoveryRunEvents",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/JobIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/RunIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/FromSeqQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event stream.",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "text/event-stream"
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "no-store"
+              },
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/connectors:upgrade": {
+      "post": {
+        "tags": [
+          "AdminConnectors"
+        ],
+        "summary": "Preview or apply a ring-based connector upgrade",
+        "description": "Thin v1 upgrade orchestration resolves target connectors from the current\ninventory view and reassigns their `upgradeRing`. When `dryRun=true`, the\nendpoint returns a blast-radius preview without mutating connectors.\n",
+        "operationId": "startAdminConnectorUpgradeCampaign",
+        "x-required-roles": [
+          "admin.super"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminConnectorUpgradeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Preview or mutation result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminConnectorUpgradeCampaign"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/connectors/{connectorId}/logs": {
+      "get": {
+        "tags": [
+          "AdminConnectors"
+        ],
+        "summary": "Retrieve connector logs",
+        "operationId": "getAdminConnectorLogs",
+        "x-required-roles": [
+          "admin.ops"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/ConnectorIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/FromParam"
+          },
+          {
+            "$ref": "#/components/parameters/ToParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Log chunk response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminConnectorLogsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/discovery/jobs/{jobId}/runs/{runId}:cancel": {
+      "post": {
+        "tags": [
+          "AdminDiscovery"
+        ],
+        "summary": "Cancel a discovery run",
+        "operationId": "cancelAdminDiscoveryRun",
+        "x-required-roles": [
+          "admin.ops"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/JobIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/RunIdPath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminWriteContext"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Cancellation accepted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminMutationResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/platform-detection/gaps": {
+      "get": {
+        "tags": [
+          "AdminDiscovery"
+        ],
+        "summary": "List platform-detection gap signals",
+        "operationId": "listAdminPlatformDetectionGaps",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/SiteIdQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/RunIdQuery"
+          },
+          {
+            "$ref": "#/components/parameters/FromParam"
+          },
+          {
+            "$ref": "#/components/parameters/ToParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/components/parameters/AfterParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detection-gap queue.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminDetectionGapsListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/topology/views": {
+      "get": {
+        "tags": [
+          "AdminTopology"
+        ],
+        "summary": "List topology views (admin catalog)",
+        "operationId": "listAdminTopologyViews",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/ScopeTypeQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/If-None-Match"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Topology view catalog.",
+            "headers": {
+              "ETag": {
+                "$ref": "#/components/headers/ETag"
+              },
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminTopologyViewsListResponse"
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "Not Modified"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/topology/views/{viewId}/resolve": {
+      "post": {
+        "tags": [
+          "AdminTopology"
+        ],
+        "summary": "Resolve a topology view (admin)",
+        "operationId": "resolveAdminTopologyView",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/ViewIdPath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminTopologyResolveRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resolved view payload.",
+            "headers": {
+              "ETag": {
+                "$ref": "#/components/headers/ETag"
+              },
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminTopologyResolveResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/topology/views/{viewId}/stream": {
+      "get": {
+        "tags": [
+          "AdminTopology"
+        ],
+        "summary": "Stream topology updates (admin SSE)",
+        "operationId": "streamAdminTopologyView",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/ViewIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/ScopeTypeQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/ScopeIdQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/FromSeqQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event stream.",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "text/event-stream"
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "no-store"
+              },
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/secrets": {
+      "get": {
+        "tags": [
+          "AdminSecrets"
+        ],
+        "summary": "List secrets metadata (admin)",
+        "operationId": "listAdminSecrets",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/components/parameters/AfterParam"
+          },
+          {
+            "$ref": "#/components/parameters/BeforeParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Secrets metadata list.",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminSecretsListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/secrets/{secretId}:rotate": {
+      "post": {
+        "tags": [
+          "AdminSecrets"
+        ],
+        "summary": "Rotate secret value (admin)",
+        "operationId": "rotateAdminSecret",
+        "x-required-roles": [
+          "admin.ops"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/SecretIdPath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminSecretRotateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Rotation accepted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminMutationResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/credentials": {
+      "get": {
+        "tags": [
+          "AdminSecrets"
+        ],
+        "summary": "List credentials metadata (admin)",
+        "operationId": "listAdminCredentials",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/components/parameters/AfterParam"
+          },
+          {
+            "$ref": "#/components/parameters/BeforeParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Credentials metadata list.",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCredentialsListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/knowledge/documents": {
+      "get": {
+        "tags": [
+          "AdminKnowledge"
+        ],
+        "summary": "List knowledge documents (admin)",
+        "operationId": "listAdminKnowledgeDocuments",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/KnowledgeStatusQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/components/parameters/AfterParam"
+          },
+          {
+            "$ref": "#/components/parameters/BeforeParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Knowledge document list.",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminKnowledgeDocumentsListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "AdminKnowledge"
+        ],
+        "summary": "Create knowledge ingestion request (admin)",
+        "operationId": "createAdminKnowledgeDocument",
+        "x-required-roles": [
+          "admin.ops"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminKnowledgeDocumentCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Ingestion accepted.",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminKnowledgeDocument"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/orgs/{orgId}/runs:bad": {
+      "get": {
+        "tags": [
+          "AdminRunTriage"
+        ],
+        "summary": "List low-fidelity or bad runs queue",
+        "operationId": "listAdminBadRuns",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/RunStatusQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/FromParam"
+          },
+          {
+            "$ref": "#/components/parameters/ToParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/components/parameters/AfterParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Bad-runs queue.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminBadRunsListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/audit/events": {
+      "get": {
+        "tags": [
+          "AdminAudit"
+        ],
+        "summary": "List internal admin audit events",
+        "operationId": "listAdminAuditEvents",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ActorQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/ActionQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/OrgIdQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/FromParam"
+          },
+          {
+            "$ref": "#/components/parameters/ToParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/components/parameters/AfterParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Audit events.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminAuditEventsListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/admin/v1/audit/events/{eventId}": {
+      "get": {
+        "tags": [
+          "AdminAudit"
+        ],
+        "summary": "Get one admin audit event",
+        "operationId": "getAdminAuditEvent",
+        "x-required-roles": [
+          "admin.readonly"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/EventIdPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Audit event.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminAuditEvent"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/admin/v1/audit/events:export": {
+      "post": {
+        "tags": [
+          "AdminAudit"
+        ],
+        "summary": "Export admin audit events",
+        "operationId": "exportAdminAuditEvents",
+        "x-required-roles": [
+          "admin.ops"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminAuditExportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Export accepted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminAuditExportJob"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "AdminBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Internal admin JWT only. Tokens must carry an admin audience/issuer and role claims.\nThe token issuer is expected to be the internal auth service backed by Google Workspace SSO.\nServers should enforce allowed email domain and required admin group membership claims.\n"
+      }
+    },
+    "headers": {
+      "X-Request-Id": {
+        "description": "Correlation ID for debugging and tracing.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Link": {
+        "description": "Pagination links (`rel=\\\"next\\\"`, `rel=\\\"prev\\\"`).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "ETag": {
+        "description": "Entity tag for cache revalidation/concurrency controls.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "parameters": {
+      "OrgIdPath": {
+        "name": "orgId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "LabelKeyPath": {
+        "name": "labelKey",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_.-]{1,63}$"
+        }
+      },
+      "FlagKeyPath": {
+        "name": "flagKey",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "CallIdPath": {
+        "name": "callId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "WorkflowIdPath": {
+        "name": "workflowId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "ArtifactIdPath": {
+        "name": "artifactId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "EventIdPath": {
+        "name": "eventId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "QueryParam": {
+        "name": "q",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "OrgSearchQueryParam": {
+        "name": "q",
+        "in": "query",
+        "description": "Search text for organization lookup.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "OrgSearchFieldParam": {
+        "name": "searchField",
+        "in": "query",
+        "description": "Restricts search to one field, or `auto` to match across supported fields.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "id",
+            "name",
+            "domain",
+            "connectorId",
+            "userEmail"
+          ],
+          "default": "auto"
+        }
+      },
+      "OrgIdFastPathParam": {
+        "name": "orgId",
+        "in": "query",
+        "description": "Exact org id fast-path lookup.",
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "LabelQueryParam": {
+        "name": "label",
+        "in": "query",
+        "description": "Repeatable `key:value` org label selectors.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "style": "form",
+        "explode": true
+      },
+      "OrgStatusParam": {
+        "name": "status",
+        "in": "query",
+        "schema": {
+          "$ref": "#/components/schemas/AdminOrgStatus"
+        }
+      },
+      "ActorQueryParam": {
+        "name": "actor",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "ActionQueryParam": {
+        "name": "action",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "OrgIdQueryParam": {
+        "name": "orgId",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "EnvironmentParam": {
+        "name": "environment",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "prod",
+            "staging",
+            "dev"
+          ],
+          "default": "prod"
+        }
+      },
+      "ClusterParam": {
+        "name": "cluster",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "WindowParam": {
+        "name": "window",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "15m",
+            "1h",
+            "24h",
+            "7d"
+          ],
+          "default": "1h"
+        }
+      },
+      "ConnectorRuntimeMetricsWindowParam": {
+        "name": "window",
+        "in": "query",
+        "description": "Live metrics time window.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "15m",
+            "30m",
+            "1h",
+            "3h",
+            "6h",
+            "12h",
+            "24h",
+            "7d"
+          ],
+          "default": "1h"
+        }
+      },
+      "ConnectorRuntimeMetricsConnectorIdParam": {
+        "name": "connectorId",
+        "in": "query",
+        "description": "Optional connector id. When present, all returned metrics and Grafana links are scoped to that connector.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "FromParam": {
+        "name": "from",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "ToParam": {
+        "name": "to",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "RunIdQuery": {
+        "name": "runId",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "WorkflowIdQuery": {
+        "name": "workflowId",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "ThreadIdQuery": {
+        "name": "threadId",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "AgentKindParam": {
+        "name": "agentKind",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "AgentIdParam": {
+        "name": "agentId",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "LimitParam": {
+        "name": "limit",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200,
+          "default": 50
+        }
+      },
+      "AfterParam": {
+        "name": "after",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "BeforeParam": {
+        "name": "before",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "SortParam": {
+        "name": "sort",
+        "in": "query",
+        "description": "Server-side sort keys as a comma-separated list.\nPrefix a key with `-` for descending order (example: `-updatedAt,name`).\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "If-None-Match": {
+        "name": "If-None-Match",
+        "in": "header",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Return `304 Not Modified` when ETag matches."
+      },
+      "SiteIdQueryParam": {
+        "name": "siteId",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "DeviceStateQueryParam": {
+        "name": "state",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "discovered",
+            "validated",
+            "unreachable",
+            "retired",
+            "merged"
+          ]
+        }
+      },
+      "ConnectorStatusQueryParam": {
+        "name": "status",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "provisioning",
+            "registered",
+            "online",
+            "degraded",
+            "offline",
+            "decommissioned"
+          ]
+        }
+      },
+      "ConnectorVersionQueryParam": {
+        "name": "version",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "ConnectorRingQueryParam": {
+        "name": "ring",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "ConnectorClusterIdQueryParam": {
+        "name": "clusterId",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "FromSeqQueryParam": {
+        "name": "fromSeq",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "ScopeTypeQueryParam": {
+        "name": "scopeType",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "org",
+            "site",
+            "device"
+          ]
+        }
+      },
+      "ScopeIdQueryParam": {
+        "name": "scopeId",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "KnowledgeStatusQueryParam": {
+        "name": "status",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "queued",
+            "processing",
+            "ready",
+            "failed"
+          ]
+        }
+      },
+      "RunStatusQueryParam": {
+        "name": "status",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "queued",
+            "running",
+            "succeeded",
+            "failed",
+            "cancelled"
+          ]
+        }
+      },
+      "ConnectorIdPath": {
+        "name": "connectorId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "JobIdPath": {
+        "name": "jobId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "RunIdPath": {
+        "name": "runId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "SecretIdPath": {
+        "name": "secretId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "ViewIdPath": {
+        "name": "viewId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Request validation failed.",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Missing or invalid authentication.",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Authenticated but not authorized.",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found.",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            }
+          }
+        }
+      },
+      "ServiceUnavailable": {
+        "description": "Upstream dependency is unavailable.",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Problem": {
+        "$ref": "./schemas/Problem.schema.json"
+      },
+      "PageMeta": {
+        "$ref": "./schemas/PageMeta.schema.json"
+      },
+      "AdminRole": {
+        "$ref": "./schemas/AdminRole.schema.json"
+      },
+      "AdminPrincipal": {
+        "$ref": "./schemas/AdminPrincipal.schema.json"
+      },
+      "AdminWriteContext": {
+        "$ref": "./schemas/AdminWriteContext.schema.json"
+      },
+      "BlastRadius": {
+        "$ref": "./schemas/BlastRadius.schema.json"
+      },
+      "AdminMutationResult": {
+        "$ref": "./schemas/AdminMutationResult.schema.json"
+      },
+      "AdminOrgStatus": {
+        "$ref": "./schemas/AdminOrgStatus.schema.json"
+      },
+      "AdminOrg": {
+        "$ref": "./schemas/AdminOrg.schema.json"
+      },
+      "AdminOrgUsageSummary": {
+        "$ref": "./schemas/AdminOrgUsageSummary.schema.json"
+      },
+      "AdminOrgIncidentSummary": {
+        "$ref": "./schemas/AdminOrgIncidentSummary.schema.json"
+      },
+      "AdminOrgSupportNote": {
+        "$ref": "./schemas/AdminOrgSupportNote.schema.json"
+      },
+      "AdminOrganizationsListResponse": {
+        "$ref": "./schemas/AdminOrganizationsListResponse.schema.json"
+      },
+      "AdminOrgAccessState": {
+        "$ref": "./schemas/AdminOrgAccessState.schema.json"
+      },
+      "AdminOrgAccessChangeRequest": {
+        "$ref": "./schemas/AdminOrgAccessChangeRequest.schema.json"
+      },
+      "AdminOrgLabelUpsertRequest": {
+        "$ref": "./schemas/AdminOrgLabelUpsertRequest.schema.json"
+      },
+      "AdminBetaFlagSetRequest": {
+        "$ref": "./schemas/AdminBetaFlagSetRequest.schema.json"
+      },
+      "AdminBetaFlagBulkApplyRequest": {
+        "$ref": "./schemas/AdminBetaFlagBulkApplyRequest.schema.json"
+      },
+      "AdminDashboardHealth": {
+        "$ref": "./schemas/AdminDashboardHealth.schema.json"
+      },
+      "AdminAgentContext": {
+        "$ref": "./schemas/AdminAgentContext.schema.json"
+      },
+      "AdminAgentRef": {
+        "$ref": "./schemas/AdminAgentRef.schema.json"
+      },
+      "AdminAgentCall": {
+        "$ref": "./schemas/AdminAgentCall.schema.json"
+      },
+      "AdminAgentCallsListResponse": {
+        "$ref": "./schemas/AdminAgentCallsListResponse.schema.json"
+      },
+      "AdminApproval": {
+        "$ref": "./schemas/AdminApproval.schema.json"
+      },
+      "AdminApprovalsListResponse": {
+        "$ref": "./schemas/AdminApprovalsListResponse.schema.json"
+      },
+      "AdminAgentTraceContext": {
+        "$ref": "./schemas/AdminAgentTraceContext.schema.json"
+      },
+      "AdminAgentTraceCandidate": {
+        "$ref": "./schemas/AdminAgentTraceCandidate.schema.json"
+      },
+      "AdminAgentTraceRunSummary": {
+        "$ref": "./schemas/AdminAgentTraceRunSummary.schema.json"
+      },
+      "AdminAgentTraceRunsListResponse": {
+        "$ref": "./schemas/AdminAgentTraceRunsListResponse.schema.json"
+      },
+      "AdminAgentTraceSummary": {
+        "$ref": "./schemas/AdminAgentTraceSummary.schema.json"
+      },
+      "AdminAgentTraceNode": {
+        "$ref": "./schemas/AdminAgentTraceNode.schema.json"
+      },
+      "AdminAgentTraceEdge": {
+        "$ref": "./schemas/AdminAgentTraceEdge.schema.json"
+      },
+      "AdminAgentTraceGraph": {
+        "$ref": "./schemas/AdminAgentTraceGraph.schema.json"
+      },
+      "AdminAgentTraceTimelineEvent": {
+        "$ref": "./schemas/AdminAgentTraceTimelineEvent.schema.json"
+      },
+      "AdminAgentTraceApproval": {
+        "$ref": "./schemas/AdminAgentTraceApproval.schema.json"
+      },
+      "AdminAgentTraceWorkflowState": {
+        "$ref": "./schemas/AdminAgentTraceWorkflowState.schema.json"
+      },
+      "AdminAgentTraceAgentState": {
+        "$ref": "./schemas/AdminAgentTraceAgentState.schema.json"
+      },
+      "AdminAgentTraceArtifact": {
+        "$ref": "./schemas/AdminAgentTraceArtifact.schema.json"
+      },
+      "AdminAgentTraceDeviceTask": {
+        "$ref": "./schemas/AdminAgentTraceDeviceTask.schema.json"
+      },
+      "AdminAgentTraceDataGap": {
+        "$ref": "./schemas/AdminAgentTraceDataGap.schema.json"
+      },
+      "AdminAgentTraceResponse": {
+        "$ref": "./schemas/AdminAgentTraceResponse.schema.json"
+      },
+      "AdminWorkflowStateSnapshot": {
+        "$ref": "./schemas/AdminWorkflowStateSnapshot.schema.json"
+      },
+      "AdminAgentStateSnapshot": {
+        "$ref": "./schemas/AdminAgentStateSnapshot.schema.json"
+      },
+      "AdminArtifact": {
+        "$ref": "./schemas/AdminArtifact.schema.json"
+      },
+      "AdminArtifactsListResponse": {
+        "$ref": "./schemas/AdminArtifactsListResponse.schema.json"
+      },
+      "AdminArtifactContent": {
+        "$ref": "./schemas/AdminArtifactContent.schema.json"
+      },
+      "AdminSite": {
+        "$ref": "./schemas/AdminSite.schema.json"
+      },
+      "AdminSitesListResponse": {
+        "$ref": "./schemas/AdminSitesListResponse.schema.json"
+      },
+      "AdminDeviceSummary": {
+        "$ref": "./schemas/AdminDeviceSummary.schema.json"
+      },
+      "AdminDevicesListResponse": {
+        "$ref": "./schemas/AdminDevicesListResponse.schema.json"
+      },
+      "AdminConnectorSummary": {
+        "$ref": "./schemas/AdminConnectorSummary.schema.json"
+      },
+      "AdminConnectorHealthSummary": {
+        "$ref": "./schemas/AdminConnectorHealthSummary.schema.json"
+      },
+      "AdminConnectorRuntime": {
+        "$ref": "./schemas/AdminConnectorRuntime.schema.json"
+      },
+      "AdminConnectorRuntimeHealth": {
+        "$ref": "./schemas/AdminConnectorRuntimeHealth.schema.json"
+      },
+      "AdminConnectorRolloutStatus": {
+        "$ref": "./schemas/AdminConnectorRolloutStatus.schema.json"
+      },
+      "AdminConnectorRuntimeIncident": {
+        "$ref": "./schemas/AdminConnectorRuntimeIncident.schema.json"
+      },
+      "AdminConnectorObservabilityLinks": {
+        "$ref": "./schemas/AdminConnectorObservabilityLinks.schema.json"
+      },
+      "AdminCorrelationLinks": {
+        "$ref": "./schemas/AdminCorrelationLinks.schema.json"
+      },
+      "AdminConnectorsListResponse": {
+        "$ref": "./schemas/AdminConnectorsListResponse.schema.json"
+      },
+      "AdminConnectorRuntimeRefreshResponse": {
+        "$ref": "./schemas/AdminConnectorRuntimeRefreshResponse.schema.json"
+      },
+      "AdminConnectorRuntimeMetricsResponse": {
+        "$ref": "./schemas/AdminConnectorRuntimeMetricsResponse.schema.json"
+      },
+      "AdminConnectorClusterSummary": {
+        "$ref": "./schemas/AdminConnectorClusterSummary.schema.json"
+      },
+      "AdminConnectorClustersListResponse": {
+        "$ref": "./schemas/AdminConnectorClustersListResponse.schema.json"
+      },
+      "AdminDiscoveryJob": {
+        "$ref": "./schemas/AdminDiscoveryJob.schema.json"
+      },
+      "AdminDiscoveryJobsListResponse": {
+        "$ref": "./schemas/AdminDiscoveryJobsListResponse.schema.json"
+      },
+      "AdminDiscoveryRun": {
+        "$ref": "./schemas/AdminDiscoveryRun.schema.json"
+      },
+      "AdminDiscoveryRunsListResponse": {
+        "$ref": "./schemas/AdminDiscoveryRunsListResponse.schema.json"
+      },
+      "AdminTopologyViewCatalogItem": {
+        "$ref": "./schemas/AdminTopologyViewCatalogItem.schema.json"
+      },
+      "AdminTopologyViewsListResponse": {
+        "$ref": "./schemas/AdminTopologyViewsListResponse.schema.json"
+      },
+      "AdminTopologyResolveRequest": {
+        "$ref": "./schemas/AdminTopologyResolveRequest.schema.json"
+      },
+      "AdminTopologyResolveResponse": {
+        "$ref": "./schemas/AdminTopologyResolveResponse.schema.json"
+      },
+      "AdminSecret": {
+        "$ref": "./schemas/AdminSecret.schema.json"
+      },
+      "AdminSecretsListResponse": {
+        "$ref": "./schemas/AdminSecretsListResponse.schema.json"
+      },
+      "AdminConnectorUpgradeRequest": {
+        "$ref": "./schemas/AdminConnectorUpgradeRequest.schema.json"
+      },
+      "AdminConnectorUpgradeItem": {
+        "$ref": "./schemas/AdminConnectorUpgradeItem.schema.json"
+      },
+      "AdminConnectorUpgradeCampaign": {
+        "$ref": "./schemas/AdminConnectorUpgradeCampaign.schema.json"
+      },
+      "AdminConnectorLogLine": {
+        "$ref": "./schemas/AdminConnectorLogLine.schema.json"
+      },
+      "AdminConnectorLogsResponse": {
+        "$ref": "./schemas/AdminConnectorLogsResponse.schema.json"
+      },
+      "AdminDetectionGap": {
+        "$ref": "./schemas/AdminDetectionGap.schema.json"
+      },
+      "AdminDetectionGapsListResponse": {
+        "$ref": "./schemas/AdminDetectionGapsListResponse.schema.json"
+      },
+      "AdminSecretRotateRequest": {
+        "$ref": "./schemas/AdminSecretRotateRequest.schema.json"
+      },
+      "AdminCredential": {
+        "$ref": "./schemas/AdminCredential.schema.json"
+      },
+      "AdminCredentialsListResponse": {
+        "$ref": "./schemas/AdminCredentialsListResponse.schema.json"
+      },
+      "AdminKnowledgeDocument": {
+        "$ref": "./schemas/AdminKnowledgeDocument.schema.json"
+      },
+      "AdminKnowledgeDocumentsListResponse": {
+        "$ref": "./schemas/AdminKnowledgeDocumentsListResponse.schema.json"
+      },
+      "AdminKnowledgeDocumentCreateRequest": {
+        "$ref": "./schemas/AdminKnowledgeDocumentCreateRequest.schema.json"
+      },
+      "AdminBadRun": {
+        "$ref": "./schemas/AdminBadRun.schema.json"
+      },
+      "AdminBadRunsListResponse": {
+        "$ref": "./schemas/AdminBadRunsListResponse.schema.json"
+      },
+      "AdminAuditEvent": {
+        "$ref": "./schemas/AdminAuditEvent.schema.json"
+      },
+      "AdminAuditEventsListResponse": {
+        "$ref": "./schemas/AdminAuditEventsListResponse.schema.json"
+      },
+      "AdminAuditExportRequest": {
+        "$ref": "./schemas/AdminAuditExportRequest.schema.json"
+      },
+      "AdminAuditExportJob": {
+        "$ref": "./schemas/AdminAuditExportJob.schema.json"
+      }
+    }
+  }
+}

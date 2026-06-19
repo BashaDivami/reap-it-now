@@ -1,0 +1,26 @@
+{
+  "title": "RunbookTemplateCompileResult",
+  "description": "Result of compiling and storing a runbook template draft.",
+  "type": "object",
+  "properties": {
+    "status": { "type": "string" },
+    "runbook_id": { "type": "string" },
+    "runbook_version_id": { "type": "string" },
+    "template_status": { "type": "string" },
+    "template_ir": {
+      "type": "object",
+      "description": "Compiler-produced template IR. Kept flexible while the schema is still evolving.",
+      "additionalProperties": true
+    },
+    "diagnostics": { "$ref": "./RunbookCompileDiagnostics.schema.json" },
+    "normalized_summary": { "type": "string" },
+    "missing_inputs": { "type": "array", "items": { "type": "string" } },
+    "missing_input_details": {
+      "type": "array",
+      "items": { "$ref": "./RunbookMissingInputDetail.schema.json" }
+    },
+    "assumptions": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["status"],
+  "additionalProperties": false
+}

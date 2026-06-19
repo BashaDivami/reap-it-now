@@ -1,0 +1,13 @@
+{
+  "title": "ConnectorClusterInternalInspectionSettings",
+  "type": "object",
+  "description": "Controls the internal inspection REST endpoints on command-agent. When omitted, defaults remain unchanged.",
+  "additionalProperties": false,
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "When true, command-agent exposes internal inspection endpoints for secrets/credentials."
+    }
+  }
+}

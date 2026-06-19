@@ -1,0 +1,18 @@
+{
+  "title": "RoleMappingRulesListResponse",
+  "description": "Paginated list of IdP role mapping rules for a connection.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "description": "Mapping rules in the current page.",
+      "items": { "$ref": "./RoleMappingRule.schema.json" }
+    },
+    "meta": {
+      "$ref": "./PageMeta.schema.json"
+    }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}
+

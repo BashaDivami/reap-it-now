@@ -1,0 +1,14 @@
+{
+  "title": "ChatRunEventError",
+  "description": "SSE payload for `event: error`.",
+  "type": "object",
+  "properties": {
+    "code": { "type": "string", "description": "Stable error code." },
+    "message": { "type": "string", "description": "Human-friendly message." },
+    "agent": { "$ref": "./ChatRunEventAgentRef.schema.json" },
+    "call": { "$ref": "./ChatRunEventCallRef.schema.json" },
+    "workflowId": { "type": "string", "format": "uuid", "description": "Workflow identifier, when available." }
+  },
+  "required": ["code", "message"],
+  "additionalProperties": false
+}

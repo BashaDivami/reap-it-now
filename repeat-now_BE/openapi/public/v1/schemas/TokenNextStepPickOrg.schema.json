@@ -1,0 +1,25 @@
+{
+  "title": "TokenNextStepPickOrg",
+  "description": "Soft handoff when loginTx is not org-bound and multiple orgs are possible.",
+  "type": "object",
+  "properties": {
+    "nextStep": { "type": "string", "enum": ["pickOrg"] },
+    "memberships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "orgId": { "type": "string", "format": "uuid" },
+          "orgSlug": { "$ref": "./Slug.schema.json" },
+          "orgName": { "type": "string" }
+        },
+        "required": ["orgId", "orgSlug", "orgName"],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    }
+  },
+  "required": ["nextStep", "memberships"],
+  "additionalProperties": false
+}
+

@@ -1,0 +1,13 @@
+{
+  "title": "CloudAccessQuickCreateRequest",
+  "type": "object",
+  "description": "Request body used by the backend-owned cloud access launch action.",
+  "properties": {
+    "awsAccountId": {
+      "type": "string",
+      "description": "Customer AWS account ID."
+    }
+  },
+  "required": ["awsAccountId"],
+  "additionalProperties": false
+}

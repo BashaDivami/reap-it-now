@@ -1,0 +1,29 @@
+{
+  "title": "DeviceRunningConfigVersion",
+  "description": "Metadata for a running configuration snapshot.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "Snapshot identifier." },
+    "deviceId": { "type": "string", "format": "uuid", "description": "Device ID associated with the snapshot." },
+    "collectedAt": { "type": "string", "format": "date-time", "description": "When the snapshot was collected." },
+    "sizeBytes": { "type": "integer", "minimum": 0, "description": "Snapshot size in bytes." },
+    "hash": { "type": "string", "description": "Content hash of the snapshot." },
+    "startupConfigInSync": {
+      "type": "boolean",
+      "description": "Whether the latest running configuration matches the latest startup configuration."
+    },
+    "diffSummary": {
+      "type": "array",
+      "description": "Optional summary of changes from the previous snapshot.",
+      "items": { "type": "string" },
+      "maxItems": 3
+    },
+    "configSummary": {
+      "type": "array",
+      "description": "Optional summary of notable characteristics in the current running configuration.",
+      "items": { "type": "string" },
+      "maxItems": 5
+    }
+  },
+  "required": ["id", "deviceId", "collectedAt"]
+}

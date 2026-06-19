@@ -1,0 +1,8 @@
+{
+  "title": "MembershipCreate",
+  "description": "Create membership for an existing user by userId or email. For new users, use Invitations.",
+  "oneOf": [
+    { "$ref": "./MembershipCreateByUserId.schema.json" },
+    { "$ref": "./MembershipCreateByEmail.schema.json" }
+  ]
+}

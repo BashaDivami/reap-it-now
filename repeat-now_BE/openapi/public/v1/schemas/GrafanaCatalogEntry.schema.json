@@ -1,0 +1,37 @@
+{
+  "title": "GrafanaCatalogEntry",
+  "description": "REAP-owned mapping from a templateKey to a Grafana dashboard/panel reference (so reap-ui can embed Grafana without hardcoding dash/panel IDs).\n\nSecurity note: tenancy is never driven by Grafana URL vars. `org_id` is derived from REAP identity (JWT/embed token) and enforced by api-server/metrics-gateway. Grafana URL vars are used only for non-tenant selectors (site/target/etc.) and time range.",
+  "type": "object",
+  "properties": {
+    "templateKey": {
+      "type": "string",
+      "description": "Stable key used by dashboards templates/recommendations (e.g., `site.telemetry.interface_util_topk`)."
+    },
+    "dashUid": {
+      "type": "string",
+      "description": "Grafana dashboard UID used in embed URLs."
+    },
+    "panelId": {
+      "type": "integer",
+      "description": "Grafana panel ID inside the dashboard (used for solo-panel embeds)."
+    },
+    "mode": {
+      "type": "string",
+      "description": "How to embed the Grafana content.",
+      "enum": ["solo", "dashboard"]
+    },
+    "vars": {
+      "type": "array",
+      "description": "Allowed/expected Grafana template variables for this panel. REAP will set these via URL query params like `var-<name>=...` (e.g., `var-site_id`, `var-target_id`).\n\nThis list is an allowlist for what REAP will ever place into the iframe URL. It MUST NOT contain tenant identifiers such as `org_id`.",
+      "items": { "type": "string" }
+    },
+    "timeVars": {
+      "type": "array",
+      "description": "Supported time bindings REAP may include in embed URLs. Typically `from`/`to` for the time range and optionally `asOf` for a snapshot cursor (if used).",
+      "items": { "type": "string", "enum": ["from", "to", "asOf"] },
+      "default": ["from", "to"]
+    }
+  },
+  "required": ["templateKey", "dashUid", "mode", "vars", "timeVars"],
+  "additionalProperties": false
+}

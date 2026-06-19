@@ -1,0 +1,50 @@
+{
+  "title": "AWSFlowLogsIntegration",
+  "description": "Organization-scoped AWS Flow Logs onboarding record.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Display label for this AWS Flow Logs integration record."
+        },
+        "siteId": {
+          "type": "string",
+          "description": "AWS cloud site id linked to this AWS Flow Logs integration."
+        },
+        "awsAccountId": {
+          "type": "string",
+          "description": "AWS account ID that will post flow logs into REAP."
+        },
+        "region": {
+          "type": "string",
+          "description": "Customer-selected AWS region stored with the onboarding record."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["enabled", "disabled"],
+          "description": "Whether REAP currently accepts AWS Flow Logs for this record."
+        },
+        "vpcIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Discovered local VPC IDs included in the generated customer onboarding template."
+        },
+        "transitGatewayIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Discovered local transit gateway IDs included in the generated customer onboarding template."
+        },
+        "resourceSnapshotAt": {
+          "type": "string",
+          "description": "Discovery topology timestamp used to build the flow logs resource snapshot."
+        }
+      },
+      "required": ["name", "siteId", "awsAccountId", "region", "status"],
+      "additionalProperties": false
+    }
+  ]
+}

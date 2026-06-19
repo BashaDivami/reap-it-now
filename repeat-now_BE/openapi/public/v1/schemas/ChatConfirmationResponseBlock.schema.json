@@ -1,0 +1,29 @@
+{
+  "title": "ChatConfirmationResponseBlock",
+  "type": "object",
+  "x-discriminator-value": "confirmationResponse",
+  "description": "Structured response to a prior confirmationPrompt block.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["confirmationResponse"],
+      "description": "Block kind."
+    },
+    "questionId": {
+      "type": "string",
+      "description": "Correlates this response with the originating prompt."
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["confirm", "cancel"],
+      "description": "Chosen confirmation decision."
+    }
+  },
+  "required": ["type", "questionId", "decision"],
+  "additionalProperties": false,
+  "example": {
+    "type": "confirmationResponse",
+    "questionId": "rerun-query-1",
+    "decision": "confirm"
+  }
+}

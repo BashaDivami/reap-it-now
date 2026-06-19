@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "required": [
+    "items",
+    "meta"
+  ],
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "./AdminDiscoveryRun.schema.json"
+      }
+    },
+    "meta": {
+      "$ref": "./PageMeta.schema.json"
+    }
+  },
+  "title": "AdminDiscoveryRunsListResponse"
+}

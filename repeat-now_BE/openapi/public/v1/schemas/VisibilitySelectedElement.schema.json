@@ -1,0 +1,19 @@
+{
+  "title": "VisibilitySelectedElement",
+  "description": "Current user selection carried with workbench chat context. The kind should use a stable namespaced value such as topology.node or topology.edge.",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable selected element kind."
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable selected element identifier."
+    }
+  },
+  "required": ["kind", "id"],
+  "additionalProperties": false
+}

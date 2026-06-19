@@ -1,0 +1,9 @@
+{
+  "title": "DeviceRunningConfigVersionsListResponse",
+  "type": "object",
+  "properties": {
+    "items": { "type": "array", "items": { "$ref": "./DeviceRunningConfigVersion.schema.json" } }
+  },
+  "required": ["items"]
+}
+

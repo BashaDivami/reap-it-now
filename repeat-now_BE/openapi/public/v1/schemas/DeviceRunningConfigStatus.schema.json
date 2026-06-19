@@ -1,0 +1,12 @@
+{
+  "title": "DeviceRunningConfigStatus",
+  "description": "Lightweight running configuration status attached to device list/detail responses.",
+  "type": "object",
+  "properties": {
+    "startupConfigInSync": {
+      "type": "boolean",
+      "description": "Whether the latest running configuration matches the latest startup configuration."
+    }
+  },
+  "additionalProperties": false
+}

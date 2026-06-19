@@ -1,0 +1,63 @@
+{
+  "title": "ArtifactDocument",
+  "type": "object",
+  "description": "UI-facing, stable document representation of an artifact. This contract is designed for rendering and does not expose internal representation ids (reps) or storage keys.",
+  "properties": {
+    "id": { "type": "string", "format": "uuid", "description": "Artifact identifier." },
+    "kind": {
+      "type": "string",
+      "enum": ["commandOutput", "table", "file", "image", "pcap", "config", "chart", "topology"],
+      "description": "Artifact kind."
+    },
+    "title": { "type": "string", "description": "Display title for the artifact." },
+    "summary": { "type": "string", "nullable": true, "description": "Optional short summary." },
+    "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp (UTC)." },
+    "mimeType": { "type": "string", "description": "IANA media type for download/preview." },
+    "sizeBytes": { "type": "integer", "minimum": 0, "description": "Content length in bytes if known." },
+    "labels": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Optional metadata labels." },
+    "content": {
+      "description": "Kind-specific content payload. Discriminated by `content.type`.",
+      "oneOf": [
+        { "$ref": "./ArtifactContentCommandOutput.schema.json" },
+        { "$ref": "./ArtifactContentTable.schema.json" },
+        { "$ref": "./ArtifactContentFile.schema.json" },
+        { "$ref": "./ArtifactContentImage.schema.json" },
+        { "$ref": "./ArtifactContentPcap.schema.json" },
+        { "$ref": "./ArtifactContentConfig.schema.json" },
+        { "$ref": "./ArtifactContentChart.schema.json" },
+        { "$ref": "./ArtifactContentTopology.schema.json" }
+      ],
+      "discriminator": {
+        "propertyName": "type",
+        "mapping": {
+          "commandOutput": "./schemas/ArtifactContentCommandOutput.schema.json",
+          "table": "./schemas/ArtifactContentTable.schema.json",
+          "file": "./schemas/ArtifactContentFile.schema.json",
+          "image": "./schemas/ArtifactContentImage.schema.json",
+          "pcap": "./schemas/ArtifactContentPcap.schema.json",
+          "config": "./schemas/ArtifactContentConfig.schema.json",
+          "chart": "./schemas/ArtifactContentChart.schema.json",
+          "topology": "./schemas/ArtifactContentTopology.schema.json"
+        }
+      }
+    },
+    "views": {
+      "type": "array",
+      "description": "Optional multi-view rendering payloads keyed by representation id (rep). If present, `content` MUST match the view selected by `presentationHints.defaultView`.",
+      "items": { "$ref": "./ArtifactDocumentView.schema.json" }
+    },
+    "presentationHints": {
+      "type": "object",
+      "nullable": true,
+      "description": "Optional UI hints for rendering (never required).",
+      "properties": {
+        "defaultView": { "type": "string" },
+        "views": { "type": "array", "items": { "type": "string" } },
+        "chartSuggestions": { "type": "array", "items": { "type": "object" } }
+      },
+      "additionalProperties": true
+    }
+  },
+  "required": ["id", "kind", "title", "createdAt", "mimeType", "content"],
+  "additionalProperties": false
+}

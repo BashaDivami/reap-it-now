@@ -1,0 +1,42 @@
+{
+  "title": "DelegationInvite",
+  "description": "Admin-visible metadata for a delegation invite. The invite token is never returned by API.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "format": "uuid", "description": "Invite identifier." },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "revoked", "expired", "used"],
+          "x-enumDescriptions": [
+            "Valid and not yet used; can be resent or revoked.",
+            "Revoked by customer admin; cannot be used.",
+            "Expired by TTL; cannot be used.",
+            "Consumed by an MSP; cannot be used again."
+          ],
+          "description": "Invite lifecycle state."
+        },
+        "allowedScopes": {
+          "type": "array",
+          "items": { "$ref": "./DelegationScope.schema.json" },
+          "minItems": 1,
+          "description": "Upper bound of scopes that may be granted when accepted."
+        },
+        "mspOrgSlug": {
+          "$ref": "./Slug.schema.json",
+          "description": "Optional target MSP org slug (equals Organization.slug, immutable). If omitted, invite is open."
+        },
+        "expiresAt": { "type": "string", "format": "date-time", "description": "Invite expiration time (UTC)." },
+        "sentAt": { "type": "string", "format": "date-time", "description": "When the most recent email was sent, if any." },
+        "usedAt": { "type": "string", "format": "date-time", "description": "When the invite was consumed (for audit)." },
+        "usedByUserId": { "type": "string", "format": "uuid", "description": "MSP user who accepted (for audit)." }
+      },
+      "required": ["id", "status", "allowedScopes", "orgId", "expiresAt", "createdAt"],
+      "additionalProperties": false
+    }
+  ]
+}
+

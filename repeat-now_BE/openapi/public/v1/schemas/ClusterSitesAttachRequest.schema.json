@@ -1,0 +1,16 @@
+{
+  "title": "ClusterSitesAttachRequest",
+  "description": "Attach one or more Sites (by UUID) to a Connector Cluster.",
+  "type": "object",
+  "properties": {
+    "siteIds": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "minItems": 1,
+      "description": "Site UUIDs within the same organization."
+    }
+  },
+  "required": ["siteIds"],
+  "additionalProperties": false
+}
+

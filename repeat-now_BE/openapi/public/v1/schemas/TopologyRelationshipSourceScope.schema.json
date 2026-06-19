@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyRelationshipSourceScope",
+  "description": "Coarse source scope for relationship intents that apply to the current view, current selection, all visible elements, or the active topology scope.",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string",
+      "description": "How topology-service should choose source candidates before validating them against the relationship.",
+      "enum": [
+        "current_view",
+        "current_selection",
+        "all_visible",
+        "scope"
+      ]
+    },
+    "scopeType": {
+      "$ref": "./TopologyV2ScopeType.schema.json",
+      "description": "Optional topology scope type when kind=scope."
+    },
+    "scopeId": {
+      "type": "string",
+      "description": "Optional topology scope id when kind=scope."
+    },
+    "limit": {
+      "type": "integer",
+      "description": "Optional caller-supplied cap for source candidates. topology-service may apply stricter service-owned limits.",
+      "minimum": 1,
+      "maximum": 1000
+    }
+  },
+  "required": [
+    "kind"
+  ],
+  "additionalProperties": false
+}

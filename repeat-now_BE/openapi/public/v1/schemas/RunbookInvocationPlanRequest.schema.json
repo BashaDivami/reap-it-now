@@ -1,0 +1,38 @@
+{
+  "title": "RunbookInvocationPlanRequest",
+  "description": "Bind a saved runbook version to user-provided inputs and current context, returning either a runnable plan or the additional information still needed.",
+  "type": "object",
+  "properties": {
+    "org_id": { "type": "string", "description": "Required when planning against an existing saved runbook version." },
+    "input_mode": { "type": "string" },
+    "origin_kind": { "type": "string" },
+    "runbook_id": { "type": "string" },
+    "runbook_name": { "type": "string" },
+    "runbook_version_id": { "type": "string" },
+    "template_ir": { "type": "object", "additionalProperties": true },
+    "provided_inputs": { "type": "object", "additionalProperties": true },
+    "trigger_context": { "type": "object", "additionalProperties": true },
+    "org_context": { "type": "object", "additionalProperties": true },
+    "user_context": { "type": "object", "additionalProperties": true },
+    "allowed_interfaces": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": true }
+    },
+    "known_entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kind": { "type": "string" },
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "aliases": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["id", "name"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["org_id"],
+  "additionalProperties": false
+}

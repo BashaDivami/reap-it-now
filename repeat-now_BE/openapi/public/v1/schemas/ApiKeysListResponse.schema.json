@@ -1,0 +1,16 @@
+{
+  "title": "ApiKeysListResponse",
+  "type": "object",
+  "description": "Paginated list of API keys.",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./ApiKey.schema.json" },
+      "description": "API keys in this page."
+    },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}
+

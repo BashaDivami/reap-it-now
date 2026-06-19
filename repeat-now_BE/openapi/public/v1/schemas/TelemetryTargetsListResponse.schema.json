@@ -1,0 +1,15 @@
+{
+  "title": "TelemetryTargetsListResponse",
+  "description": "Selector catalog for Telemetry Explorer. The response is intentionally lightweight so the UI can populate Device and Target pickers without querying Prometheus or Grafana directly.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "./TelemetryTarget.schema.json"
+      }
+    }
+  },
+  "required": ["items"],
+  "additionalProperties": false
+}

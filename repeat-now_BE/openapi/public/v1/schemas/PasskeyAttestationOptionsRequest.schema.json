@@ -1,0 +1,26 @@
+{
+  "title": "PasskeyAttestationOptionsRequest",
+  "description": "Request creation options to register a passkey. Requires a valid emailTx to prevent user enumeration.",
+  "type": "object",
+  "properties": {
+    "emailTx": {
+      "type": "string",
+      "description": "Short-lived email verification handle."
+    },
+    "authenticatorAttachment": {
+      "type": "string",
+      "enum": ["platform", "cross-platform"],
+      "nullable": true,
+      "description": "Preference for authenticator attachment. Omit to let the server decide."
+    },
+    "userVerification": {
+      "type": "string",
+      "enum": ["required", "preferred", "discouraged"],
+      "nullable": true,
+      "description": "Relying party preference for user verification. Defaults to server policy."
+    }
+  },
+  "required": ["emailTx"],
+  "additionalProperties": false
+}
+

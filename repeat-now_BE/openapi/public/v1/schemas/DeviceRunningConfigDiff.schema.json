@@ -1,0 +1,10 @@
+{
+  "title": "DeviceRunningConfigDiff",
+  "description": "Unified diff between two running configuration snapshots.",
+  "type": "object",
+  "properties": {
+    "diff": { "type": "string", "description": "Unified diff text." }
+  },
+  "required": ["diff"]
+}
+

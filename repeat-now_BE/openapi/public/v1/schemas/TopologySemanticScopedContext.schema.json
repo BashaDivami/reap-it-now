@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologySemanticScopedContext",
+  "description": "Compact semantic context for one active topology artifact. This is resolver-facing metadata: it exposes catalog ids and bounded value summaries, not graph paths or target ids.",
+  "type": "object",
+  "properties": {
+    "contextId": {
+      "type": "string",
+      "description": "Runtime context identifier, normally the chat artifact id for Visual Workbench topology follow-ups."
+    },
+    "surface": {
+      "type": "string",
+      "description": "Runtime surface represented by this context.",
+      "enum": ["topology_artifact"]
+    },
+    "catalogVersion": {
+      "type": "string",
+      "description": "Semantic catalog version used to build this context."
+    },
+    "catalogHash": {
+      "type": "string",
+      "description": "Hash of the compiled semantic catalog artifact used by topology-service."
+    },
+    "scope": {
+      "$ref": "./TopologySemanticContextScope.schema.json"
+    },
+    "source": {
+      "$ref": "./TopologySemanticContextSource.schema.json"
+    },
+    "availableSelections": {
+      "type": "array",
+      "description": "Semantic selections available in this active topology artifact.",
+      "items": {
+        "$ref": "./TopologySemanticAvailableSelection.schema.json"
+      }
+    },
+    "availableOverlaySignals": {
+      "type": "array",
+      "description": "Catalog-backed metric/state signals that can render as topology overlay effects in this active topology artifact.",
+      "items": {
+        "$ref": "./TopologyOverlaySignalAvailability.schema.json"
+      }
+    },
+    "availableRelationships": {
+      "type": "array",
+      "description": "Callable topology relationships available in this active topology artifact, such as LAG membership, VLAN membership, L3 membership, routing adjacency, site VPN connectivity, or cloud site connectivity.",
+      "items": {
+        "$ref": "./TopologyRelationshipAvailability.schema.json"
+      }
+    },
+    "activeRelationshipInstances": {
+      "type": "array",
+      "description": "Relationships already materialized by the active view binding or existing overlay layers.",
+      "items": {
+        "$ref": "./TopologyActiveRelationshipInstance.schema.json"
+      }
+    },
+    "contextActions": {
+      "type": "array",
+      "description": "Semantic catalog action ids that apply to the whole topology artifact context.",
+      "items": {
+        "type": "string",
+        "pattern": "^topology\\.action\\.[a-z][a-z0-9_]*$"
+      },
+      "uniqueItems": true
+    },
+    "limits": {
+      "$ref": "./TopologySemanticContextBuildLimits.schema.json"
+    },
+    "diagnostics": {
+      "type": "array",
+      "description": "Non-fatal diagnostics from context construction.",
+      "items": {
+        "$ref": "./TopologySemanticContextDiagnostic.schema.json"
+      }
+    }
+  },
+  "required": ["contextId", "surface", "catalogVersion", "catalogHash", "scope", "source", "availableSelections", "limits"],
+  "additionalProperties": false
+}

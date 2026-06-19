@@ -1,0 +1,17 @@
+{
+  "title": "TopologyV2Scope",
+  "description": "Scope selector for Topology v2 view resolution and streaming.",
+  "type": "object",
+  "properties": {
+    "scopeType": {
+      "$ref": "./TopologyV2ScopeType.schema.json",
+      "description": "Type of scope the view is being resolved/streamed for."
+    },
+    "scopeId": {
+      "type": "string",
+      "description": "Identifier for the scope. For org/site/device this is typically a UUID. For custom scopes it may be an opaque string."
+    }
+  },
+  "required": ["scopeType", "scopeId"],
+  "additionalProperties": false
+}

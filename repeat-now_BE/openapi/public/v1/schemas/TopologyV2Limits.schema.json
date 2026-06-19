@@ -1,0 +1,13 @@
+{
+  "title": "TopologyV2Limits",
+  "description": "Safety limits and shaping hints for resolve requests.",
+  "type": "object",
+  "properties": {
+    "limitNodes": { "type": "integer", "minimum": 1, "maximum": 50000 },
+    "limitEdges": { "type": "integer", "minimum": 1, "maximum": 200000 },
+    "rootNodeId": { "type": "string", "description": "Optional root node id for hop-limited expansion.", "nullable": true },
+    "hops": { "type": "integer", "minimum": 1, "maximum": 10, "description": "Optional hop limit from rootNodeId.", "nullable": true }
+  },
+  "additionalProperties": false
+}
+

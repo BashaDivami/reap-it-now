@@ -1,0 +1,29 @@
+{
+  "title": "RunbookTemplateSummary",
+  "description": "Summary view of a stored runbook template or template version.",
+  "type": "object",
+  "properties": {
+    "runbook_id": { "type": "string" },
+    "runbook_version_id": { "type": "string" },
+    "runbook_name": { "type": "string" },
+    "description": { "type": "string" },
+    "source_type": { "type": "string" },
+    "source_uri": { "type": "string" },
+    "status": { "type": "string" },
+    "version": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "compiled_at": { "type": "string", "format": "date-time", "nullable": true },
+    "latest_version_id": { "type": "string" },
+    "latest_version": { "type": "string" },
+    "published_version_id": { "type": "string" },
+    "published_version": { "type": "string" },
+    "is_latest_version": { "type": "boolean" },
+    "is_published_version": { "type": "boolean" },
+    "diagnostics_summary": { "$ref": "./RunbookTemplateDiagnosticsSummary.schema.json" },
+    "parameter_summary": { "$ref": "./RunbookTemplateParameterSummary.schema.json" },
+    "summary": { "$ref": "./RunbookTemplateHealthSummary.schema.json" },
+    "authoring": { "$ref": "./RunbookTemplateAuthoring.schema.json" }
+  },
+  "additionalProperties": false
+}

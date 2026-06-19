@@ -1,0 +1,70 @@
+{
+  "title": "RunbookTemplateCompileRequest",
+  "description": "Compile or save a runbook template from natural-language source text. The request path is org-scoped and the body currently also carries `org_id` for downstream compiler compatibility.",
+  "type": "object",
+  "properties": {
+    "org_id": { "type": "string" },
+    "input_mode": { "type": "string" },
+    "origin_kind": { "type": "string" },
+    "runbook_title": { "type": "string" },
+    "source_type": { "type": "string" },
+    "source_uri": { "type": "string" },
+    "source_revision": { "type": "string" },
+    "source_hash": { "type": "string" },
+    "source_metadata": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "source_text": { "type": "string" },
+    "org_context": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "user_context": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "allowed_interfaces": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": true }
+    },
+    "known_entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kind": { "type": "string" },
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "aliases": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["id", "name"],
+        "additionalProperties": false
+      }
+    },
+    "launch_inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "shape": { "type": "string" },
+          "required": { "type": "boolean" },
+          "description": { "type": "string" }
+        },
+        "required": ["name"],
+        "additionalProperties": false
+      }
+    },
+    "launch_defaults": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "output_vocabulary": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["org_id", "source_text"],
+  "additionalProperties": false
+}

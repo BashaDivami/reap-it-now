@@ -1,0 +1,37 @@
+{
+  "title": "AuthPolicy",
+  "description": "Organization-level authentication policy (singleton). Governs SSO join rules and local accounts.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "requireInviteForSSO": {
+          "type": "boolean",
+          "description": "When true, SSO users must have a valid invitation to join the org (JIT is disabled)."
+        },
+        "allowLocalAccounts": {
+          "type": "boolean",
+          "description": "When true, non-SSO accounts (e.g., bootstrap/break-glass) are allowed."
+        },
+        "defaultRoleSlugsOnJIT": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]([-a-z0-9_.]*[a-z0-9])?$"
+          },
+          "description": "Role slugs to grant automatically on first SSO sign-in (if enabled). Each slug must exist in the org."
+        },
+        "approvalRequiredOnFirstSSO": {
+          "type": "boolean",
+          "default": false,
+          "description": "Future-use flag. When true, first-time SSO users enter a pending state and require admin approval before access."
+        }
+      },
+      "required": ["requireInviteForSSO", "allowLocalAccounts"],
+      "additionalProperties": false
+    }
+  ]
+}
+

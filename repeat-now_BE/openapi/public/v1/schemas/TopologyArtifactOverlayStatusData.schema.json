@@ -1,0 +1,25 @@
+{
+  "title": "TopologyArtifactOverlayStatusData",
+  "description": "Type-specific data for a topology artifact stream frame of type 'overlay_status'. Reports runtime health of overlay layers without changing the topology patch payload model.",
+  "type": "object",
+  "properties": {
+    "artifactId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Topology artifact whose runtime overlay layers are being evaluated."
+    },
+    "overlayRevision": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Artifact overlay revision this status applies to."
+    },
+    "layers": {
+      "type": "array",
+      "description": "Runtime status for active or requested live overlay layers.",
+      "items": { "$ref": "./TopologyArtifactOverlayLayerStatus.schema.json" },
+      "maxItems": 256
+    }
+  },
+  "required": ["artifactId", "overlayRevision", "layers"],
+  "additionalProperties": false
+}

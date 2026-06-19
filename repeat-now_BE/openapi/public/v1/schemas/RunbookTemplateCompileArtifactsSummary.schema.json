@@ -1,0 +1,14 @@
+{
+  "title": "RunbookTemplateCompileArtifactsSummary",
+  "description": "Small summary of the compile artifacts retained for a saved runbook template version.",
+  "type": "object",
+  "properties": {
+    "has_brief": { "type": "boolean" },
+    "has_workflow_spec": { "type": "boolean" },
+    "workflow_step_count": { "type": "integer", "minimum": 0 },
+    "variable_count": { "type": "integer", "minimum": 0 },
+    "condition_count": { "type": "integer", "minimum": 0 },
+    "edge_count": { "type": "integer", "minimum": 0 }
+  },
+  "additionalProperties": false
+}

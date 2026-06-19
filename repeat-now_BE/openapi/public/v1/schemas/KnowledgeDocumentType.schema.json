@@ -1,0 +1,5 @@
+{
+  "title": "KnowledgeDocumentType",
+  "description": "Operator-selected document classification used to choose chunking strategy.",
+  "type": "string"
+}

@@ -1,0 +1,31 @@
+{
+  "title": "ChatRunEventArtifact",
+  "description": "SSE payload for `event: artifact` (an artifact is ready to view/download).",
+  "type": "object",
+  "properties": {
+    "artifactId": { "type": "string", "format": "uuid", "description": "Artifact identifier to fetch via artifacts API." },
+    "kind": {
+      "type": "string",
+      "enum": ["commandOutput", "table", "file", "image", "pcap", "config", "chart", "topology"],
+      "description": "Artifact kind (mirrors ChatArtifact.kind).",
+      "x-enumDescriptions": [
+        "Plain text output of a command execution.",
+        "Structured table data.",
+        "Generic file blob.",
+        "Image artifact.",
+        "Packet capture file.",
+        "Configuration text or diff.",
+        "Chart artifact rendered by the UI, optionally with a live metrics data binding.",
+        "Topology artifact rendered by the UI from a Topology v2 view binding."
+      ]
+    },
+    "mimeType": { "type": "string", "description": "IANA media type." },
+    "summary": { "type": "string", "description": "Short human summary (for UI labels)." },
+    "size": { "type": "integer", "minimum": 0, "description": "Bytes, if known." },
+    "agent": { "$ref": "./ChatRunEventAgentRef.schema.json" },
+    "call": { "$ref": "./ChatRunEventCallRef.schema.json" },
+    "workflowId": { "type": "string", "format": "uuid", "description": "Workflow identifier, when available." }
+  },
+  "required": ["artifactId", "kind", "mimeType"],
+  "additionalProperties": false
+}

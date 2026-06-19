@@ -1,0 +1,79 @@
+{
+  "title": "DiscoveryEvent",
+  "description": "One Server-Sent Event (SSE) frame payload for a discovery run. Carried in the SSE `data:` line.",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "status",
+        "progress",
+        "deviceDiscovered",
+        "linkDiscovered",
+        "warning",
+        "error",
+        "heartbeat",
+        "finished"
+      ],
+      "x-enumDescriptions": [
+        "Run status transition (e.g., queued → running).",
+        "Periodic progress update counters.",
+        "A device was discovered/created/linked.",
+        "A topology link was discovered (L1/L2/L3).",
+        "Non-fatal issue (operation continues).",
+        "Fatal error; run may fail.",
+        "Keep-alive signal with server interval.",
+        "Terminal event with final status and summary."
+      ],
+      "description": "Event type discriminator."
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Per-run monotonically increasing sequence number for resume."
+    },
+    "time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp when this event was emitted."
+    },
+    "runId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Run that emitted this event."
+    },
+    "jobId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Parent job for this run."
+    },
+    "data": {
+      "oneOf": [
+        { "$ref": "./DiscoveryEventStatusData.schema.json" },
+        { "$ref": "./DiscoveryEventProgressData.schema.json" },
+        { "$ref": "./DiscoveryEventDeviceDiscoveredData.schema.json" },
+        { "$ref": "./DiscoveryEventLinkDiscoveredData.schema.json" },
+        { "$ref": "./DiscoveryEventWarningData.schema.json" },
+        { "$ref": "./DiscoveryEventErrorData.schema.json" },
+        { "$ref": "./DiscoveryEventHeartbeatData.schema.json" },
+        { "$ref": "./DiscoveryEventFinishedData.schema.json" }
+      ],
+      "description": "Type-specific payload."
+    }
+  },
+  "required": ["type", "seq", "time", "runId", "jobId", "data"],
+  "additionalProperties": false,
+  "discriminator": {
+    "propertyName": "type",
+    "mapping": {
+      "status": "./DiscoveryEventStatusData.schema.json",
+      "progress": "./DiscoveryEventProgressData.schema.json",
+      "deviceDiscovered": "./DiscoveryEventDeviceDiscoveredData.schema.json",
+      "linkDiscovered": "./DiscoveryEventLinkDiscoveredData.schema.json",
+      "warning": "./DiscoveryEventWarningData.schema.json",
+      "error": "./DiscoveryEventErrorData.schema.json",
+      "heartbeat": "./DiscoveryEventHeartbeatData.schema.json",
+      "finished": "./DiscoveryEventFinishedData.schema.json"
+    }
+  }
+}

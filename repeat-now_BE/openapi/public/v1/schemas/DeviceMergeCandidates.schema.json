@@ -1,0 +1,19 @@
+{
+  "title": "DeviceMergeCandidates",
+  "description": "Clusters of device IDs that appear to represent the same physical device. Clients can present these as suggestions for user-driven merges.",
+  "type": "object",
+  "properties": {
+    "clusters": {
+      "type": "array",
+      "description": "Each cluster is a set of candidate duplicates.",
+      "items": {
+        "type": "array",
+        "items": { "type": "string", "format": "uuid" },
+        "minItems": 2
+      }
+    },
+    "generatedAt": { "type": "string", "format": "date-time", "description": "When this suggestion set was generated." }
+  },
+  "required": ["clusters"]
+}
+

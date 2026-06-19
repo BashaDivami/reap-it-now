@@ -1,0 +1,15 @@
+{
+  "title": "MetricsScopeBinding",
+  "description": "Scope binding for metrics intent evaluation.",
+  "type": "object",
+  "properties": {
+    "scopeType": { "$ref": "./TopologyV2ScopeType.schema.json" },
+    "scopeId": {
+      "type": "string",
+      "description": "Scope identifier (UUID for org/site/device; free-form string for `custom`)."
+    }
+  },
+  "required": ["scopeType", "scopeId"],
+  "additionalProperties": false
+}
+

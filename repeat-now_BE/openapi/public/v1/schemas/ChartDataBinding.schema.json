@@ -1,0 +1,21 @@
+{
+  "title": "ChartDataBinding",
+  "description": "Declarative dynamic data binding for chart artifacts. Phase 1A supports metrics as the only dynamic source.",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "string",
+      "enum": ["metrics"],
+      "description": "Dynamic data source. Phase 1A accepts only metrics."
+    },
+    "datasetName": {
+      "type": "string",
+      "description": "Named Vega/Vega-Lite dataset populated by this binding."
+    },
+    "metrics": {
+      "$ref": "./ChartMetricsBinding.schema.json"
+    }
+  },
+  "required": ["source", "datasetName", "metrics"],
+  "additionalProperties": false
+}

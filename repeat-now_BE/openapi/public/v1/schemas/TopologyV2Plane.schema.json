@@ -1,0 +1,8 @@
+{
+  "title": "TopologyV2Plane",
+  "description": "System boundary / world a graph belongs to (not a protocol layer, and not synonymous with overlay vs underlay). Examples: `underlay` for on-prem infrastructure; `fabric:<name>` for a specific fabric domain; `cloud:<provider>:<account>:<region>` for a cloud account/region boundary.",
+  "type": "string",
+  "pattern": "^(underlay|fabric:[^\\s:]+|cloud:[^\\s:]+:[^\\s:]+:[^\\s:]+)$",
+  "examples": ["underlay", "fabric:dc1", "cloud:aws:123456789012:us-east-1"]
+}
+

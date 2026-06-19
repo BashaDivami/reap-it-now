@@ -1,0 +1,21 @@
+{
+  "title": "SignalIncidentTelemetryIntent",
+  "description": "Curated telemetry widgets for incident-room evidence. The backend selects the panels and bindings so the client does not hard-code incident-subtype-to-dashboard mappings.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "widgets": {
+      "type": "array",
+      "description": "Ordered evidence widgets to render for this incident.",
+      "items": {
+        "$ref": "./DashboardWidgetSpec.schema.json"
+      }
+    },
+    "reason": {
+      "type": "string",
+      "description": "Optional explanation of why this telemetry set was selected.",
+      "nullable": true
+    }
+  },
+  "required": ["widgets"]
+}

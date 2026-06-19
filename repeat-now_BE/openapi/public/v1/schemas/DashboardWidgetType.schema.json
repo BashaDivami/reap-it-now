@@ -1,0 +1,13 @@
+{
+  "title": "DashboardWidgetType",
+  "description": "Renderer type for a widget within a REAP-native page.",
+  "type": "string",
+  "enum": [
+    "grafana_panel_iframe",
+    "reap_native_chart",
+    "topology_view",
+    "evidence_timeline",
+    "runbook_widget"
+  ]
+}
+

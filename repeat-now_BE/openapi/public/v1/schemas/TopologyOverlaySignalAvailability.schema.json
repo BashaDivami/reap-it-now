@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyOverlaySignalAvailability",
+  "description": "Scoped availability card for a catalog-backed signal that may render as topology overlay effects. This is planner-facing metadata, not source execution detail.",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Whether this overlay signal can currently be rendered for the scoped topology artifact.",
+      "enum": ["available", "degraded", "unavailable", "unknown"]
+    },
+    "catalogIds": {
+      "type": "array",
+      "description": "Semantic catalog ids that define this overlay signal. Single-signal cards normally contain one id; compound signals can contain multiple ids.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+      },
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Short display label for prompt context and diagnostics."
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief explanation of what this signal represents in the scoped artifact."
+    },
+    "surface": {
+      "type": "string",
+      "description": "Runtime surface where this signal can be applied.",
+      "enum": ["topology_artifact"]
+    },
+    "targetKinds": {
+      "type": "array",
+      "description": "Topology target kinds that can receive this signal in the current artifact.",
+      "items": {
+        "type": "string",
+        "pattern": "^topology\\.(node|edge)(\\.[a-z][a-z0-9_]*)*$"
+      },
+      "uniqueItems": true
+    },
+    "supportedEffects": {
+      "type": "array",
+      "description": "Visual effects that topology-service can compile for this signal and target kind.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "node_badge",
+          "node_ring",
+          "node_color",
+          "edge_badge",
+          "edge_label",
+          "edge_color",
+          "edge_width",
+          "hover_rows",
+          "layer_status"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "deliveryModes": {
+      "type": "array",
+      "description": "Coarse delivery support exposed to agent-core. Detailed polling, SSE, source, and freshness policy remain topology-service runtime details.",
+      "items": {
+        "type": "string",
+        "enum": ["snapshot", "live"]
+      },
+      "uniqueItems": true
+    },
+    "targetCoverage": {
+      "$ref": "./TopologyOverlaySignalTargetCoverage.schema.json"
+    },
+    "unavailableReason": {
+      "$ref": "./TopologyOverlaySignalUnavailableReason.schema.json"
+    }
+  },
+  "required": ["status", "catalogIds", "surface", "targetKinds", "supportedEffects", "deliveryModes"],
+  "additionalProperties": false
+}

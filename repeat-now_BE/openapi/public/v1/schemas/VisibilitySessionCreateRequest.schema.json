@@ -1,0 +1,31 @@
+{
+  "title": "VisibilitySessionCreateRequest",
+  "description": "Create or resume a user-scoped visibility session for the supplied resume key and topology binding.",
+  "type": "object",
+  "properties": {
+    "workspaceFamily": {
+      "$ref": "./VisibilityWorkspaceFamily.schema.json",
+      "description": "Requested workbench family."
+    },
+    "resumeKey": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Server-stable contextual resume key for the current user and workbench binding."
+    },
+    "base": {
+      "$ref": "./TopologyOverlayBase.schema.json",
+      "description": "Validated topology base/binding the session should remain pinned to."
+    },
+    "selection": {
+      "$ref": "./TopologyOverlaySelection.schema.json",
+      "description": "Optional current topology selection when the session is first created."
+    },
+    "chatThreadId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Optional existing contextual chat thread to associate with the session."
+    }
+  },
+  "required": ["workspaceFamily", "resumeKey", "base"],
+  "additionalProperties": false
+}

@@ -1,0 +1,39 @@
+{
+  "title": "Delegation",
+  "description": "MSP access grant to a customer org.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "format": "uuid", "description": "Delegation identifier." },
+        "mspOrgId": { "type": "string", "format": "uuid", "description": "MSP organization UUID that holds the delegation." },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "active", "suspended", "revoked"],
+          "x-enumDescriptions": [
+            "Created by invite acceptance but not yet fully usable (rare; brief handshakes).",
+            "Active and enforceable; MSP can act within granted scopes.",
+            "Temporarily disabled by the customer; can be reactivated.",
+            "Permanently disabled; terminal state."
+          ],
+          "description": "Current lifecycle state."
+        },
+        "scopes": {
+          "type": "array",
+          "items": { "$ref": "./DelegationScope.schema.json" },
+          "minItems": 1,
+          "description": "Union of capabilities granted to the MSP for this customer org."
+        },
+        "activatedAt": { "type": "string", "format": "date-time", "description": "When the delegation became active." },
+        "suspendedAt": { "type": "string", "format": "date-time", "description": "Most recent suspension time (if any)." },
+        "revokedAt": { "type": "string", "format": "date-time", "description": "Time of revocation (terminal)." },
+        "notes": { "type": "string", "description": "Optional admin notes for this delegation." }
+      },
+      "required": ["id", "mspOrgId", "status", "scopes", "orgId", "createdAt", "updatedAt"],
+      "additionalProperties": false
+    }
+  ]
+}
+

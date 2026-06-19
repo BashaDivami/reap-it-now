@@ -1,0 +1,18 @@
+{
+  "title": "TopologyOverlaySelection",
+  "description": "Selected topology graph elements.",
+  "type": "object",
+  "properties": {
+    "nodeIds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "edgeIds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    }
+  },
+  "additionalProperties": false
+}

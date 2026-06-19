@@ -1,0 +1,39 @@
+{
+  "title": "ChunkPreviewJob",
+  "description": "Asynchronous job used to validate chunking output for an uploaded PDF before ingestion.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "status": { "$ref": "./ChunkPreviewJobStatus.schema.json" },
+        "documentType": { "$ref": "./KnowledgeDocumentType.schema.json" },
+        "fileName": { "type": "string", "description": "Original uploaded file name." },
+        "mimeType": { "type": "string", "description": "Uploaded content type. Only application/pdf is accepted." },
+        "requestedStartPage": { "type": "integer", "minimum": 1, "nullable": true },
+        "requestedEndPage": { "type": "integer", "minimum": 1, "nullable": true },
+        "normalizedStartPage": { "type": "integer", "minimum": 1 },
+        "normalizedEndPage": { "type": "integer", "minimum": 1 },
+        "totalPages": { "type": "integer", "minimum": 1, "nullable": true, "description": "Total pages in the source PDF." },
+        "attemptCount": { "type": "integer", "minimum": 0, "description": "Processing attempts consumed so far (max 3)." },
+        "expiresAt": { "type": "string", "format": "date-time", "description": "When source and preview artifacts are purged (24h TTL)." },
+        "startedAt": { "type": "string", "format": "date-time", "nullable": true },
+        "completedAt": { "type": "string", "format": "date-time", "nullable": true },
+        "error": { "$ref": "./ChunkPreviewJobError.schema.json", "nullable": true },
+        "cancelRequestedAt": { "type": "string", "format": "date-time", "nullable": true }
+      },
+      "required": [
+        "status",
+        "documentType",
+        "fileName",
+        "mimeType",
+        "normalizedStartPage",
+        "normalizedEndPage",
+        "attemptCount",
+        "expiresAt"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

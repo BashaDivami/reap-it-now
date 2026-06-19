@@ -1,0 +1,45 @@
+{
+  "title": "ChatInteractRequest",
+  "description": "Create a user message and start a run in one call. At least one of content or attachments must be present; services validate this cross-field rule because OpenAPI generator support for anyOf object constraints is weak.",
+  "type": "object",
+  "x-reap-at-least-one-of": ["content", "attachments"],
+  "properties": {
+    "content": {
+      "type": "array",
+      "description": "User message content blocks.",
+      "items": { "$ref": "./ChatInteractRequestContentBlock.schema.json" },
+      "minItems": 1
+    },
+    "attachments": {
+      "type": "array",
+      "description": "Attachment references submitted with the user message.",
+      "items": { "$ref": "./ChatAttachmentRef.schema.json" },
+      "minItems": 1
+    },
+    "trace": {
+      "type": "object",
+      "description": "Controls verbosity of SSE events.",
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["silent", "summary", "verbose"],
+          "default": "summary",
+          "description": "No delta tokens are streamed in any mode; only status/progress/artifact/message/error."
+        }
+      },
+      "required": ["level"],
+      "additionalProperties": false
+    },
+    "labels": {
+      "type": "object",
+      "description": "Optional labels attached to the run for analytics/ops.",
+      "additionalProperties": { "type": "string" }
+    },
+    "context": {
+      "$ref": "./ChatInteractContext.schema.json",
+      "description": "Optional typed UI/runtime context captured when the user submitted the message. Existing clients may omit it."
+    }
+  },
+  "required": ["trace"],
+  "additionalProperties": false
+}

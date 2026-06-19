@@ -1,0 +1,9 @@
+{
+  "title": "EndpointsListResponse",
+  "type": "object",
+  "properties": {
+    "items": { "type": "array", "items": { "$ref": "./Endpoint.schema.json" } },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"]
+}

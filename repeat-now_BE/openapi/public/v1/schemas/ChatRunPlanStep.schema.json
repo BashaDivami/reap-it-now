@@ -1,0 +1,18 @@
+{
+  "title": "ChatRunPlanStep",
+  "description": "Plan step summary for a plan list.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "Step identifier (unique within plan)." },
+    "title": { "type": "string", "description": "Short step title." },
+    "detail": { "type": "string", "description": "Optional step detail." },
+    "status": {
+      "type": "string",
+      "enum": ["queued", "running", "ok", "error", "skipped"],
+      "description": "Current step status."
+    },
+    "percent": { "type": "integer", "minimum": 0, "maximum": 100, "description": "Optional percent complete for this step." }
+  },
+  "required": ["id", "title"],
+  "additionalProperties": false
+}

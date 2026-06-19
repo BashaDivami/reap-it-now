@@ -1,0 +1,16 @@
+{
+  "title": "IdpConnectionsListResponse",
+  "description": "Paginated IdP connections list.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./IdpConnection.schema.json" },
+      "description": "IdP connections in the current page."
+    },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}
+

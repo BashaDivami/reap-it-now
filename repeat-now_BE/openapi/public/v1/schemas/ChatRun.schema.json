@@ -1,0 +1,67 @@
+{
+  "title": "ChatRun",
+  "description": "One assistant turn (the work behind an answer) associated with a thread.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "format": "uuid", "description": "Run identifier." },
+        "threadId": { "type": "string", "format": "uuid", "description": "Thread this run belongs to." },
+        "status": {
+          "type": "string",
+          "enum": ["queued", "running", "succeeded", "failed", "cancelled", "needs_input"],
+          "x-enumDescriptions": [
+            "Accepted; awaiting execution.",
+            "In progress.",
+            "Completed successfully; final assistant message persisted.",
+            "Terminated with an error; see 'error'.",
+            "Cancelled by user/system.",
+            "Paused until the user provides additional required input."
+          ],
+          "description": "Lifecycle state."
+        },
+        "traceLevel": {
+          "type": "string",
+          "enum": ["silent", "summary", "verbose"],
+          "description": "Verbosity of SSE progress events for this run."
+        },
+        "startedAt": { "type": "string", "format": "date-time", "description": "When execution began (UTC)." },
+        "finishedAt": { "type": "string", "format": "date-time", "description": "When execution ended (UTC)." },
+        "finalMessageId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Assistant message produced by this run, present when status='succeeded' (or set on failure if a partial explanation was persisted)."
+        },
+        "usage": {
+          "type": "object",
+          "description": "Optional resource usage for observability/billing.",
+          "properties": {
+            "inputTokens": { "type": "integer", "minimum": 0 },
+            "outputTokens": { "type": "integer", "minimum": 0 },
+            "costUsd": { "type": "number", "minimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "error": {
+          "type": "object",
+          "description": "Error summary when status='failed'.",
+          "properties": {
+            "code": { "type": "string", "description": "Stable error code." },
+            "message": { "type": "string", "description": "Human-friendly description." },
+            "details": { "type": "object", "additionalProperties": true, "description": "Optional structured details." }
+          },
+          "additionalProperties": false
+        },
+        "labels": {
+          "type": "object",
+          "description": "Optional labels for analytics/ops.",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "required": ["id", "threadId", "status", "traceLevel", "createdAt", "updatedAt", "orgId"],
+      "additionalProperties": false
+    }
+  ]
+}

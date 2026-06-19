@@ -1,0 +1,12 @@
+{
+  "title": "ChunkPreviewJobError",
+  "description": "Terminal failure details for a chunk preview job.",
+  "type": "object",
+  "properties": {
+    "code": { "type": "string", "description": "Machine-readable error code." },
+    "message": { "type": "string", "description": "Human-readable error summary." },
+    "retryable": { "type": "boolean", "description": "Indicates if the failure class is transient/retryable." }
+  },
+  "required": ["code", "message", "retryable"],
+  "additionalProperties": false
+}

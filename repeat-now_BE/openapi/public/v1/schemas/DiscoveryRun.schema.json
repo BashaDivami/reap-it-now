@@ -1,0 +1,74 @@
+{
+  "title": "DiscoveryRun",
+  "description": "One execution of a discovery job. Immutable from the client; config is snapshotted at start.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "jobId": { "type": "string", "format": "uuid", "description": "Parent discovery job." },
+        "siteId": { "type": "string", "format": "uuid", "description": "Copied from job at start for convenience." },
+        "clusterId": { "type": "string", "format": "uuid", "nullable": true, "description": "Copied from job at start." },
+        "status": {
+          "type": "string",
+          "enum": ["queued", "running", "succeeded", "partial", "failed"],
+          "description": "Lifecycle status of this run."
+        },
+        "queuedAt": { "type": "string", "format": "date-time" },
+        "startedAt": { "type": "string", "format": "date-time", "nullable": true },
+        "finishedAt": { "type": "string", "format": "date-time", "nullable": true },
+        "lastSeq": { "type": "integer", "minimum": 0, "description": "Last emitted SSE sequence number (for resume)." },
+        "summary": { "$ref": "./DiscoveryRunSummary.schema.json" },
+        "error": {
+          "type": "object",
+          "nullable": true,
+          "properties": {
+            "code": { "type": "string" },
+            "message": { "type": "string" }
+          },
+          "required": ["code", "message"],
+          "additionalProperties": false
+        },
+        "configSnapshot": {
+          "type": "object",
+          "description": "Job configuration captured at run start.",
+          "properties": {
+            "seeds": { "type": "array", "items": { "type": "string" } },
+            "targetCidrs": { "type": "array", "items": { "type": "string" } },
+            "schedule": {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": ["manual", "recurring", "auto"],
+                  "description": "Discovery trigger mode captured from the job when the run was created."
+                },
+                "cron": {
+                  "type": "string",
+                  "description": "Cron expression captured for recurring runs."
+                },
+                "triggerScope": {
+                  "type": "string",
+                  "description": "Optional discovery trigger scope captured for site-specific sub-routing."
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "links": {
+          "type": "object",
+          "properties": {
+            "eventsHref": { "type": "string", "format": "uri", "description": "SSE endpoint for streaming events of this run." }
+          },
+          "required": ["eventsHref"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["jobId", "siteId", "status", "queuedAt", "links"],
+      "additionalProperties": false
+    }
+  ]
+}

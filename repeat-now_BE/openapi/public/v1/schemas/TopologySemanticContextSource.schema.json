@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologySemanticContextSource",
+  "description": "Resolved topology graph source details used to build a scoped semantic context.",
+  "type": "object",
+  "properties": {
+    "viewId": {
+      "type": "string",
+      "description": "Topology view id used to resolve the graph."
+    },
+    "asOf": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Resolved graph timestamp used to build this context."
+    },
+    "graphFingerprint": {
+      "type": "string",
+      "description": "Bounded hash of graph shape and selectable semantic values. Intended for diagnostics/cache validation, not prompt content."
+    },
+    "overlayRevision": {
+      "type": "integer",
+      "description": "Artifact overlay revision observed when the context was built.",
+      "minimum": 0
+    }
+  },
+  "required": ["viewId", "asOf", "graphFingerprint", "overlayRevision"],
+  "additionalProperties": false
+}

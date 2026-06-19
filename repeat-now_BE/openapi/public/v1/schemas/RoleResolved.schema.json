@@ -1,0 +1,13 @@
+{
+  "title": "RoleResolved",
+  "type": "object",
+  "description": "Resolved role for responses. Includes immutable slug (for references) and mutable name (for display).",
+  "properties": {
+    "id":   { "type": "string", "format": "uuid", "description": "Role UUID." },
+    "slug": { "$ref": "./Slug.schema.json" },
+    "name": { "type": "string", "description": "Human-friendly display label (mutable)." }
+  },
+  "required": ["id", "slug", "name"],
+  "additionalProperties": false
+}
+

@@ -1,0 +1,6 @@
+{
+  "title": "ChunkPreviewJobStatus",
+  "description": "Lifecycle status for a document chunk preview job.",
+  "type": "string",
+  "enum": ["queued", "running", "completed", "failed", "canceling", "canceled"]
+}

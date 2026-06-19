@@ -1,0 +1,22 @@
+{
+  "title": "ChatRunRatingCreate",
+  "type": "object",
+  "description": "User feedback on a run.",
+  "properties": {
+    "rating": { "type": "integer", "minimum": -1, "maximum": 1, "description": "Overall sentiment: -1 (bad), 0 (neutral), 1 (good)." },
+    "dimensions": {
+      "type": "object",
+      "description": "Optional per-dimension scores (1..5).",
+      "properties": {
+        "helpfulness": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "accuracy": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "speed": { "type": "integer", "minimum": 1, "maximum": 5 }
+      },
+      "additionalProperties": false
+    },
+    "comment": { "type": "string", "description": "Free-text feedback." }
+  },
+  "required": ["rating"],
+  "additionalProperties": false
+}
+

@@ -1,0 +1,21 @@
+{
+  "title": "ApiKeyCreate",
+  "description": "Create a new API key. The full secret is returned once in the 201 response.",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string", "description": "Human-friendly label for this key." },
+    "roleIds": {
+      "type": "array",
+      "description": "Initial role set by UUID (authoritative).",
+      "items": { "type": "string", "format": "uuid" },
+      "minItems": 1
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional explicit expiry; otherwise server default (e.g., +90d)."
+    }
+  },
+  "required": ["name", "roleIds"],
+  "additionalProperties": false
+}

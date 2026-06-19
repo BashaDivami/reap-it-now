@@ -1,0 +1,7 @@
+{
+  "title": "DashboardPageKey",
+  "description": "Stable identifier for a REAP-native page type (used by dashboards-service recommendations).",
+  "type": "string",
+  "enum": ["org.cockpit", "site.cockpit", "incident.room"]
+}
+

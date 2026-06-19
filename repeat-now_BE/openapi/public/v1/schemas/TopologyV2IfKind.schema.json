@@ -1,0 +1,7 @@
+{
+  "title": "TopologyV2IfKind",
+  "description": "Recommended interface kind label for interface-level nodes (`labels['if.kind']`). This is intentionally not an enum (vendors/platforms vary), but common values include: physical, lag, svi, loopback, tunnel, subinterface.",
+  "type": "string",
+  "examples": ["physical", "lag", "svi", "loopback", "tunnel", "subinterface"]
+}
+

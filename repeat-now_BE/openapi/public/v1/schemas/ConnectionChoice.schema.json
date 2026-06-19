@@ -1,0 +1,33 @@
+{
+  "title": "ConnectionChoice",
+  "description": "Represents an org-scoped SSO sign-in option shown during discovery. Local methods (passkey/password) are not listed here; see DiscoverVerifyResponse.localConnections.",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["oidc", "saml"],
+      "description": "SSO type. Context (org) comes from the parent membership."
+    },
+    "name": {
+      "type": "string",
+      "description": "UI label (e.g., 'Google Workspace', 'Corporate SAML')."
+    },
+    "connectionId": {
+      "type": "string",
+      "description": "Connector identifier used by backend routes like /auth/oidc/start or /auth/saml/start."
+    },
+    "startUrl": {
+      "type": "string",
+      "format": "uri",
+      "nullable": true,
+      "description": "SP-initiated start URL (OIDC always; SAML when enabled)."
+    },
+    "idpInitiated": {
+      "type": "boolean",
+      "nullable": true,
+      "description": "True when SAML IdP-initiated sign-in is allowed; users may start from the IdP portal."
+    }
+  },
+  "required": ["type", "name"],
+  "additionalProperties": false
+}

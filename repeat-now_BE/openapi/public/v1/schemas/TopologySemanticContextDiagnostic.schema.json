@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologySemanticContextDiagnostic",
+  "description": "Non-fatal diagnostic emitted while building topology semantic context.",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Stable diagnostic code.",
+      "enum": [
+        "no_catalog_backed_fields",
+        "context_truncated",
+        "stale_context",
+        "unsupported_context"
+      ]
+    },
+    "message": {
+      "type": "string",
+      "description": "Developer-oriented diagnostic detail."
+    }
+  },
+  "required": ["code", "message"],
+  "additionalProperties": false
+}

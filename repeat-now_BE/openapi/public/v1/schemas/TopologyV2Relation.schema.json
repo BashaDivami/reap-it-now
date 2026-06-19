@@ -1,0 +1,7 @@
+{
+  "title": "TopologyV2Relation",
+  "description": "Edge relationship verb. Minimal stable set from the topology-v2 wiki: contains, member_of, connects, depends_on.",
+  "type": "string",
+  "enum": ["contains", "member_of", "connects", "depends_on"]
+}
+

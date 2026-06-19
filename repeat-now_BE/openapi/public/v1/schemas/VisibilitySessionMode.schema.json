@@ -1,0 +1,6 @@
+{
+  "title": "VisibilitySessionMode",
+  "description": "Current render/apply mode for a visibility session state.",
+  "type": "string",
+  "enum": ["draft", "preview", "applied"]
+}

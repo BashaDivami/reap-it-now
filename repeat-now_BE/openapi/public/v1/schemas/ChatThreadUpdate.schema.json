@@ -1,0 +1,15 @@
+{
+  "title": "ChatThreadUpdate",
+  "type": "object",
+  "description": "Partial update for a chat thread. Use If-Match for concurrency.",
+  "properties": {
+    "title": { "type": "string" },
+    "visibility": { "type": "string", "enum": ["private", "org"] },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "pinned": { "type": "boolean" },
+    "archivedAt": { "type": "string", "format": "date-time", "description": "Set to archive; clear to unarchive." }
+  },
+  "minProperties": 1,
+  "additionalProperties": false
+}
+

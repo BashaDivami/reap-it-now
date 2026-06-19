@@ -1,0 +1,6 @@
+{
+  "title": "VisibilitySessionStatus",
+  "description": "Lifecycle status for a visibility session.",
+  "type": "string",
+  "enum": ["active", "discarded", "expired"]
+}

@@ -1,0 +1,56 @@
+{
+  "title": "AuditResourceRef",
+  "description": "Pointer to the primary resource affected by the event.",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "organization",
+        "site",
+        "device",
+        "secret",
+        "credential",
+        "credential_assignment",
+        "idp_connection",
+        "idp_mapping_rule",
+        "invitation",
+        "api_key",
+        "discovery_job",
+        "discovery_run",
+        "connector",
+        "connector_cluster",
+        "topology"
+      ],
+      "x-enumDescriptions": [
+        "Organization settings or membership.",
+        "A site object.",
+        "A device object.",
+        "A secret object.",
+        "A credential object.",
+        "A credential assignment object.",
+        "An IdP (SAML/OIDC) connection.",
+        "An IdP mapping rule.",
+        "An org invitation.",
+        "An API key object.",
+        "A discovery job.",
+        "A discovery run.",
+        "A site connector VM/agent.",
+        "A connector cluster.",
+        "Topology materialization."
+      ],
+      "description": "Resource kind."
+    },
+    "id": {
+      "type": "string",
+      "description": "Resource identifier (UUID unless otherwise documented)."
+    },
+    "name": {
+      "type": "string",
+      "description": "Optional display name at the time of the event."
+    }
+  },
+  "required": ["type", "id"],
+  "additionalProperties": false
+}
+

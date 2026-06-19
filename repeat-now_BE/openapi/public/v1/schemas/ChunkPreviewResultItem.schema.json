@@ -1,0 +1,19 @@
+{
+  "title": "ChunkPreviewResultItem",
+  "description": "Single chunk item for the preview range.",
+  "type": "object",
+  "properties": {
+    "chunkIndex": { "type": "integer", "minimum": 0, "description": "Stable generation index for tie-breaking." },
+    "pageNumber": { "type": "integer", "minimum": 1, "description": "1-based page number." },
+    "chunkStartOffset": { "type": "integer", "minimum": 0, "description": "Start offset in extracted page text." },
+    "chunkEndOffset": { "type": "integer", "minimum": 0, "description": "End offset in extracted page text." },
+    "text": { "type": "string", "description": "Chunk text content." },
+    "metadata": {
+      "type": "object",
+      "description": "Chunker metadata, including strategy-specific fields (for example heading path).",
+      "additionalProperties": true
+    }
+  },
+  "required": ["chunkIndex", "pageNumber", "chunkStartOffset", "chunkEndOffset", "text"],
+  "additionalProperties": false
+}

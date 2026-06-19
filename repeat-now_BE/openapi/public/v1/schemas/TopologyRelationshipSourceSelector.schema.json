@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyRelationshipSourceSelector",
+  "description": "Catalog-backed selector for relationship source resolution. It reuses semantic selector predicates but omits actionCatalogId because selecting a relationship source is not itself a visual topology action.",
+  "type": "object",
+  "properties": {
+    "semanticEntity": {
+      "type": "string",
+      "description": "Semantic entity being selected as the relationship source, for example inventory.device, inventory.interface, or network.vlan.",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+    },
+    "surfaceEntity": {
+      "type": "string",
+      "description": "Topology surface entity used to resolve the source selector.",
+      "enum": [
+        "topology.node",
+        "topology.edge"
+      ]
+    },
+    "targetKind": {
+      "type": "string",
+      "description": "Topology graph element kind expected after selector evaluation.",
+      "enum": [
+        "node",
+        "edge"
+      ]
+    },
+    "predicates": {
+      "type": "array",
+      "description": "Catalog-backed predicates combined with AND semantics. topology-service evaluates the predicates against the active graph and validates the result against the requested relationship.",
+      "items": {
+        "$ref": "./TopologySemanticSelectorPredicate.schema.json"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "semanticEntity",
+    "surfaceEntity",
+    "targetKind",
+    "predicates"
+  ],
+  "additionalProperties": false
+}

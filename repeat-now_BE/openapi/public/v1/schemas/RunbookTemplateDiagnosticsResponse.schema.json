@@ -1,0 +1,14 @@
+{
+  "title": "RunbookTemplateDiagnosticsResponse",
+  "description": "Stored diagnostics for one runbook template version.",
+  "type": "object",
+  "properties": {
+    "summary": { "$ref": "./RunbookTemplateDiagnosticsSummary.schema.json" },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./RunbookTemplateDiagnostic.schema.json" }
+    }
+  },
+  "required": ["summary", "items"],
+  "additionalProperties": false
+}

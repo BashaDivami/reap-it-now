@@ -1,0 +1,12 @@
+{
+  "title": "TopologyV2ParamOptionItem",
+  "description": "One option item for a parameter dropdown.",
+  "type": "object",
+  "properties": {
+    "value": { "type": "string", "description": "Machine value sent back in resolve params." },
+    "label": { "type": "string", "description": "Human display label." }
+  },
+  "required": ["value", "label"],
+  "additionalProperties": false
+}
+

@@ -1,0 +1,57 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "reasonCode"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "orgId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "siteId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "runId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "candidateVendor": {
+      "type": "string"
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "reasonCode": {
+      "type": "string",
+      "enum": [
+        "unsupported_vendor",
+        "unknown_vendor",
+        "missing_credentials",
+        "protocol_unreachable",
+        "handshake_failed",
+        "auth_failed",
+        "insufficient_evidence",
+        "intentionally_ignored"
+      ]
+    },
+    "evidenceSummary": {
+      "type": "string"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "title": "AdminDetectionGap"
+}

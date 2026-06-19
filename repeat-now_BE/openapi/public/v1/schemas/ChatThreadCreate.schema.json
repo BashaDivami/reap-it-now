@@ -1,0 +1,22 @@
+{
+  "title": "ChatThreadCreate",
+  "type": "object",
+  "description": "Create a chat thread. Server assigns id/orgId/metadata.",
+  "properties": {
+    "title": { "type": "string", "description": "Optional title; backend may override with system summary later." },
+    "visibility": {
+      "type": "string",
+      "enum": ["private", "org"],
+      "default": "private",
+      "description": "Who can see this thread: only the author (private) or the whole org (org)."
+    },
+    "tags": {
+      "type": "array",
+      "description": "Optional tags for filtering/grouping.",
+      "items": { "type": "string" }
+    },
+    "pinned": { "type": "boolean", "default": false, "description": "Whether the thread is pinned in UI." }
+  },
+  "additionalProperties": false
+}
+

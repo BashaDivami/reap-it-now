@@ -1,0 +1,15 @@
+{
+  "title": "Address",
+  "description": "Optional postal address for a site.",
+  "type": "object",
+  "properties": {
+    "line1": { "type": "string", "description": "Street address (line 1)." },
+    "line2": { "type": "string", "description": "Street address (line 2).", "nullable": true },
+    "city": { "type": "string", "description": "City or locality." },
+    "state": { "type": "string", "description": "State/region/province." },
+    "postalCode": { "type": "string", "description": "ZIP or postal code." },
+    "country": { "type": "string", "description": "Country name or ISO code (recommended ISO-3166-1 alpha-2)." }
+  },
+  "additionalProperties": false
+}
+

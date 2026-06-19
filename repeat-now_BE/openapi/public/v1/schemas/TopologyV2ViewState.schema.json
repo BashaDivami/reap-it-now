@@ -1,0 +1,6 @@
+{
+  "title": "TopologyV2ViewState",
+  "description": "Lifecycle state for a topology view template.",
+  "type": "string",
+  "enum": ["active", "archived"]
+}

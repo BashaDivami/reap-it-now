@@ -1,0 +1,20 @@
+{
+  "title": "SignalIncidentAnalysis",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "summary": { "type": "string", "description": "Short operator-facing explanation of what REAP inferred about the incident." },
+    "impact": { "type": "string", "nullable": true, "description": "Likely impact to service or resiliency." },
+    "rationale": {
+      "type": "array",
+      "description": "Deterministic reasons supporting the analysis.",
+      "items": { "type": "string" }
+    },
+    "nextChecks": {
+      "type": "array",
+      "description": "Recommended immediate checks for the operator.",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["summary", "rationale", "nextChecks"]
+}

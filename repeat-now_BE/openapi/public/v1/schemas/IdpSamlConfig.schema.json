@@ -1,0 +1,68 @@
+{
+  "title": "IdpSamlConfig",
+  "type": "object",
+  "description": "SAML configuration. Provide idpMetadataUrl OR the manual triple (idpEntityId, idpSsoUrl, idpCertificate).",
+  "properties": {
+    "idpMetadataUrl": {
+      "type": "string",
+      "format": "uri",
+      "nullable": true,
+      "description": "URL to fetch IdP metadata (mutually exclusive with manual triple)."
+    },
+    "idpEntityId": {
+      "type": "string",
+      "nullable": true,
+      "description": "IdP entityID (manual)."
+    },
+    "idpSsoUrl": {
+      "type": "string",
+      "format": "uri",
+      "nullable": true,
+      "description": "IdP SSO endpoint for AuthnRequest (manual)."
+    },
+    "idpCertificate": {
+      "type": "string",
+      "nullable": true,
+      "description": "X.509 certificate (PEM) used to validate SAMLResponses (manual)."
+    },
+    "nameIdFormat": {
+      "type": "string",
+      "enum": ["unspecified", "emailAddress", "persistent"],
+      "default": "unspecified",
+      "description": "Requested NameID format."
+    },
+    "groupsAttributeName": {
+      "type": "string",
+      "nullable": true,
+      "description": "SAML attribute name that contains groups."
+    },
+    "rolesAttributeName": {
+      "type": "string",
+      "nullable": true,
+      "description": "Optional SAML attribute name that contains roles."
+    },
+    "acsUrl": {
+      "type": "string",
+      "format": "uri",
+      "readOnly": true,
+      "description": "Assertion Consumer Service URL provided to the IdP."
+    },
+    "spEntityId": {
+      "type": "string",
+      "readOnly": true,
+      "description": "REAP Service Provider entityID."
+    },
+    "allowIdpInitiated": {
+      "type": "boolean",
+      "default": true,
+      "description": "Allow IdP-initiated SSO (SAMLResponse posted to ACS without a preceding SP request)."
+    },
+    "clockSkewSeconds": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 120,
+      "description": "Allowed clock skew when validating assertions."
+    }
+  },
+  "additionalProperties": false
+}

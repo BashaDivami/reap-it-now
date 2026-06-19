@@ -1,0 +1,34 @@
+{
+  "title": "TokenRequestRefresh",
+  "description": "Rotate tokens using a refresh token; can switch org context.",
+  "type": "object",
+  "properties": {
+    "grantType": {
+      "type": "string",
+      "description": "Refresh token grant.",
+      "enum": [
+        "refresh"
+      ]
+    },
+    "refreshToken": {
+      "type": "string",
+      "description": "Refresh token to exchange/rotate."
+    },
+    "orgId": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true,
+      "description": "Optional org context to pin."
+    },
+    "scope": {
+      "type": "string",
+      "nullable": true,
+      "description": "Optional downscoping."
+    }
+  },
+  "required": [
+    "grantType",
+    "refreshToken"
+  ],
+  "x-discriminator-value": "refresh"
+}

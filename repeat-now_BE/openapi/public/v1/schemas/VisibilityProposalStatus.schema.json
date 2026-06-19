@@ -1,0 +1,6 @@
+{
+  "title": "VisibilityProposalStatus",
+  "description": "Lifecycle status for a visibility proposal.",
+  "type": "string",
+  "enum": ["pending", "previewed", "applied", "rejected", "superseded"]
+}

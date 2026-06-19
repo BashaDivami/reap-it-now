@@ -1,0 +1,53 @@
+{
+  "title": "Site",
+  "description": "Physical or logical location reachable via REAP connectors.",
+  "allOf": [
+    {
+      "$ref": "./ResourceBase.schema.json"
+    },
+    {
+      "$ref": "./OrgScoped.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Human-friendly site name."
+        },
+        "siteType": {
+          "type": "string",
+          "enum": ["OnPrem", "awsCloud"],
+          "description": "Site type. 'awsCloud' means this site maps to a single AWS region."
+        },
+        "awsRegion": {
+          "type": "string",
+          "nullable": true,
+          "description": "AWS region for awsCloud sites. Omitted for OnPrem sites."
+        },
+        "awsAccountId": {
+          "type": "string",
+          "nullable": true,
+          "description": "AWS account ID for awsCloud sites. Omitted for OnPrem sites."
+        },
+        "address": {
+          "$ref": "./Address.schema.json",
+          "description": "Postal address for OnPrem sites. Omitted for awsCloud sites."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Optional admin notes.",
+          "nullable": true
+        },
+        "deviceCounts": {
+          "$ref": "./DeviceCounts.schema.json",
+          "nullable": true
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

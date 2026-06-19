@@ -1,0 +1,13 @@
+{
+  "title": "RunbookTemplatesListResponse",
+  "description": "List of stored runbook templates for an organization.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./RunbookTemplateSummary.schema.json" }
+    }
+  },
+  "required": ["items"],
+  "additionalProperties": false
+}

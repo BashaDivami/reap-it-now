@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyTargetScope",
+  "description": "Reference to a prior topology result scope used as the target of a later compile request. This is an opaque handle plus optional expected metadata, not a graph query language.",
+  "type": "object",
+  "properties": {
+    "scopeId": {
+      "type": "string",
+      "description": "Opaque result scope id previously returned by topology-service."
+    },
+    "requiredKind": {
+      "type": "string",
+      "description": "Optional expected result-scope kind. topology-service validates this before using the scope.",
+      "enum": [
+        "relationship_result",
+        "relationship_sources",
+        "graph_elements"
+      ]
+    },
+    "relationshipId": {
+      "type": "string",
+      "description": "Optional expected relationship id for validation.",
+      "pattern": "^topology\\.relationship\\.[a-z][a-z0-9_]*$"
+    },
+    "catalogIds": {
+      "type": "array",
+      "description": "Optional expected semantic catalog ids for validation.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+      },
+      "maxItems": 16,
+      "uniqueItems": true
+    },
+    "qualifiers": {
+      "type": "object",
+      "description": "Optional expected qualifiers for validation.",
+      "additionalProperties": {
+        "$ref": "./TopologySemanticSelectorValue.schema.json"
+      }
+    },
+    "fallbackPolicy": {
+      "type": "string",
+      "description": "Caller preference when the scope is expired or no longer compatible.",
+      "enum": [
+        "fail",
+        "ask_user"
+      ]
+    }
+  },
+  "required": [
+    "scopeId"
+  ],
+  "additionalProperties": false
+}

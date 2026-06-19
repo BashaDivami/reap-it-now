@@ -1,0 +1,30 @@
+{
+  "title": "ChatRagLookupChunk",
+  "type": "object",
+  "description": "Retrieved chunk with debug fields preserved for inspection.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Chunk identifier."
+    },
+    "score": {
+      "type": "number",
+      "description": "Retriever score for ranking relevance."
+    },
+    "source": {
+      "type": "string",
+      "description": "Source label for the chunk."
+    },
+    "content": {
+      "type": "string",
+      "description": "Retrieved chunk text content."
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Raw chunk metadata returned by the retrieval pipeline.",
+      "additionalProperties": true
+    }
+  },
+  "required": ["id", "score", "source", "content"],
+  "additionalProperties": false
+}

@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "required": ["workflowId", "state"],
+  "properties": {
+    "workflowId": { "type": "string" },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "title": "AdminAgentTraceWorkflowState"
+}

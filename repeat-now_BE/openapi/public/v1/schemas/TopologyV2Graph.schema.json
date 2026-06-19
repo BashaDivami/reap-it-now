@@ -1,0 +1,20 @@
+{
+  "title": "TopologyV2Graph",
+  "description": "Topology v2 resolved graph. Immutable base graphs and annotations are composed server-side into this render-ready output.",
+  "type": "object",
+  "properties": {
+    "graphId": { "type": "string", "description": "Opaque identifier of the resolved graph (may be deterministic; not necessarily a persisted UUID)." },
+    "generatedAt": { "type": "string", "format": "date-time", "description": "Timestamp when this resolved graph was generated." },
+    "scope": { "$ref": "./TopologyV2Scope.schema.json" },
+    "meta": {
+      "type": "object",
+      "description": "Implementation-defined metadata (context, provenance, etc.).",
+      "additionalProperties": true
+    },
+    "nodes": { "type": "array", "items": { "$ref": "./TopologyV2Node.schema.json" } },
+    "edges": { "type": "array", "items": { "$ref": "./TopologyV2Edge.schema.json" } }
+  },
+  "required": ["graphId", "generatedAt", "scope", "nodes", "edges"],
+  "additionalProperties": false
+}
+

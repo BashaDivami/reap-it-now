@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "ts": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "level": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    }
+  },
+  "title": "AdminConnectorLogLine"
+}

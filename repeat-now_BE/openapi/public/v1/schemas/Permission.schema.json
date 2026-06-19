@@ -1,0 +1,49 @@
+{
+  "title": "Permission",
+  "type": "object",
+  "properties": {
+    "resource": {
+      "type": "string",
+      "description": "Domain area this grant applies to.",
+      "enum": [
+        "org",
+        "idpConnection",
+        "roleMapping",
+        "invitation",
+        "membership",
+        "auditEvent",
+        "site",
+        "connector",
+        "connectorCluster",
+        "secret",
+        "credential",
+        "credentialAssignment",
+        "discoveryJob",
+        "discoveryRun",
+        "device",
+        "topology",
+        "apiKey",
+        "delegation",
+        "chatThread",
+        "chatMessage",
+        "chatRun",
+        "cloud_logs",
+        "cloud_metrics",
+        "cloud_events"
+      ]
+    },
+    "verbs": {
+      "type": "array",
+      "description": "Allowed operations for the resource; execute covers action-style endpoints.",
+      "items": {
+        "type": "string",
+        "enum": ["read", "create", "update", "delete", "execute"]
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional explanation for UI or documentation."
+    }
+  },
+  "required": ["resource", "verbs"]
+}

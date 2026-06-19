@@ -1,0 +1,16 @@
+{
+  "title": "SitesListResponse",
+  "description": "Paginated list of sites within an organization.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./Site.schema.json" },
+      "description": "Sites in this page."
+    },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}
+

@@ -1,0 +1,33 @@
+{
+  "title": "ChartRefreshPlan",
+  "description": "Runtime refresh policy for a chart artifact.",
+  "type": "object",
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": ["snapshot", "poll"],
+      "description": "Phase 1A supports snapshot and poll. SSE/external refresh modes are deferred."
+    },
+    "intervalSeconds": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Polling interval in seconds when mode=poll."
+    },
+    "visibleOnly": {
+      "type": "boolean",
+      "description": "Whether the UI should poll only while the chart is visible."
+    },
+    "staleAfterSeconds": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Seconds after the last successful refresh before data is considered stale."
+    },
+    "maxConsecutiveFailures": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Consecutive refresh failures before the UI shows an error state."
+    }
+  },
+  "required": ["mode"],
+  "additionalProperties": false
+}

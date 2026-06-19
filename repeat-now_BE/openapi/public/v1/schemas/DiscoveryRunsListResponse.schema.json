@@ -1,0 +1,10 @@
+{
+  "title": "DiscoveryRunsListResponse",
+  "type": "object",
+  "properties": {
+    "items": { "type": "array", "items": { "$ref": "./DiscoveryRun.schema.json" } },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"]
+}
+

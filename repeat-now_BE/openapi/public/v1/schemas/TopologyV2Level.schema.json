@@ -1,0 +1,7 @@
+{
+  "title": "TopologyV2Level",
+  "description": "Node granularity level. This is intentionally not an enum. Common values in the topology-v2 wiki include: site, device, interface, domain, process.",
+  "type": "string",
+  "examples": ["site", "device", "interface", "domain", "process"]
+}
+

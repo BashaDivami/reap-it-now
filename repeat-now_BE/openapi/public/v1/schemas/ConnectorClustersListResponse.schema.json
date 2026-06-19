@@ -1,0 +1,16 @@
+{
+  "title": "ConnectorClustersListResponse",
+  "description": "Paginated list of connector clusters.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./ConnectorCluster.schema.json" },
+      "description": "Connector clusters in this page."
+    },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}
+

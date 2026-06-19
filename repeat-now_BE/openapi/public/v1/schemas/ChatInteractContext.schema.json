@@ -1,0 +1,25 @@
+{
+  "title": "ChatInteractContext",
+  "description": "Typed request context captured by the UI when creating a chat interaction. This is runtime metadata, not user-visible message text.",
+  "type": "object",
+  "properties": {
+    "activeArtifact": {
+      "$ref": "./ChatActiveArtifactContext.schema.json",
+      "description": "Artifact viewer state that was active when the user submitted the message."
+    },
+    "visibilitySession": {
+      "$ref": "./ChatVisibilitySessionContext.schema.json",
+      "description": "Active contextual workbench session captured when the user submitted the message."
+    },
+    "clientRequestId": {
+      "type": "string",
+      "description": "Optional UI-generated id for deduplicating client retries."
+    },
+    "surface": {
+      "type": "string",
+      "enum": ["chat_card", "inspector", "fullscreen", "topology_page"],
+      "description": "UI shell that submitted the chat interaction when the request was created."
+    }
+  },
+  "additionalProperties": false
+}

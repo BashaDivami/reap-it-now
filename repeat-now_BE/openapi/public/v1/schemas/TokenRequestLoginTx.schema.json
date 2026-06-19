@@ -1,0 +1,30 @@
+{
+  "title": "TokenRequestLoginTx",
+  "description": "Exchange a Passkey sign-in handle (loginTx) for tokens.",
+  "type": "object",
+  "properties": {
+    "grantType": {
+      "type": "string",
+      "description": "Local User login Grant name.",
+      "enum": [
+        "loginTx"
+      ]
+    },
+    "loginTx": {
+      "type": "string",
+      "description": "Short-lived, single-use handle from /auth/passkeys/assert/verify (or from /auth/passkeys/attest/verify when issueLoginTx=true)."
+    },
+    "orgId": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true,
+      "description": "Optional org context when the handle isn't already bound and the user has multiple memberships."
+    }
+  },
+  "required": [
+    "grantType",
+    "loginTx"
+  ],
+  "additionalProperties": false,
+  "x-discriminator-value": "loginTx"
+}

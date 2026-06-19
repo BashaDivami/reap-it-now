@@ -1,0 +1,18 @@
+{
+  "title": "ChartRenderer",
+  "description": "Renderer metadata for chart artifacts.",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string",
+      "enum": ["vega-lite"],
+      "description": "Renderer kind. Phase 1A supports Vega-Lite."
+    },
+    "schemaVersion": {
+      "type": "string",
+      "description": "Renderer schema version, for example v5."
+    }
+  },
+  "required": ["kind"],
+  "additionalProperties": false
+}

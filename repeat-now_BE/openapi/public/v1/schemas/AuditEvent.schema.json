@@ -1,0 +1,27 @@
+{
+  "title": "AuditEvent",
+  "description": "Immutable, org-scoped audit log event.",
+  "allOf": [
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "format": "uuid", "readOnly": true, "description": "Event identifier." },
+        "type": { "type": "string", "description": "Event type (e.g., 'api_key.created', 'device.updated')." },
+        "actor": { "$ref": "./AuditActor.schema.json" },
+        "resource": { "$ref": "./AuditResourceRef.schema.json" },
+        "metadata": {
+          "type": "object",
+          "description": "Producer-specific structured details (diffs, parameters, counts...).",
+          "additionalProperties": true
+        },
+        "ip": { "type": "string", "description": "Caller IP if known (IPv4/IPv6)." },
+        "userAgent": { "type": "string", "description": "Caller User-Agent if known." },
+        "createdAt": { "type": "string", "format": "date-time", "readOnly": true, "description": "When the event was recorded (UTC)." }
+      },
+      "required": ["id", "type", "actor", "resource", "createdAt"],
+      "additionalProperties": false
+    }
+  ]
+}
+

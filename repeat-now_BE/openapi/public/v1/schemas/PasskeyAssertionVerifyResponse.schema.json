@@ -1,0 +1,20 @@
+{
+  "title": "PasskeyAssertionVerifyResponse",
+  "description": "Result of verifying a passkey assertion.",
+  "type": "object",
+  "properties": {
+    "loginTx": {
+      "type": "string",
+      "description": "Short-lived, single-use login handle to exchange at /auth/token (grantType: 'loginTx')."
+    },
+    "loginTxExpiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true,
+      "description": "TTL hint for the loginTx."
+    }
+  },
+  "required": ["loginTx"],
+  "additionalProperties": false
+}
+

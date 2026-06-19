@@ -1,0 +1,12 @@
+{
+  "title": "ChatRunsListResponse",
+  "type": "object",
+  "description": "Cursor-paged list of runs, most recent first by default.",
+  "properties": {
+    "items": { "type": "array", "items": { "$ref": "./ChatRun.schema.json" } },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}
+

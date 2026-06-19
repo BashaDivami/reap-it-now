@@ -1,0 +1,51 @@
+{
+  "title": "ChatInputPromptBlock",
+  "type": "object",
+  "x-discriminator-value": "inputPrompt",
+  "description": "Assistant prompt requesting one targeted freeform value when bounded choices are not sufficient.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["inputPrompt"],
+      "description": "Block kind."
+    },
+    "questionId": {
+      "type": "string",
+      "description": "Stable prompt identifier used to correlate responses."
+    },
+    "prompt": {
+      "type": "string",
+      "description": "Question text shown to the user."
+    },
+    "label": {
+      "type": "string",
+      "description": "Optional input label."
+    },
+    "placeholder": {
+      "type": "string",
+      "description": "Optional placeholder text."
+    },
+    "inputMode": {
+      "type": "string",
+      "enum": ["text", "multiline"],
+      "default": "text",
+      "description": "Presentation hint for the input control."
+    },
+    "allowEmpty": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether an empty response is allowed."
+    }
+  },
+  "required": ["type", "questionId", "prompt", "inputMode"],
+  "additionalProperties": false,
+  "example": {
+    "type": "inputPrompt",
+    "questionId": "custom-metric-name-1",
+    "prompt": "Enter the exact metric name to trend.",
+    "label": "Metric name",
+    "placeholder": "interface_octets_total",
+    "inputMode": "text",
+    "allowEmpty": false
+  }
+}

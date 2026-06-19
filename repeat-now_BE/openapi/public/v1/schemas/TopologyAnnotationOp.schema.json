@@ -1,0 +1,7 @@
+{
+  "title": "TopologyAnnotationOp",
+  "description": "Patch operation for applying annotation facts to graph elements.",
+  "type": "string",
+  "enum": ["merge_labels", "merge_properties", "add_tags", "remove_tags", "hide", "show"]
+}
+

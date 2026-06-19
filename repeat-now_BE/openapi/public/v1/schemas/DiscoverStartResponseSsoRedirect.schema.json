@@ -1,0 +1,16 @@
+{
+  "title": "DiscoverStartResponseSsoRedirect",
+  "type": "object",
+  "properties": {
+    "nextStep": {
+      "type": "string",
+      "enum": ["sso_redirect"]
+    },
+    "sso": {
+      "allOf": [{ "$ref": "./ConnectionTarget.schema.json" }],
+      "description": "Redirect immediately using sso.connection.startUrl."
+    }
+  },
+  "required": ["nextStep", "sso"],
+  "additionalProperties": false
+}

@@ -1,0 +1,14 @@
+{
+  "title": "DelegationScope",
+  "type": "string",
+  "enum": ["readOnly", "opsManage", "incidents", "credentialsManage", "ssoAdmin"],
+  "x-enumDescriptions": [
+    "View-only access to inventory, topology, runs, and read APIs.",
+    "Operate and change network state (e.g., remediation, device config pushes).",
+    "Manage incident workflows (investigations, runbooks, escalations).",
+    "Create/rotate secrets and credentials; no device actions implied.",
+    "Manage SSO configuration, role mappings, and auth policy."
+  ],
+  "description": "Scope of permissions granted to an MSP delegation."
+}
+

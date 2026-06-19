@@ -1,0 +1,41 @@
+{
+  "allOf": [
+    {
+      "$ref": "./AdminWriteContext.schema.json"
+    },
+    {
+      "type": "object",
+      "required": [
+        "format"
+      ],
+      "properties": {
+        "format": {
+          "type": "string",
+          "enum": [
+            "csv",
+            "ndjson"
+          ]
+        },
+        "from": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "to": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "actor": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "orgId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    }
+  ],
+  "title": "AdminAuditExportRequest"
+}

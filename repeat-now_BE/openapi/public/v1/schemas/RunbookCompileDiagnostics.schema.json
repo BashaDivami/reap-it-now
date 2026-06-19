@@ -1,0 +1,65 @@
+{
+  "title": "RunbookCompileDiagnostics",
+  "description": "Compiler diagnostics and metadata returned while compiling or planning a runbook.",
+  "type": "object",
+  "properties": {
+    "attempt_id": { "type": "string", "description": "Compiler attempt identifier when available." },
+    "prompt_version": { "type": "string", "description": "Prompt version used by the compiler stack." },
+    "model_name": { "type": "string", "description": "LLM model used by the compiler when relevant." },
+    "ir_version": { "type": "string", "description": "IR version emitted by the compiler." },
+    "repair_ran": { "type": "boolean", "description": "Whether repair or auto-fix passes were applied." },
+    "stage_durations_ms": {
+      "type": "object",
+      "description": "Per-stage timing information in milliseconds.",
+      "additionalProperties": { "type": "integer" }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string" },
+          "stage": { "type": "string" },
+          "message": { "type": "string" },
+          "meta": { "type": "object", "additionalProperties": true }
+        },
+        "additionalProperties": false
+      }
+    },
+    "validation_errors": {
+      "type": "array",
+      "items": { "$ref": "./RunbookValidationIssue.schema.json" }
+    },
+    "interface_choices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step_id": { "type": "string" },
+          "execution_interface_id": { "type": "string" },
+          "strategy": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "missing_variables": { "type": "array", "items": { "type": "string" } },
+    "shape_errors": { "type": "array", "items": { "type": "string" } },
+    "branch_blockers": { "type": "array", "items": { "type": "string" } },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "steps": { "type": "integer" },
+        "variables": { "type": "integer" },
+        "references": { "type": "integer" },
+        "validation_errors": { "type": "integer" }
+      },
+      "additionalProperties": false
+    },
+    "response_previews": {
+      "type": "object",
+      "description": "Short compiler-stage output excerpts for debugging and operator review.",
+      "additionalProperties": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

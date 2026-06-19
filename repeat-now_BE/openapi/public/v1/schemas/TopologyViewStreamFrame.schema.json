@@ -1,0 +1,29 @@
+{
+  "title": "TopologyViewStreamFrame",
+  "description": "One Server-Sent Event (SSE) frame payload for a resolved topology view stream. Carried in the SSE `data:` line.",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["patch", "snapshot", "heartbeat", "overlay_status", "error"],
+      "description": "Event type discriminator. Topology artifact streams reuse this envelope and may emit 'overlay_status' for runtime overlay layer health."
+    },
+    "seq": { "type": "integer", "minimum": 0, "description": "Per-(viewId,scope) monotonically increasing sequence number for resume." },
+    "time": { "type": "string", "format": "date-time", "description": "UTC timestamp when this frame was emitted." },
+    "viewId": { "type": "string", "description": "ViewId for this stream." },
+    "scopeType": { "$ref": "./TopologyV2ScopeType.schema.json" },
+    "scopeId": { "type": "string" },
+    "data": {
+      "oneOf": [
+        { "$ref": "./TopologyViewStreamPatchData.schema.json" },
+        { "$ref": "./TopologyViewStreamSnapshotData.schema.json" },
+        { "$ref": "./TopologyViewStreamHeartbeatData.schema.json" },
+        { "$ref": "./TopologyArtifactOverlayStatusData.schema.json" },
+        { "$ref": "./TopologyViewStreamErrorData.schema.json" }
+      ],
+      "description": "Type-specific payload."
+    }
+  },
+  "required": ["type", "seq", "time", "viewId", "scopeType", "scopeId", "data"],
+  "additionalProperties": false
+}

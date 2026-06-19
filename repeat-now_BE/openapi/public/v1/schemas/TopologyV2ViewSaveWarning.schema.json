@@ -1,0 +1,24 @@
+{
+  "title": "TopologyV2ViewSaveWarning",
+  "description": "Warning emitted while extracting a saved custom topology view from a current workbench or artifact source.",
+  "type": "object",
+  "properties": {
+    "layerId": {
+      "type": "string",
+      "nullable": true,
+      "description": "Layer that triggered the warning when applicable."
+    },
+    "code": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable warning code suitable for UI branching."
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable warning detail."
+    }
+  },
+  "required": ["code", "message"],
+  "additionalProperties": false
+}

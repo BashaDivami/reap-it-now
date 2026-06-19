@@ -1,0 +1,33 @@
+{
+  "title": "DiscoveryEventErrorData",
+  "description": "Fatal error details; the run may transition to failed/partial.",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Machine-readable error code."
+    },
+    "message": {
+      "type": "string",
+      "description": "Human-readable error."
+    },
+    "context": {
+      "type": "object",
+      "description": "Optional structured details.",
+      "additionalProperties": true
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "error"
+      ]
+    }
+  },
+  "required": [
+    "code",
+    "message",
+    "type"
+  ],
+  "additionalProperties": false,
+  "x-discriminator-value": "error"
+}

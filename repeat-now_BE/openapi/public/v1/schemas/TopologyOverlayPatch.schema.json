@@ -1,0 +1,24 @@
+{
+  "title": "TopologyOverlayPatch",
+  "description": "Self-contained incremental topology artifact overlay patch.",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "enum": ["topology.overlay.patch.v1"],
+      "description": "Patch schema version."
+    },
+    "base": {
+      "$ref": "./TopologyOverlayBase.schema.json",
+      "description": "Base graph compatibility key for the patch."
+    },
+    "ops": {
+      "type": "array",
+      "description": "Ordered patch operations.",
+      "items": { "$ref": "./TopologyOverlayPatchOp.schema.json" },
+      "minItems": 1
+    }
+  },
+  "required": ["schema", "base", "ops"],
+  "additionalProperties": false
+}

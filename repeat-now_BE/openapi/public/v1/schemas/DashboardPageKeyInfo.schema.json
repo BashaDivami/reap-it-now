@@ -1,0 +1,13 @@
+{
+  "title": "DashboardPageKeyInfo",
+  "description": "Human-friendly info for a supported REAP page key (discovery/debugging).",
+  "type": "object",
+  "properties": {
+    "key": { "$ref": "./DashboardPageKey.schema.json" },
+    "title": { "type": "string" },
+    "description": { "type": "string" }
+  },
+  "required": ["key", "title", "description"],
+  "additionalProperties": false
+}
+

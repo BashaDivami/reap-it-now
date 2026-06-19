@@ -1,0 +1,81 @@
+{
+  "title": "TopologyGraph",
+  "description": "Generic topology graph usable at multiple scopes (org/site/device). At org scope, nodes are usually sites; at site scope, nodes are devices (optionally interfaces); at device scope, nodes are components/interfaces.",
+  "type": "object",
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "description": "Graph vertices. The meaning of each node depends on the scope of the request (org/site/device).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique within this graph response. May be a UUID (e.g., for devices/sites) or a composite ID (e.g., 'dev:<uuid>#if:Gi1/0/24' for interfaces)."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Controlled vocabulary (not enforced in v1): 'site' | 'device' | 'interface' | 'component'."
+          },
+          "label": {
+            "type": "string",
+            "description": "Human-friendly label (site name, hostname, interface name, etc.)."
+          },
+          "parentId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional container relationship (e.g., interface→device, device→site)."
+          },
+          "ref": {
+            "type": "object",
+            "nullable": true,
+            "description": "Optional reference to an underlying resource.",
+            "properties": {
+              "type": { "type": "string", "description": "Hint of the resource type (e.g., 'site', 'device', 'interface', 'component')." },
+              "id":   { "type": "string", "description": "Canonical identifier of the referenced resource (UUID or composite for interfaces)." }
+            },
+            "required": ["type", "id"],
+            "additionalProperties": false
+          },
+          "properties": {
+            "type": "object",
+            "description": "Optional attributes (e.g., vendor, model, speed, VLAN). Keys and values are implementation-defined.",
+            "additionalProperties": true
+          }
+        },
+        "required": ["id", "kind", "label"],
+        "additionalProperties": false
+      }
+    },
+    "edges": {
+      "type": "array",
+      "description": "Connections between nodes.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "fromId": { "type": "string", "description": "Source node id." },
+          "toId":   { "type": "string", "description": "Target node id." },
+          "layer": {
+            "type": "string",
+            "enum": ["physical", "l2", "l3"],
+            "description": "Layer of the relationship represented by this edge."
+          },
+          "relation": {
+            "type": "string",
+            "description": "Optional semantics for the relationship. Suggested values: 'adjacent' (site↔site), 'connects' (device↔device or interface↔interface), 'contains' (container relations), 'memberOf'."
+          },
+          "properties": {
+            "type": "object",
+            "description": "Optional attributes for this edge (e.g., link speed, VLAN, L3 protocol).",
+            "additionalProperties": true
+          }
+        },
+        "required": ["fromId", "toId", "layer"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["nodes", "edges"],
+  "additionalProperties": false
+}
+

@@ -1,0 +1,31 @@
+{
+  "title": "TopologyV2Drilldown",
+  "description": "A contextual action or navigation option returned by resolve (e.g., expand ports, switch to another view). Drilldowns are evaluated client-side via appliesWhen and then resolved by calling the target view's resolve API with a merged request built from the current request + drilldown static/dynamic patches.",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string", "description": "Display label for the action." },
+    "viewId": { "type": "string", "description": "Target viewId to resolve if this drilldown is chosen." },
+    "mode": {
+      "type": "string",
+      "description": "How the UI should apply the resolved result. \"replace\" navigates/replaces the current graph; \"overlay\" merges the resolved graph onto the current canvas (keyed by overlayKey when provided).",
+      "enum": ["replace", "overlay"],
+      "default": "replace"
+    },
+    "appliesWhen": {
+      "type": "object",
+      "description": "Optional match predicate evaluated client-side against current context or selected node/edge labels.",
+      "additionalProperties": true
+    }
+    ,
+    "static": {
+      "$ref": "./TopologyV2ResolveRequestPatch.schema.json",
+      "description": "Literal (hardcoded) request overrides/params applied when this drilldown is invoked."
+    },
+    "dynamic": {
+      "$ref": "./TopologyV2ResolveRequestPatch.schema.json",
+      "description": "Client-evaluated request overrides/params applied when this drilldown is invoked. Dynamic values may reference an evaluation context provided by the UI (typically: node, edge, request)."
+    }
+  },
+  "required": ["name", "viewId"],
+  "additionalProperties": false
+}

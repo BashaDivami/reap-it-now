@@ -1,0 +1,20 @@
+{
+  "title": "IdpConnectionOidc",
+  "description": "OIDC IdP connection.",
+  "type": "object",
+  "allOf": [
+    { "$ref": "./IdpConnectionBase.schema.json" }
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["oidc"]
+    },
+    "config": {
+      "$ref": "./IdpOidcConfig.schema.json"
+    }
+  },
+  "required": ["type", "config"],
+  "additionalProperties": false,
+  "x-discriminator-value": "oidc"
+}

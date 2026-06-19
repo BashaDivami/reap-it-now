@@ -1,0 +1,24 @@
+{
+  "title": "MembershipUpdate",
+  "type": "object",
+  "properties": {
+    "roleIds": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "minItems": 1,
+      "description": "Replaces the full role set by UUID (authoritative)."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "suspended"],
+      "description": "Change membership state."
+    },
+    "labels": {
+      "type": "object",
+      "description": "Replaces labels. Omit to leave unchanged; send empty object {} to clear.",
+      "additionalProperties": { "type": "string" }
+    }
+  },
+  "minProperties": 1,
+  "additionalProperties": false
+}

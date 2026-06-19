@@ -1,0 +1,511 @@
+{
+  "type": "object",
+  "required": [
+    "environment",
+    "cluster",
+    "generatedAt",
+    "timeRange",
+    "overall",
+    "infra",
+    "alertsSummary",
+    "recentChanges"
+  ],
+  "properties": {
+    "environment": {
+      "type": "string"
+    },
+    "cluster": {
+      "type": "string"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "timeRange": {
+      "type": "object",
+      "required": [
+        "window",
+        "from",
+        "to"
+      ],
+      "properties": {
+        "window": {
+          "type": "string",
+          "enum": [
+            "15m",
+            "1h",
+            "24h",
+            "7d"
+          ]
+        },
+        "from": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "to": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "overall": {
+      "type": "object",
+      "required": [
+        "status",
+        "topIncidents",
+        "sloSnapshots"
+      ],
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/WidgetStatus"
+        },
+        "topIncidents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "severity",
+              "status",
+              "startedAt",
+              "owner"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "severity": {
+                "type": "string",
+                "enum": [
+                  "critical",
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "mitigated",
+                  "resolved"
+                ]
+              },
+              "startedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "owner": {
+                "type": "string"
+              },
+              "onCallUrl": {
+                "type": "string",
+                "format": "uri"
+              },
+              "detailUrl": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          }
+        },
+        "sloSnapshots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name",
+              "objective",
+              "window",
+              "errorBudgetRemainingPct",
+              "status"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "objective": {
+                "type": "string"
+              },
+              "window": {
+                "type": "string"
+              },
+              "errorBudgetRemainingPct": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "burnRate": {
+                "type": "number",
+                "minimum": 0
+              },
+              "status": {
+                "$ref": "#/$defs/WidgetStatus"
+              }
+            }
+          }
+        }
+      }
+    },
+    "infra": {
+      "type": "object",
+      "required": [
+        "kafka",
+        "redis",
+        "postgres"
+      ],
+      "properties": {
+        "kafka": {
+          "$ref": "#/$defs/InfraWidget"
+        },
+        "redis": {
+          "$ref": "#/$defs/InfraWidget"
+        },
+        "postgres": {
+          "$ref": "#/$defs/InfraWidget"
+        },
+        "elasticsearch": {
+          "$ref": "#/$defs/InfraWidget"
+        },
+        "prometheus": {
+          "$ref": "#/$defs/InfraWidget"
+        }
+      }
+    },
+    "alertsSummary": {
+      "type": "object",
+      "required": [
+        "total",
+        "critical",
+        "warning",
+        "activeIncidents",
+        "monitoringUrl"
+      ],
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "critical": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "warning": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "activeIncidents": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "monitoringUrl": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "recentChanges": {
+      "type": "object",
+      "required": [
+        "deployments",
+        "maintenanceWindows",
+        "incidents"
+      ],
+      "properties": {
+        "deployments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "service",
+              "version",
+              "status",
+              "startedAt",
+              "owner",
+              "detailUrl"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "service": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "running",
+                  "completed",
+                  "failed",
+                  "rolled_back"
+                ]
+              },
+              "startedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "completedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "owner": {
+                "type": "string"
+              },
+              "detailUrl": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          }
+        },
+        "maintenanceWindows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "status",
+              "startAt",
+              "endAt",
+              "owner",
+              "detailUrl"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "scheduled",
+                  "active",
+                  "completed"
+                ]
+              },
+              "startAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "endAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "owner": {
+                "type": "string"
+              },
+              "detailUrl": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          }
+        },
+        "incidents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "severity",
+              "status",
+              "startedAt",
+              "owner",
+              "onCallUrl",
+              "detailUrl"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "severity": {
+                "type": "string",
+                "enum": [
+                  "critical",
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "mitigated",
+                  "resolved"
+                ]
+              },
+              "startedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "owner": {
+                "type": "string"
+              },
+              "onCallUrl": {
+                "type": "string",
+                "format": "uri"
+              },
+              "detailUrl": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "WidgetStatus": {
+      "type": "string",
+      "enum": [
+        "healthy",
+        "degraded",
+        "critical",
+        "unknown"
+      ]
+    },
+    "InfraWidget": {
+      "type": "object",
+      "required": [
+        "status",
+        "summary",
+        "saturation",
+        "signals",
+        "links"
+      ],
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/WidgetStatus"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "saturation": {
+          "type": "object",
+          "required": [
+            "cpuPct",
+            "memoryPct",
+            "storagePct"
+          ],
+          "properties": {
+            "cpuPct": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "memoryPct": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "storagePct": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        "signals": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "links": {
+          "type": "object",
+          "required": [
+            "detail",
+            "metrics",
+            "runbook"
+          ],
+          "properties": {
+            "detail": {
+              "type": "string",
+              "format": "uri"
+            },
+            "metrics": {
+              "type": "string",
+              "format": "uri"
+            },
+            "runbook": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        "grafanaPanels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "title",
+              "dashboardUid",
+              "panelId",
+              "embedUrl",
+              "openUrl"
+            ],
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "dashboardUid": {
+                "type": "string"
+              },
+              "panelId": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "datasourceUid": {
+                "type": "string"
+              },
+              "from": {
+                "type": "string"
+              },
+              "to": {
+                "type": "string"
+              },
+              "refresh": {
+                "type": "string"
+              },
+              "supportedFilters": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "embedUrl": {
+                "type": "string"
+              },
+              "openUrl": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "AdminDashboardHealth"
+}

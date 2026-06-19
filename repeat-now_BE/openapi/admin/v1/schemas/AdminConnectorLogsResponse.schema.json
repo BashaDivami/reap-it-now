@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "required": [
+    "items"
+  ],
+  "properties": {
+    "connectorId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "redacted": {
+      "type": "boolean"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "./AdminConnectorLogLine.schema.json"
+      }
+    },
+    "nextCursor": {
+      "type": "string"
+    }
+  },
+  "title": "AdminConnectorLogsResponse"
+}

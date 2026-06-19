@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyArtifactOverlayCompileMatch",
+  "description": "Topology element matched while compiling an overlay follow-up.",
+  "type": "object",
+  "properties": {
+    "target": {
+      "$ref": "./TopologyAnnotationTarget.schema.json",
+      "description": "Matched graph element target."
+    },
+    "label": {
+      "type": "string",
+      "description": "Human-readable element label suitable for response summaries or clarification prompts."
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Optional UI-oriented display name when it differs from the graph label."
+    },
+    "score": {
+      "type": "number",
+      "description": "Best-effort confidence score for fuzzy or semantic matches.",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "reason": {
+      "type": "string",
+      "description": "Short explanation of why this element matched the requested target."
+    },
+    "properties": {
+      "type": "object",
+      "description": "Small service-defined metadata useful for debugging or inspect summaries.",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "target"
+  ],
+  "additionalProperties": false
+}

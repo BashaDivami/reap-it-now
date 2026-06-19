@@ -1,0 +1,39 @@
+{
+  "title": "ArtifactContentTable",
+  "type": "object",
+  "description": "Content payload for kind=table.",
+  "properties": {
+    "type": { "type": "string", "enum": ["table"] },
+    "columns": {
+      "type": "array",
+      "description": "Ordered column names.",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "rowKeys": {
+      "type": "array",
+      "description": "Optional row keys aligned with `rows` (same order, same length). Used for deterministic evidence highlighting.",
+      "items": { "type": "string" }
+    },
+    "rows": {
+      "type": "array",
+      "description": "Row objects; keys should correspond to columns.",
+      "items": { "type": "object", "additionalProperties": true }
+    },
+    "rowCount": { "type": "integer", "minimum": 0, "description": "Total rows represented in `rows`." },
+    "primaryKey": {
+      "type": "array",
+      "description": "Optional primary key column(s). Use a single-element array for single-column primary keys.",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "columnTypes": {
+      "type": "object",
+      "description": "Optional map of column name to type hint (string|number|duration|...); used for rendering.",
+      "additionalProperties": { "type": "string" }
+    },
+    "description": { "type": "string", "nullable": true }
+  },
+  "required": ["type", "columns", "rows", "rowCount"],
+  "additionalProperties": false
+}

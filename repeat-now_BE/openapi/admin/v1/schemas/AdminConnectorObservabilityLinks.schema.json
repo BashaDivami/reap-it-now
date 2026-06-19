@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "grafanaUrl": {
+      "type": "string",
+      "format": "uri"
+    },
+    "kibanaUrl": {
+      "type": "string",
+      "format": "uri"
+    }
+  },
+  "title": "AdminConnectorObservabilityLinks"
+}

@@ -1,0 +1,15 @@
+{
+  "title": "MetricsSample",
+  "description": "A single time-series sample.",
+  "type": "object",
+  "properties": {
+    "t": { "type": "string", "format": "date-time" },
+    "value": {
+      "type": "number",
+      "format": "double",
+      "description": "Sample value as returned by the metrics backend. Metrics samples use double precision to preserve Prometheus numeric fidelity."
+    }
+  },
+  "required": ["t", "value"],
+  "additionalProperties": false
+}

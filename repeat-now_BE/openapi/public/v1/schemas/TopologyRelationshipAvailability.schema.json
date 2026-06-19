@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyRelationshipAvailability",
+  "description": "Scoped availability card for a callable topology relationship. It advertises a stable relationship id, optional semantic catalog backing, source/qualifier needs, and render modes without exposing topology-service view ids or graph internals.",
+  "type": "object",
+  "properties": {
+    "relationshipId": {
+      "type": "string",
+      "description": "Stable topology relationship id, for example topology.relationship.lag_membership.",
+      "pattern": "^topology\\.relationship\\.[a-z][a-z0-9_]*$"
+    },
+    "status": {
+      "type": "string",
+      "description": "Whether this relationship can currently be compiled for the scoped topology artifact.",
+      "enum": [
+        "available",
+        "degraded",
+        "unavailable",
+        "needs_source",
+        "needs_qualifier",
+        "unknown"
+      ]
+    },
+    "catalogIds": {
+      "type": "array",
+      "description": "Semantic catalog ids that define or help explain this relationship. Commit 1 keeps this optional so runtime descriptors can be added before reviewed Phase 6A catalog entries are enforced.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+      },
+      "maxItems": 16,
+      "uniqueItems": true
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Short display label for prompt context and diagnostics."
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief explanation of the relationship in the active topology context."
+    },
+    "surface": {
+      "type": "string",
+      "description": "Runtime surface where this relationship can be compiled.",
+      "enum": [
+        "topology_artifact"
+      ]
+    },
+    "sourceRequirements": {
+      "$ref": "./TopologyRelationshipSourceRequirements.schema.json"
+    },
+    "requiredQualifiers": {
+      "type": "array",
+      "description": "Qualifiers that may be required to compile this relationship.",
+      "items": {
+        "$ref": "./TopologyRelationshipQualifierRequirement.schema.json"
+      },
+      "maxItems": 16
+    },
+    "supportedRenderModes": {
+      "type": "array",
+      "description": "Render modes that topology-service can compile for this relationship in the current context.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "relationship_layer",
+          "graph_overlay",
+          "related_view",
+          "drilldown"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "defaultRenderMode": {
+      "type": "string",
+      "description": "Preferred render mode when the caller does not specify one.",
+      "enum": [
+        "relationship_layer",
+        "graph_overlay",
+        "related_view",
+        "drilldown"
+      ]
+    },
+    "requiredGraphCapabilities": {
+      "type": "array",
+      "description": "Stable capability names that must be present in the active graph for this relationship to compile. These are topology-service capability flags, not semantic catalog ids.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+      },
+      "uniqueItems": true
+    },
+    "supportingGraphCapabilities": {
+      "type": "array",
+      "description": "Optional graph capabilities that can improve this relationship but are not strictly required.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+      },
+      "uniqueItems": true
+    },
+    "save": {
+      "type": "object",
+      "description": "Save/template behavior for layers compiled from this relationship.",
+      "properties": {
+        "supported": {
+          "type": "boolean",
+          "description": "Whether materialized layers from this relationship can be saved."
+        },
+        "portability": {
+          "$ref": "./TopologyV2ViewPortability.schema.json"
+        }
+      },
+      "required": [
+        "supported"
+      ],
+      "additionalProperties": false
+    },
+    "unavailableReason": {
+      "type": "string",
+      "description": "Short reason when status is unavailable, degraded, needs_source, or needs_qualifier."
+    },
+    "diagnostics": {
+      "type": "array",
+      "description": "Non-fatal availability diagnostics.",
+      "items": {
+        "$ref": "./TopologySemanticContextDiagnostic.schema.json"
+      }
+    }
+  },
+  "required": [
+    "relationshipId",
+    "status",
+    "surface",
+    "supportedRenderModes"
+  ],
+  "additionalProperties": false
+}

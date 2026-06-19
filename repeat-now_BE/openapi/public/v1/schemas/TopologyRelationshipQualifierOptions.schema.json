@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyRelationshipQualifierOptions",
+  "description": "Scoped candidate values for one relationship qualifier. This is relationship-facing option discovery, not a public view-param API.",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Whether topology-service could derive scoped options for this qualifier.",
+      "enum": [
+        "available",
+        "empty",
+        "truncated",
+        "unavailable"
+      ]
+    },
+    "items": {
+      "type": "array",
+      "description": "Bounded option items. Empty when status is empty or unavailable.",
+      "items": {
+        "$ref": "./TopologyRelationshipQualifierOptionItem.schema.json"
+      }
+    },
+    "source": {
+      "type": "string",
+      "description": "Stable source label for diagnostics, for example topology_service.",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    },
+    "truncated": {
+      "type": "boolean",
+      "description": "Whether additional options existed but were omitted because of response limits."
+    },
+    "limit": {
+      "type": "integer",
+      "description": "Option limit applied by topology-service.",
+      "minimum": 1,
+      "maximum": 10000
+    },
+    "unavailableReason": {
+      "type": "string",
+      "description": "Short reason when status=unavailable."
+    },
+    "diagnostics": {
+      "type": "array",
+      "description": "Non-fatal option discovery diagnostics.",
+      "items": {
+        "$ref": "./TopologySemanticContextDiagnostic.schema.json"
+      }
+    }
+  },
+  "required": [
+    "status",
+    "items"
+  ],
+  "additionalProperties": false
+}

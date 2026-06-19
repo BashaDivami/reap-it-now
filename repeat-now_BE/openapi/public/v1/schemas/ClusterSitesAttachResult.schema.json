@@ -1,0 +1,47 @@
+{
+  "title": "ClusterSitesAttachResult",
+  "description": "Result of attaching Sites to a Connector Cluster (idempotent).",
+  "type": "object",
+  "properties": {
+    "attached": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "description": "Sites newly attached by this operation."
+    },
+    "alreadyAttached": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "description": "Sites that were already attached to this cluster."
+    },
+    "multiAttached": {
+      "type": "array",
+      "description": "Sites that, after this call, are attached to this cluster and at least one other cluster.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "siteId": { "type": "string", "format": "uuid", "description": "The site UUID." },
+          "alsoAttachedTo": {
+            "type": "array",
+            "items": { "type": "string", "format": "uuid" },
+            "description": "Other cluster UUIDs this site is attached to (excluding the target cluster)."
+          }
+        },
+        "required": ["siteId", "alsoAttachedTo"],
+        "additionalProperties": false
+      }
+    },
+    "notFound": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "description": "Provided siteIds not found (or not in the organization)."
+    },
+    "forbidden": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "description": "SiteIds the caller is not authorized to attach."
+    }
+  },
+  "required": ["attached", "alreadyAttached", "multiAttached", "notFound", "forbidden"],
+  "additionalProperties": false
+}
+

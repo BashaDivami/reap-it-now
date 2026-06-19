@@ -1,0 +1,22 @@
+{
+  "title": "TopologyViewStreamSnapshotData",
+  "description": "Type-specific data for a view stream frame of type 'snapshot' (full resolved-view replacement).",
+  "type": "object",
+  "properties": {
+    "graph": { "$ref": "./TopologyV2Graph.schema.json" },
+    "legend": { "$ref": "./TopologyV2Legend.schema.json" },
+    "drilldowns": { "type": "array", "items": { "$ref": "./TopologyV2Drilldown.schema.json" } },
+    "overlayState": {
+      "$ref": "./TopologyV2ViewOverlayState.schema.json",
+      "description": "Materialized overlay state resolved for this view when the snapshot includes saved custom layers."
+    },
+    "overlayStatuses": {
+      "type": "array",
+      "description": "Runtime status details for resolved overlay layers when available.",
+      "items": { "$ref": "./TopologyArtifactOverlayLayerStatus.schema.json" }
+    },
+    "meta": { "type": "object", "description": "Resolve metadata (context, applied topics, asOf, etc.).", "additionalProperties": true }
+  },
+  "required": ["graph", "legend", "drilldowns", "meta"],
+  "additionalProperties": false
+}

@@ -1,0 +1,25 @@
+{
+  "title": "TopologyV2ViewCreateRequest",
+  "description": "Create a private custom topology view from a current visibility session or topology artifact snapshot.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Display name for the saved custom view."
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional human description."
+    },
+    "saveMode": {
+      "$ref": "./TopologyV2ViewScopeMode.schema.json",
+      "description": "Whether to save a reusable cross-scope view or a current-scope-bound view."
+    },
+    "source": {
+      "$ref": "./TopologyV2ViewSaveSource.schema.json"
+    }
+  },
+  "required": ["name", "saveMode", "source"],
+  "additionalProperties": false
+}

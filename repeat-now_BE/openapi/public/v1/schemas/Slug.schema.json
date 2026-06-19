@@ -1,0 +1,7 @@
+{
+  "title": "Slug",
+  "type": "string",
+  "description": "Immutable, machine-friendly handle (immutable). Lowercase letters, digits and hyphens; unique per scope (org) or globally (orgs).",
+  "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+  "examples": ["org-viewer", "billing-admin", "acme-corp"]
+}

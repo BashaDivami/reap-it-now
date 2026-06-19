@@ -1,0 +1,8 @@
+{
+  "title": "TopologyV2Purpose",
+  "description": "Optional selector discriminator for graphs (typically `graph.meta.purpose`). This list is intentionally extensible; producers may introduce new values. Known values include: connectivity, lag_membership, vlan_membership, routing_adjacency.",
+  "type": "string",
+  "x-extensible-enum": ["connectivity", "lag_membership", "vlan_membership", "routing_adjacency"],
+  "examples": ["connectivity", "lag_membership"]
+}
+

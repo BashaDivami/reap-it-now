@@ -1,0 +1,36 @@
+{
+  "title": "TopologyV2Legend",
+  "description": "UI rendering guidance for a resolved topology view. The frontend applies these rules generically (network-neutral).",
+  "type": "object",
+  "properties": {
+    "nodeRules": {
+      "type": "array",
+      "description": "Rules to map node labels/properties into UI hints (icon, size, color tokens, etc.).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "when": { "type": "object", "description": "Match predicate evaluated by the UI (key/value comparisons).", "additionalProperties": true },
+          "ui": { "type": "object", "description": "UI hints (stable vocabulary; clients should ignore unknown keys).", "additionalProperties": true }
+        },
+        "required": ["when", "ui"],
+        "additionalProperties": false
+      }
+    },
+    "edgeRules": {
+      "type": "array",
+      "description": "Rules to map edge labels/properties into UI hints (style, width, color tokens, etc.).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "when": { "type": "object", "description": "Match predicate evaluated by the UI (key/value comparisons).", "additionalProperties": true },
+          "ui": { "type": "object", "description": "UI hints (stable vocabulary; clients should ignore unknown keys).", "additionalProperties": true }
+        },
+        "required": ["when", "ui"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["nodeRules", "edgeRules"],
+  "additionalProperties": false
+}
+

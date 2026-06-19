@@ -1,0 +1,9 @@
+{
+  "type": "string",
+  "enum": [
+    "admin.readonly",
+    "admin.ops",
+    "admin.super"
+  ],
+  "title": "AdminRole"
+}

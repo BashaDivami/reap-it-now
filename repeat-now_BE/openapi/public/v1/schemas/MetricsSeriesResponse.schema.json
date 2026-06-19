@@ -1,0 +1,15 @@
+{
+  "title": "MetricsSeriesResponse",
+  "description": "Response from intent-first metrics query endpoints.",
+  "type": "object",
+  "properties": {
+    "intent": { "type": "string" },
+    "series": {
+      "type": "array",
+      "items": { "$ref": "./MetricsSeries.schema.json" }
+    }
+  },
+  "required": ["intent", "series"],
+  "additionalProperties": false
+}
+

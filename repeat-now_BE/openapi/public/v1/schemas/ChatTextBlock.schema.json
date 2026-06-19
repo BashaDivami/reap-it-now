@@ -1,0 +1,23 @@
+{
+  "title": "ChatTextBlock",
+  "type": "object",
+  "x-discriminator-value": "text",
+  "description": "Plain text message content block.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["text"],
+      "description": "Block kind."
+    },
+    "text": {
+      "type": "string",
+      "description": "Plain text content."
+    }
+  },
+  "required": ["type", "text"],
+  "additionalProperties": false,
+  "example": {
+    "type": "text",
+    "text": "Use metrics for this request."
+  }
+}

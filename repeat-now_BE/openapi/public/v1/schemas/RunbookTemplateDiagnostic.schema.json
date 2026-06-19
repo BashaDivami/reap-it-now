@@ -1,0 +1,18 @@
+{
+  "title": "RunbookTemplateDiagnostic",
+  "description": "Stored diagnostic item attached to a saved runbook template version.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "runbook_version_id": { "type": "string" },
+    "severity": { "type": "string" },
+    "code": { "type": "string" },
+    "location": { "type": "object", "additionalProperties": true },
+    "message": { "type": "string" },
+    "suggested_fix": { "type": "string" },
+    "clarifying_question": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

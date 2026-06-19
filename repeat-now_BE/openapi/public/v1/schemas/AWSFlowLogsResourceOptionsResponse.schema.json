@@ -1,0 +1,33 @@
+{
+  "title": "AWSFlowLogsResourceOptionsResponse",
+  "type": "object",
+  "description": "Discovered AWS VPC and transit gateway resources that can be selected for Flow Logs onboarding.",
+  "properties": {
+    "siteId": {
+      "type": "string",
+      "description": "AWS cloud site id."
+    },
+    "awsAccountId": {
+      "type": "string",
+      "description": "AWS account ID for the site."
+    },
+    "region": {
+      "type": "string",
+      "description": "AWS region for the site."
+    },
+    "resourceSnapshotAt": {
+      "type": "string",
+      "description": "Discovery topology timestamp used for these resource options."
+    },
+    "vpcs": {
+      "type": "array",
+      "items": { "$ref": "./AWSFlowLogsResourceOption.schema.json" }
+    },
+    "transitGateways": {
+      "type": "array",
+      "items": { "$ref": "./AWSFlowLogsResourceOption.schema.json" }
+    }
+  },
+  "required": ["siteId", "awsAccountId", "region", "resourceSnapshotAt", "vpcs", "transitGateways"],
+  "additionalProperties": false
+}

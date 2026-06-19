@@ -1,0 +1,14 @@
+{
+  "title": "DiscoverStartRequest",
+  "description": "Begin discovery for an email. Always returns 202; no enumeration.",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email to discover login options for."
+    }
+  },
+  "required": ["email"],
+  "additionalProperties": false
+}

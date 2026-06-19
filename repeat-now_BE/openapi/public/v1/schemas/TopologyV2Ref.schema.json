@@ -1,0 +1,11 @@
+{
+  "title": "TopologyV2Ref",
+  "description": "Reference anchor for a node/edge to a canonical resource outside the topology graph (inventory, cloud IDs, telemetry, etc.). The pair (`type`, `id`) is the reference identity; a node/edge may carry multiple refs to support composition across graphs and stable linking to upstream systems.",
+  "type": "object",
+  "properties": {
+    "type": { "$ref": "./TopologyV2RefType.schema.json" },
+    "id": { "type": "string", "description": "Reference identifier within the namespace. Often a UUID, ARN, or a deterministic composite key (e.g., deviceId#ifName)." }
+  },
+  "required": ["type", "id"],
+  "additionalProperties": false
+}

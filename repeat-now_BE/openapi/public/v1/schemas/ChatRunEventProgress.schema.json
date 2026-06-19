@@ -1,0 +1,17 @@
+{
+  "title": "ChatRunEventProgress",
+  "description": "SSE payload for `event: progress` (humanized; no tool names).",
+  "type": "object",
+  "properties": {
+    "stage": { "type": "string", "description": "High-level phase (e.g., 'Collecting device facts')." },
+    "event": { "type": "string", "description": "Optional progress event type (e.g., stage_enter, task_started)." },
+    "detail": { "type": "string", "description": "Optional detail (e.g., 'Fetched 37/112 devices; retrying 4')." },
+    "percent": { "type": "integer", "minimum": 0, "maximum": 100, "description": "Optional rough progress indicator." },
+    "meta": { "type": "object", "additionalProperties": true, "description": "Optional structured metadata for UI." },
+    "agent": { "$ref": "./ChatRunEventAgentRef.schema.json" },
+    "call": { "$ref": "./ChatRunEventCallRef.schema.json" },
+    "workflowId": { "type": "string", "format": "uuid", "description": "Workflow identifier, when available." }
+  },
+  "required": ["stage"],
+  "additionalProperties": false
+}

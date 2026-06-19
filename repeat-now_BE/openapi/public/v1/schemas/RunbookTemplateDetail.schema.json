@@ -1,0 +1,15 @@
+{
+  "title": "RunbookTemplateDetail",
+  "description": "Detailed view of a runbook template, including the active version and version history.",
+  "type": "object",
+  "properties": {
+    "summary": { "$ref": "./RunbookTemplateSummary.schema.json" },
+    "authoring": { "$ref": "./RunbookTemplateAuthoring.schema.json" },
+    "active_version": { "$ref": "./RunbookTemplateVersionDetail.schema.json" },
+    "versions": {
+      "type": "array",
+      "items": { "$ref": "./RunbookTemplateSummary.schema.json" }
+    }
+  },
+  "additionalProperties": false
+}

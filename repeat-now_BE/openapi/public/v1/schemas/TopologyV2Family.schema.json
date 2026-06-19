@@ -1,0 +1,7 @@
+{
+  "title": "TopologyV2Family",
+  "description": "Coarse relationship-set family used for selection and default styling. See Topology_V2_Network_Neutral_Model_Wiki.md (§2.9.2) for guidance.",
+  "type": "string",
+  "enum": ["physical", "l2", "l3", "control", "tunnel", "cloud", "derived"]
+}
+

@@ -1,0 +1,27 @@
+{
+  "title": "TopologyOverlayLayerFilter",
+  "description": "Filter describing which overlay layers a clear or remove operation should affect. An empty filter means all chat-created layers for the artifact.",
+  "type": "object",
+  "properties": {
+    "layerIds": {
+      "type": "array",
+      "description": "Specific overlay layer ids.",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "kinds": {
+      "type": "array",
+      "description": "Overlay layer kinds to match.",
+      "items": {
+        "type": "string",
+        "enum": ["highlight", "focus", "hide", "selection", "inspect", "drilldown"]
+      },
+      "uniqueItems": true
+    },
+    "source": {
+      "type": "string",
+      "description": "Optional logical layer source, for example chat or system."
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,31 @@
+{
+  "title": "RunbookTemplateVersionDetail",
+  "description": "Detailed view of one saved runbook template version.",
+  "type": "object",
+  "properties": {
+    "summary": { "$ref": "./RunbookTemplateSummary.schema.json" },
+    "authoring": { "$ref": "./RunbookTemplateAuthoring.schema.json" },
+    "source": { "$ref": "./RunbookTemplateSource.schema.json" },
+    "parameters": {
+      "type": "array",
+      "items": { "$ref": "./RunbookTemplateParameter.schema.json" }
+    },
+    "steps": {
+      "type": "array",
+      "items": { "$ref": "./RunbookTemplateStep.schema.json" }
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": { "$ref": "./RunbookTemplateDiagnostic.schema.json" }
+    },
+    "compile_artifacts_summary": {
+      "$ref": "./RunbookTemplateCompileArtifactsSummary.schema.json"
+    },
+    "template_ir": {
+      "type": "object",
+      "description": "Compiler-produced template IR. Kept intentionally flexible while the IR is still evolving.",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,12 @@
+{
+  "title": "DiscoverStartResponseVerifyEmail",
+  "type": "object",
+  "properties": {
+    "nextStep": {
+      "type": "string",
+      "enum": ["verify_email"]
+    }
+  },
+  "required": ["nextStep"],
+  "additionalProperties": false
+}

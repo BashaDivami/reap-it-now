@@ -1,0 +1,32 @@
+{
+  "title": "PageMeta",
+  "description": "Cursor pagination metadata for list endpoints (includes limit, cursors, and optional exact totals).",
+  "type": "object",
+  "properties": {
+    "limit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1000,
+      "description": "Max items per page (echo of the request)."
+    },
+    "next": {
+      "type": "string",
+      "nullable": true,
+      "description": "Opaque cursor for the next page, or null if none."
+    },
+    "prev": {
+      "type": "string",
+      "nullable": true,
+      "description": "Opaque cursor for the previous page, or null if none."
+    },
+    "exactTotal": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Exact number of items in the full result set when known; omit when counting is too expensive."
+    }
+  },
+  "required": [
+    "limit"
+  ],
+  "additionalProperties": false
+}

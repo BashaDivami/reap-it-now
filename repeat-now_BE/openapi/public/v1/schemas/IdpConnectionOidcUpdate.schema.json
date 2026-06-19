@@ -1,0 +1,52 @@
+{
+  "title": "IdpConnectionOidcUpdate",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "oidc"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "disabled"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "nullable": true,
+      "maxLength": 1000
+    },
+    "config": {
+      "type": "object",
+      "description": "Mutable OIDC fields.",
+      "properties": {
+        "clientId": { "type": "string" },
+        "clientSecretId": { "type": "string", "format": "uuid" },
+        "scopes": { "type": "array", "items": { "type": "string" } },
+        "enforcePkce": { "type": "boolean", "default": false },
+        "tokenAuthMethod": {
+          "type": "string",
+          "enum": ["client_secret_basic","client_secret_post"],
+          "default": "client_secret_basic"
+        },
+        "groupsClaimPath": { "type": "string", "nullable": true },
+        "rolesClaimPath": { "type": "string", "nullable": true },
+        "clockSkewSeconds": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "type"
+  ],
+  "additionalProperties": false,
+  "x-discriminator-value": "oidc"
+}

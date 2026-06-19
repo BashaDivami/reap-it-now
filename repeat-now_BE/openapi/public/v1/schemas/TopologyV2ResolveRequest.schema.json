@@ -1,0 +1,14 @@
+{
+  "title": "TopologyV2ResolveRequest",
+  "description": "Resolve a topology view into a render-ready graph + legend + drilldowns.",
+  "type": "object",
+  "properties": {
+    "scopeType": { "$ref": "./TopologyV2ScopeType.schema.json" },
+    "scopeId": { "type": "string" },
+    "asOf": { "type": "string", "format": "date-time", "description": "Optional time-travel timestamp; defaults to now.", "nullable": true },
+    "params": { "type": "object", "description": "View-specific knobs (instance selectors, thresholds, etc.).", "additionalProperties": true },
+    "limits": { "$ref": "./TopologyV2Limits.schema.json" }
+  },
+  "required": ["scopeType", "scopeId"],
+  "additionalProperties": false
+}

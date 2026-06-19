@@ -1,0 +1,39 @@
+{
+  "type": "object",
+  "required": ["threadId", "workflowId", "runId", "status", "callCount", "failedCount"],
+  "properties": {
+    "channel": {
+      "type": "string"
+    },
+    "threadId": {
+      "type": "string"
+    },
+    "workflowId": {
+      "type": "string"
+    },
+    "runId": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "callCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "failedCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "firstCalledAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false,
+  "title": "AdminAgentTraceRunSummary"
+}

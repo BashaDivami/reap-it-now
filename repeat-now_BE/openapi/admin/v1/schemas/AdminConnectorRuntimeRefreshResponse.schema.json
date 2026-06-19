@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "refreshedAt", "runtimeCount"],
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Refresh completion state.",
+      "enum": ["completed"]
+    },
+    "refreshedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC time when the refresh completed."
+    },
+    "runtimeCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of connector runtime records returned by the sync."
+    }
+  },
+  "title": "AdminConnectorRuntimeRefreshResponse"
+}

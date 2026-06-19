@@ -1,0 +1,34 @@
+{
+  "title": "DiscoveryEventFinishedData",
+  "description": "Terminal event for the run with final status and summary.",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "succeeded",
+        "partial",
+        "failed"
+      ]
+    },
+    "durationMs": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "summary": {
+      "$ref": "./DiscoveryRunSummary.schema.json"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "finished"
+      ]
+    }
+  },
+  "required": [
+    "status",
+    "type"
+  ],
+  "additionalProperties": false,
+  "x-discriminator-value": "finished"
+}

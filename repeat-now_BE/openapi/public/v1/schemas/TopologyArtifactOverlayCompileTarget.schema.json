@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyArtifactOverlayCompileTarget",
+  "description": "Target hint for compiling a topology artifact follow-up into overlay operations.",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "Natural-language target text after the agent has identified this as a topology artifact follow-up, for example 'Dist1', 'the root bridge', or 'alternate ports'."
+    },
+    "nodeIds": {
+      "type": "array",
+      "description": "Explicit topology node ids from UI artifact context or prior tool resolution.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "edgeIds": {
+      "type": "array",
+      "description": "Explicit topology edge ids from UI artifact context or prior tool resolution.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "layerIds": {
+      "type": "array",
+      "description": "Existing overlay layer ids to remove, replace, or inspect.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "targetScope": {
+      "$ref": "./TopologyTargetScope.schema.json",
+      "description": "Prior topology result scope to target for chained relationship follow-ups."
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,63 @@
+{
+  "title": "TopologyV2ViewCatalogItem",
+  "description": "UI-safe catalog item for a topology v2 view template.",
+  "type": "object",
+  "properties": {
+    "viewId": { "type": "string", "description": "Stable identifier used by the UI to request resolve/stream." },
+    "name": { "type": "string", "description": "Display name." },
+    "description": { "type": "string", "description": "Optional human description.", "nullable": true },
+    "version": { "type": "string", "description": "View definition version (does not change viewId).", "nullable": true },
+    "origin": {
+      "$ref": "./TopologyV2ViewOrigin.schema.json",
+      "description": "Whether the item is a system view or a saved custom view."
+    },
+    "state": {
+      "$ref": "./TopologyV2ViewState.schema.json",
+      "description": "Lifecycle state for the view."
+    },
+    "ownerUserId": {
+      "type": "string",
+      "format": "uuid",
+      "nullable": true,
+      "description": "Owner of the custom view when origin=custom."
+    },
+    "sharingScope": {
+      "allOf": [{ "$ref": "./TopologyV2ViewSharingScope.schema.json" }],
+      "nullable": true,
+      "description": "Sharing model for the custom view when origin=custom."
+    },
+    "scopeMode": {
+      "allOf": [{ "$ref": "./TopologyV2ViewScopeMode.schema.json" }],
+      "nullable": true,
+      "description": "Portability mode for a saved custom view."
+    },
+    "boundScope": {
+      "allOf": [{ "$ref": "./TopologyV2Scope.schema.json" }],
+      "nullable": true,
+      "description": "Bound scope when scopeMode=current_scope."
+    },
+    "baseTemplateViewId": {
+      "type": "string",
+      "nullable": true,
+      "description": "Stable base template reference for a saved custom view."
+    },
+    "scopeTypes": {
+      "type": "array",
+      "description": "Which scopes this view can be resolved for.",
+      "items": { "$ref": "./TopologyV2ScopeType.schema.json" }
+    },
+    "appliesWhen": {
+      "type": "object",
+      "description": "Optional predicate used by the UI to show relevant views for the current context.",
+      "additionalProperties": true
+    },
+    "params": { "$ref": "./TopologyV2Params.schema.json" },
+    "defaults": {
+      "type": "object",
+      "description": "Optional defaults (e.g., default params/limits).",
+      "additionalProperties": true
+    }
+  },
+  "required": ["viewId", "name", "origin", "scopeTypes", "params"],
+  "additionalProperties": false
+}

@@ -1,0 +1,12 @@
+{
+  "title": "ChatRunEventAgentRef",
+  "description": "Agent identity for an SSE event.",
+  "type": "object",
+  "properties": {
+    "kind": { "type": "string", "description": "Agent kind." },
+    "id": { "type": "string", "description": "Agent instance id." },
+    "displayName": { "type": "string", "description": "Optional human-friendly name." }
+  },
+  "required": ["kind", "id"],
+  "additionalProperties": false
+}

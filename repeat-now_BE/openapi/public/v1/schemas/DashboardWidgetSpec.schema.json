@@ -1,0 +1,25 @@
+{
+  "title": "DashboardWidgetSpec",
+  "description": "A single widget to be rendered on a REAP-native page (may be Grafana-rendered or REAP-rendered).\n\nSecurity note: For `grafana_panel_iframe` widgets, REAP should only bind selector vars that are explicitly allowlisted in the Grafana catalog entry (`GrafanaCatalogEntry.vars`). Tenant identity (org_id) is derived from REAP identity (JWT/embed token), not from URL vars.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "type": { "$ref": "./DashboardWidgetType.schema.json" },
+    "title": { "type": "string" },
+    "bindings": {
+      "type": "object",
+      "description": "Widget-type-specific bindings.\n\nCommon patterns:\n- `grafana_panel_iframe`: `bindings.vars` (map of allowed selector vars like `site_id`, `target_id`) and time fields (`from`, `to`, optional `asOf`).\n- `reap_native_chart`: uses `query` intent bindings.\n- `topology_view`: viewKey + highlight.\n- `evidence_timeline`: incidentId.\n\nDo not include `org_id` in bindings; tenancy comes from identity.",
+      "additionalProperties": true
+    },
+    "iframeUrl": {
+      "type": "string",
+      "description": "Relative iframe URL under the REAP domain (typically `/grafana/...`) for `grafana_panel_iframe` widgets."
+    },
+    "query": {
+      "$ref": "./MetricsIntentQueryRangeRequest.schema.json",
+      "description": "Intent-first query description for `reap_native_chart` widgets."
+    }
+  },
+  "required": ["id", "type", "title", "bindings"],
+  "additionalProperties": false
+}

@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "properties": {
+    "state": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "commandAgentImage": {
+      "type": "string"
+    },
+    "otelAgentImage": {
+      "type": "string"
+    },
+    "desiredCommandAgentImage": {
+      "type": "string"
+    },
+    "desiredOtelAgentImage": {
+      "type": "string"
+    },
+    "imageStatus": {
+      "type": "string"
+    },
+    "imageSummary": {
+      "type": "string"
+    },
+    "incidents": {
+      "type": "array",
+      "items": {
+        "$ref": "./AdminConnectorRuntimeIncident.schema.json"
+      }
+    }
+  },
+  "title": "AdminConnectorRolloutStatus"
+}

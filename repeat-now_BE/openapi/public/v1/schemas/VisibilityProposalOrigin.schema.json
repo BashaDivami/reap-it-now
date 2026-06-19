@@ -1,0 +1,6 @@
+{
+  "title": "VisibilityProposalOrigin",
+  "description": "How a visibility proposal was authored.",
+  "type": "string",
+  "enum": ["chat", "ui"]
+}

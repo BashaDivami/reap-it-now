@@ -1,0 +1,29 @@
+{
+  "title": "SiteCreate",
+  "description": "Payload to create a site within an organization. Server fills id/audit fields.",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string", "description": "Display name for the site." },
+    "siteType": {
+      "type": "string",
+      "enum": ["OnPrem", "awsCloud"],
+      "default": "OnPrem",
+      "description": "Site type. Use 'awsCloud' for AWS cloud discovery sites."
+    },
+    "awsRegion": {
+      "type": "string",
+      "description": "AWS region for this site (required when siteType=awsCloud; omitted for OnPrem)."
+    },
+    "awsAccountId": {
+      "type": "string",
+      "description": "AWS account ID for this site (required when siteType=awsCloud; omitted for OnPrem)."
+    },
+    "address": {
+      "$ref": "./Address.schema.json",
+      "description": "Postal address for OnPrem sites. Omit for awsCloud sites."
+    },
+    "notes": { "type": "string", "nullable": true, "description": "Admin notes." }
+  },
+  "required": ["name"],
+  "additionalProperties": false
+}

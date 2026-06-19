@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "required": [
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "preview",
+        "applied"
+      ]
+    },
+    "mutationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "auditEventId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "blastRadius": {
+      "$ref": "./BlastRadius.schema.json"
+    },
+    "confirmationToken": {
+      "type": "string",
+      "description": "Present when a follow-up confirmation call is required."
+    }
+  },
+  "title": "AdminMutationResult"
+}

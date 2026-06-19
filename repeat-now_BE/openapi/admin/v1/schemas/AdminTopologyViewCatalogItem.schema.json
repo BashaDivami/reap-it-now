@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "required": [
+    "viewId",
+    "name"
+  ],
+  "properties": {
+    "viewId": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "scopeTypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "title": "AdminTopologyViewCatalogItem"
+}

@@ -1,0 +1,21 @@
+{
+  "title": "MetricsSeries",
+  "description": "A single labeled time-series returned by metrics-gateway.",
+  "type": "object",
+  "properties": {
+    "labels": {
+      "type": "object",
+      "description": "Series labels (e.g., targetId, interface, device).",
+      "additionalProperties": { "type": "string" }
+    },
+    "values": {
+      "type": "array",
+      "description": "Time-series samples.",
+      "items": {
+        "$ref": "./MetricsSample.schema.json"
+      }
+    }
+  },
+  "required": ["labels", "values"],
+  "additionalProperties": false
+}

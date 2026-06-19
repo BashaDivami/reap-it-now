@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyRelationshipSourceSelection",
+  "description": "Explicit topology graph element ids used as the source for compiling a relationship intent. This is used when the UI or previous resolution already selected concrete graph elements.",
+  "type": "object",
+  "properties": {
+    "nodeIds": {
+      "type": "array",
+      "description": "Concrete topology node ids selected as relationship sources.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "edgeIds": {
+      "type": "array",
+      "description": "Concrete topology edge ids selected as relationship sources.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "layerIds": {
+      "type": "array",
+      "description": "Existing overlay layer ids selected as relationship sources.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    }
+  },
+  "additionalProperties": false
+}

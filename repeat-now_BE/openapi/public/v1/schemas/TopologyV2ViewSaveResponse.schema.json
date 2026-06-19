@@ -1,0 +1,19 @@
+{
+  "title": "TopologyV2ViewSaveResponse",
+  "description": "Create/update response for a saved custom topology view.",
+  "type": "object",
+  "properties": {
+    "view": {
+      "$ref": "./TopologyV2ViewCatalogItem.schema.json"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "$ref": "./TopologyV2ViewSaveWarning.schema.json" }
+    },
+    "savedLayerSummary": {
+      "$ref": "./TopologyV2ViewSavedLayerSummary.schema.json"
+    }
+  },
+  "required": ["view"],
+  "additionalProperties": false
+}

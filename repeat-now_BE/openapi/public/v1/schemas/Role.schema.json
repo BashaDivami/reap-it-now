@@ -1,0 +1,50 @@
+{
+  "title": "Role",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    {
+      "type": "object",
+      "description": "Predefined (system) or organization-defined role.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Stable UUID for this role."
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["system", "org"],
+          "description": "Whether the role is global ('system') or defined within an organization ('org')."
+        },
+        "slug": {
+          "$ref": "./Slug.schema.json"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-friendly display label (mutable)."
+        },
+        "description": {
+          "type": "string",
+          "description": "What the role grants and when to use it."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "deprecated"],
+          "description": "Set to 'deprecated' to phase out a role without immediate removal."
+        },
+        "permissions": {
+          "type": "array",
+          "description": "CRUD/action grants over REAP resources.",
+          "items": { "$ref": "./Permission.schema.json" }
+        },
+        "labels": {
+          "type": "object",
+          "description": "Optional metadata for UI/ops.",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "required": ["id", "scope", "slug", "name", "status", "permissions", "createdAt", "updatedAt"],
+      "additionalProperties": false
+    }
+  ]
+}

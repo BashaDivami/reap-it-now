@@ -1,0 +1,45 @@
+{
+  "type": "object",
+  "required": ["context", "summary", "graph", "timeline", "approvals", "agentStates", "artifacts", "dataGaps"],
+  "properties": {
+    "context": {
+      "$ref": "./AdminAgentTraceContext.schema.json"
+    },
+    "summary": {
+      "$ref": "./AdminAgentTraceSummary.schema.json"
+    },
+    "graph": {
+      "$ref": "./AdminAgentTraceGraph.schema.json"
+    },
+    "timeline": {
+      "type": "array",
+      "items": { "$ref": "./AdminAgentTraceTimelineEvent.schema.json" }
+    },
+    "approvals": {
+      "type": "array",
+      "items": { "$ref": "./AdminAgentTraceApproval.schema.json" }
+    },
+    "workflowState": {
+      "$ref": "./AdminAgentTraceWorkflowState.schema.json",
+      "nullable": true
+    },
+    "agentStates": {
+      "type": "array",
+      "items": { "$ref": "./AdminAgentTraceAgentState.schema.json" }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": { "$ref": "./AdminAgentTraceArtifact.schema.json" }
+    },
+    "deviceTasks": {
+      "type": "array",
+      "items": { "$ref": "./AdminAgentTraceDeviceTask.schema.json" }
+    },
+    "dataGaps": {
+      "type": "array",
+      "items": { "$ref": "./AdminAgentTraceDataGap.schema.json" }
+    }
+  },
+  "additionalProperties": false,
+  "title": "AdminAgentTraceResponse"
+}

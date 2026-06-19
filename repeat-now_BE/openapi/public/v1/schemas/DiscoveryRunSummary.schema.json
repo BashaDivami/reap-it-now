@@ -1,0 +1,13 @@
+{
+  "title": "DiscoveryRunSummary",
+  "description": "Aggregate counters for a discovery run. Values grow while running and are final once the run finishes.",
+  "type": "object",
+  "properties": {
+    "devicesDiscovered": { "type": "integer", "minimum": 0, "description": "New device records created during the run." },
+    "devicesUpdated":    { "type": "integer", "minimum": 0, "description": "Existing device records updated (attributes/topology)." },
+    "devicesUnreachable":{ "type": "integer", "minimum": 0, "description": "Devices attempted but not reachable/responding." },
+    "linksDiscovered":   { "type": "integer", "minimum": 0, "description": "Topology links discovered across L1/L2/L3." }
+  },
+  "additionalProperties": false
+}
+

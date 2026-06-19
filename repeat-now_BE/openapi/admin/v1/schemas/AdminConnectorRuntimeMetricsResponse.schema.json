@@ -1,0 +1,432 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["orgId", "status", "summary", "scope", "connectors", "window", "generatedAt", "refreshSeconds", "links", "diagnostics", "families", "sections"],
+  "properties": {
+    "orgId": {
+      "type": "string",
+      "description": "Organization id used to scope all Prometheus queries."
+    },
+    "status": {
+      "$ref": "#/$defs/RuntimeStatus"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/RuntimeScope"
+    },
+    "connectors": {
+      "type": "array",
+      "description": "Connectors that currently report connector runtime series for this organization.",
+      "items": {
+        "$ref": "#/$defs/RuntimeConnector"
+      }
+    },
+    "window": {
+      "type": "string",
+      "enum": ["15m", "30m", "1h", "3h", "6h", "12h", "24h", "7d"]
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "refreshSeconds": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "links": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dashboard", "open", "embed", "context", "audit"],
+      "properties": {
+        "dashboard": {
+          "type": "string",
+          "description": "Standalone Grafana dashboard URL scoped to the org, optional connector, and window."
+        },
+        "open": {
+          "type": "string",
+          "description": "Internal admin Grafana URL for opening the same contextual dashboard in a new tab without kiosk mode."
+        },
+        "embed": {
+          "type": "string",
+          "description": "Internal admin Grafana dashboard URL intended for iframe embedding."
+        },
+        "context": {
+          "$ref": "#/$defs/GrafanaLinkContext"
+        },
+        "audit": {
+          "$ref": "#/$defs/GrafanaLinkAudit"
+        }
+      }
+    },
+    "diagnostics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metricFamilies"],
+      "properties": {
+        "metricFamilies": {
+          "type": "array",
+          "description": "Raw Prometheus metric families observed for diagnostics only.",
+          "items": {
+            "$ref": "#/$defs/RuntimeMetricFamily"
+          }
+        }
+      }
+    },
+    "families": {
+      "type": "array",
+      "deprecated": true,
+      "description": "Deprecated compatibility copy of diagnostics.metricFamilies. Admin UI should not render this field.",
+      "items": {
+        "$ref": "#/$defs/RuntimeMetricFamily"
+      }
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "$ref": "#/$defs/RuntimeSection"
+      }
+    }
+  },
+  "$defs": {
+    "RuntimeStatus": {
+      "type": "string",
+      "enum": ["healthy", "degraded", "unknown"]
+    },
+    "RuntimeScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "orgId"],
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["org", "connector"]
+        },
+        "orgId": {
+          "type": "string"
+        },
+        "connectorId": {
+          "type": "string"
+        }
+      }
+    },
+    "RuntimeConnector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "series"],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "series": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "RuntimeMetricFamily": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "series"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "series": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "GrafanaLinkContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dashboardUid", "datasourceUid", "from", "to", "timezone", "refresh", "orgId", "service"],
+      "properties": {
+        "dashboardUid": {
+          "type": "string",
+          "description": "Grafana dashboard UID."
+        },
+        "datasourceUid": {
+          "type": "string",
+          "description": "Grafana datasource UID."
+        },
+        "from": {
+          "type": "string",
+          "description": "Grafana from time expression or timestamp."
+        },
+        "to": {
+          "type": "string",
+          "description": "Grafana to time expression or timestamp."
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "refresh": {
+          "type": "string"
+        },
+        "orgId": {
+          "type": "string",
+          "description": "Admin org identifier included in current connector-runtime Grafana variables."
+        },
+        "connectorId": {
+          "type": "string",
+          "description": "Optional connector identifier included when the dashboard is connector-scoped."
+        },
+        "service": {
+          "type": "string",
+          "description": "Service or dashboard domain represented by this Grafana link."
+        }
+      }
+    },
+    "GrafanaLinkAudit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eventRequired", "reason"],
+      "properties": {
+        "eventRequired": {
+          "type": "boolean",
+          "description": "Whether generating this Grafana link must create an audit event in v1."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Human-readable audit decision for this link shape."
+        }
+      }
+    },
+    "RuntimeReporting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "label"],
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": ["reporting", "missing", "unknown"]
+        },
+        "label": {
+          "type": "string"
+        },
+        "missingFamilies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "RuntimeSection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "label", "status", "summary", "reporting", "kpis", "charts", "breakdowns", "lastUpdated"],
+      "properties": {
+        "key": {
+          "type": "string",
+          "enum": ["otelAgent", "commandAgent", "connectorVpn"]
+        },
+        "label": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/RuntimeStatus"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "reporting": {
+          "$ref": "#/$defs/RuntimeReporting"
+        },
+        "kpis": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RuntimeKpi"
+          }
+        },
+        "charts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RuntimeChart"
+          }
+        },
+        "breakdowns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RuntimeBreakdown"
+          }
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "RuntimeKpi": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "unit", "window", "severity"],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number",
+          "description": "Numeric KPI value. Omitted when the metric is not available."
+        },
+        "unit": {
+          "type": "string",
+          "enum": ["percent", "rate", "seconds", "count"]
+        },
+        "window": {
+          "type": "string",
+          "description": "Human-readable time basis for the KPI, such as Current, 5m rate, or Last 1h."
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["good", "bad", "neutral", "unknown"]
+        },
+        "description": {
+          "type": "string"
+        },
+        "precision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "scale": {
+          "type": "number"
+        },
+        "emptyLabel": {
+          "type": "string"
+        },
+        "displayValue": {
+          "type": "string",
+          "description": "Deprecated migration-only formatted value. Clients should format value and unit themselves."
+        }
+      }
+    },
+    "RuntimeChartAxis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "yMin": {
+          "type": "number"
+        },
+        "yMax": {
+          "type": "number"
+        },
+        "baseline": {
+          "type": "number"
+        },
+        "ticks": {
+          "type": "integer",
+          "minimum": 2
+        }
+      }
+    },
+    "RuntimeThreshold": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "label", "severity"],
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "label": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["warning", "bad", "good", "neutral"]
+        }
+      }
+    },
+    "RuntimeChart": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "unit", "axis", "points"],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string",
+          "deprecated": true,
+          "description": "Deprecated compatibility chart key. Use id."
+        },
+        "label": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string",
+          "enum": ["percent", "rate", "seconds", "count"]
+        },
+        "axis": {
+          "$ref": "#/$defs/RuntimeChartAxis"
+        },
+        "thresholds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RuntimeThreshold"
+          }
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RuntimePoint"
+          }
+        }
+      }
+    },
+    "RuntimePoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["t", "v"],
+      "properties": {
+        "t": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "v": {
+          "type": "number"
+        }
+      }
+    },
+    "RuntimeBreakdown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "rows"],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RuntimeBreakdownRow"
+          }
+        }
+      }
+    },
+    "RuntimeBreakdownRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "value"],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "title": "AdminConnectorRuntimeMetricsResponse"
+}

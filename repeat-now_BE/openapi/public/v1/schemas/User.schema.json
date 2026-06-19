@@ -1,0 +1,71 @@
+{
+  "title": "User",
+  "description": "Global user identity (email is globally unique). Not org-scoped; membership to orgs is modeled via Membership objects.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Primary email address. Globally unique across REAP. Can be changed only via verified email-change flow.",
+          "examples": ["alice@example.com"]
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name as shown in the UI.",
+          "examples": ["Alice Lee"]
+        },
+        "picture": {
+          "type": "string",
+          "format": "uri",
+          "description": "Avatar image URL (optional).",
+          "examples": ["https://cdn.reap.cloud/u/11111111-1111-1111-1111-111111111111.png"]
+        },
+        "status": {
+          "type": "string",
+          "description": "Account state at the global user level. Independent of per-org membership status.",
+          "enum": ["active", "suspended"],
+          "default": "active",
+          "readOnly": true
+        },
+        "emailVerified": {
+          "type": "boolean",
+          "description": "True if this email has been verified by REAP (via SSO assertion or verification flow).",
+          "readOnly": true
+        },
+        "mfaEnabled": {
+          "type": "boolean",
+          "description": "True if MFA is enabled for this user (applies to local sign-ins only; SSO enforces MFA at the IdP).",
+          "readOnly": true
+        },
+        "authMethods": {
+          "type": "array",
+          "description": "Authentication methods available for this user account.",
+          "items": {
+            "type": "string",
+            "enum": ["passkey", "saml", "oidc"]
+          },
+          "readOnly": true,
+          "examples": [["oidc", "saml"], ["passkey"]]
+        },
+        "lastLoginAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp (UTC) of the most recent successful login.",
+          "readOnly": true
+        },
+        "lockedUntil": {
+          "type": "string",
+          "format": "date-time",
+          "nullable": true,
+          "description": "If present, local sign-in is locked (e.g., due to rate limiting) until this time.",
+          "readOnly": true
+        }
+      },
+      "required": ["email"],
+      "additionalProperties": false
+    }
+  ]
+}

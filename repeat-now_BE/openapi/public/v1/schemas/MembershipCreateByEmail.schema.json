@@ -1,0 +1,36 @@
+{
+  "title": "MembershipCreateByEmail",
+  "type": "object",
+  "x-discriminator-value": "email",
+  "properties": {
+    "by": {
+      "type": "string",
+      "enum": ["email"],
+      "description": "Discriminator: create by email."
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Existing user's email."
+    },
+    "roleIds": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "minItems": 1,
+      "description": "Initial role set by UUID (authoritative)."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "suspended"],
+      "default": "active",
+      "description": "Initial status."
+    },
+    "labels": {
+      "type": "object",
+      "description": "Optional labels.",
+      "additionalProperties": { "type": "string" }
+    }
+  },
+  "required": ["by", "email", "roleIds"],
+  "additionalProperties": false
+}

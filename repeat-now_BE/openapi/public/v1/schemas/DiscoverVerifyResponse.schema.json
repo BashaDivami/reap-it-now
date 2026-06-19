@@ -1,0 +1,71 @@
+{
+  "title": "DiscoverVerifyResponse",
+  "description": "Verified org choices and sign-in options for an email.",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Verified email."
+    },
+    "emailTx": {
+      "type": "string",
+      "description": "Short-lived handle proving email ownership. Use with passkey/password endpoints to obtain loginTx, then exchange at /auth/token."
+    },
+    "emailTxExpiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true,
+      "description": "UTC timestamp when the emailTx expires (hint for clients)."
+    },
+    "localConnections": {
+      "type": "array",
+      "description": "User-level, org-independent local auth methods available for this email.",
+      "items": {
+        "type": "string",
+        "enum": ["passkey", "password"]
+      }
+    },
+    "memberships": {
+      "type": "array",
+      "description": "Organizations this email can access or has pending invitations for.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "orgId": {"type": "string", "format": "uuid", "description": "Organization id."},
+          "orgSlug": { "$ref": "./Slug.schema.json" },
+          "orgName": {"type": "string", "description": "Organization display name."},
+          "status": {
+            "type": "string",
+            "enum": ["active", "invited"],
+            "description": "Active membership allows sign-in; invited requires accepting an invitation."
+          },
+          "connections": {
+            "type": "array",
+            "description": "Org-scoped SSO sign-in options (OIDC/SAML). May be empty when the org has no SSO configured.",
+            "items": {"$ref": "./ConnectionChoice.schema.json"}
+          },
+          "policy": {
+            "type": "object",
+            "description": "Per-org sign-in policy preview for discovery.",
+            "properties": {
+              "requiresSso": {
+                "type": "boolean",
+                "default": false,
+                "description": "If true, local login (passkey/password) must NOT be used to access this org; SSO is mandatory."
+              }
+            },
+            "additionalProperties": false
+          },
+          "note": {
+            "type": "string",
+            "description": "Optional hint for the user (e.g., 'Use your invitation link to join')."
+          }
+        },
+        "required": ["orgId", "orgSlug", "orgName", "status"]
+      }
+    }
+  },
+  "required": ["email", "memberships"],
+  "additionalProperties": false
+}

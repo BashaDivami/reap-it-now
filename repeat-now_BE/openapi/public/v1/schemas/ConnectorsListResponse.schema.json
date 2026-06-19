@@ -1,0 +1,15 @@
+{
+  "title": "ConnectorsListResponse",
+  "description": "Paginated list of connectors.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./Connector.schema.json" },
+      "description": "Connectors returned in this page."
+    },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}

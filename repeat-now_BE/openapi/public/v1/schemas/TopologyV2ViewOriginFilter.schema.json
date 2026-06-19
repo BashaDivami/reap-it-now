@@ -1,0 +1,6 @@
+{
+  "title": "TopologyV2ViewOriginFilter",
+  "description": "Origin filter for listing topology views.",
+  "type": "string",
+  "enum": ["system", "custom", "all"]
+}

@@ -1,0 +1,48 @@
+{
+  "title": "ChatRunEventArtifactUpdate",
+  "description": "SSE payload for `event: artifact_update`, used when an existing artifact is mutated in place instead of announcing a new artifact.",
+  "type": "object",
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "description": "Stable event id for client-side deduplication."
+    },
+    "artifactId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Existing artifact being updated."
+    },
+    "artifactKind": {
+      "type": "string",
+      "enum": ["topology"],
+      "description": "Artifact kind being updated. Phase 2 supports topology updates."
+    },
+    "updateKind": {
+      "type": "string",
+      "enum": ["topology_overlay_patch"],
+      "description": "Update payload shape. Phase 2 emits topology overlay patches."
+    },
+    "summary": {
+      "type": "string",
+      "description": "Short human-readable summary for logs or toast-style UI."
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Overlay state revision after this patch is persisted."
+    },
+    "patch": {
+      "$ref": "./TopologyOverlayPatch.schema.json",
+      "description": "Self-contained incremental patch for clients that already have the artifact rendered."
+    },
+    "agent": { "$ref": "./ChatRunEventAgentRef.schema.json" },
+    "call": { "$ref": "./ChatRunEventCallRef.schema.json" },
+    "workflowId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Workflow identifier, when available."
+    }
+  },
+  "required": ["artifactId", "artifactKind", "updateKind", "revision", "patch"],
+  "additionalProperties": false
+}

@@ -1,0 +1,7 @@
+{
+  "title": "SnmpV3SecurityLevel",
+  "type": "string",
+  "enum": ["noAuthNoPriv", "authNoPriv", "authPriv"],
+  "description": "SNMPv3 security level."
+}
+

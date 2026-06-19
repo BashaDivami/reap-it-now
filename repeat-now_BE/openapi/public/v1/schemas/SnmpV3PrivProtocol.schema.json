@@ -1,0 +1,7 @@
+{
+  "title": "SnmpV3PrivProtocol",
+  "type": "string",
+  "enum": ["des", "aes128", "aes192", "aes256"],
+  "description": "SNMPv3 privacy/encryption protocol."
+}
+

@@ -1,0 +1,23 @@
+{
+  "title": "RunbookMissingInputDetail",
+  "description": "One required value the runbook compiler or planner could not infer and must ask the user to provide.",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string", "description": "Stable input name used by the runbook template." },
+    "shape": { "type": "string", "description": "Optional expected shape or semantic type hint." },
+    "message": { "type": "string", "description": "Human-readable prompt that can be shown directly to the operator." },
+    "choices": {
+      "type": "array",
+      "description": "Optional suggested values or selector candidates.",
+      "items": { "type": "string" }
+    },
+    "required_by": {
+      "type": "array",
+      "description": "Optional step identifiers that depend on this input.",
+      "items": { "type": "string" }
+    },
+    "description": { "type": "string", "description": "Short explanation of what the input is for." }
+  },
+  "required": ["name"],
+  "additionalProperties": false
+}

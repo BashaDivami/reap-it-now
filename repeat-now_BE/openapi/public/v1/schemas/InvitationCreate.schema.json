@@ -1,0 +1,33 @@
+{
+  "title": "InvitationCreateRequest",
+  "description": "Create an invitation for an email.",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Invitee email."
+    },
+    "roleIds": {
+      "type": "array",
+      "description": "Roles to grant by UUID (authoritative).",
+      "items": { "type": "string", "format": "uuid" },
+      "minItems": 1
+    },
+    "expiresInDays": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 180,
+      "default": 14,
+      "description": "Days until the invitation expires."
+    },
+    "message": {
+      "type": "string",
+      "nullable": true,
+      "maxLength": 2000,
+      "description": "Optional message included in the email."
+    }
+  },
+  "required": ["email", "roleIds"],
+  "additionalProperties": false
+}

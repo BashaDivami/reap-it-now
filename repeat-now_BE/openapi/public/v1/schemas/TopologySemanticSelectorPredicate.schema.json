@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologySemanticSelectorPredicate",
+  "description": "One catalog-backed predicate in a typed topology selector. The schema enforces the stable envelope; topology-service validates catalog-specific operator and value compatibility.",
+  "type": "object",
+  "properties": {
+    "catalogId": {
+      "type": "string",
+      "description": "Semantic catalog field id used by this predicate, for example inventory.device.vendor or network.stp.port_role.",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+    },
+    "op": {
+      "type": "string",
+      "description": "Predicate operator. The operator must also be allowed by the referenced catalog entry.",
+      "enum": [
+        "eq",
+        "neq",
+        "in",
+        "exists",
+        "contains",
+        "match",
+        "gt",
+        "gte",
+        "lt",
+        "lte",
+        "between"
+      ]
+    },
+    "value": {
+      "description": "Single typed predicate value for operators such as eq, neq, contains, match, gt, gte, lt, or lte.",
+      "$ref": "./TopologySemanticSelectorValue.schema.json"
+    },
+    "values": {
+      "type": "array",
+      "description": "Multiple typed predicate values for operators such as in or between.",
+      "items": {
+        "$ref": "./TopologySemanticSelectorValue.schema.json"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "catalogId",
+    "op"
+  ],
+  "additionalProperties": false
+}

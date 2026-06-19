@@ -1,0 +1,7 @@
+{
+  "title": "TopologyV2ScopeType",
+  "description": "Enumeration of supported scope types for Topology v2 view resolution and streaming.",
+  "type": "string",
+  "enum": ["org", "site", "device", "custom"]
+}
+

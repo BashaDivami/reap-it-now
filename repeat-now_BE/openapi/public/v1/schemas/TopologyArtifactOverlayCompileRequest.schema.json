@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyArtifactOverlayCompileRequest",
+  "description": "Service-to-service request for compiling a bounded topology follow-up into overlay operations that agent-core can persist and relay for artifact or workbench flows.",
+  "type": "object",
+  "properties": {
+    "artifact": {
+      "$ref": "./TopologyOverlayBase.schema.json",
+      "description": "Validated topology base binding that anchors compilation to the same base view the UI rendered. The field keeps its historical name even when the caller is operating on a workbench session instead of an artifact."
+    },
+    "action": {
+      "type": "string",
+      "description": "Overlay intent selected before calling topology-service. The service validates and resolves the action against the artifact graph.",
+      "enum": [
+        "highlight",
+        "focus",
+        "hide",
+        "show",
+        "clear",
+        "inspect",
+        "drilldown",
+        "overlay",
+        "relationship"
+      ]
+    },
+    "operation": {
+      "type": "string",
+      "description": "Lifecycle operation for the requested overlay or relationship output. Omitted means apply for backward compatibility.",
+      "enum": [
+        "apply",
+        "remove"
+      ]
+    },
+    "target": {
+      "$ref": "./TopologyArtifactOverlayCompileTarget.schema.json",
+      "description": "Element, layer, or natural-language target hints. Omit only for global clear/show operations."
+    },
+    "selector": {
+      "$ref": "./TopologySemanticSelector.schema.json",
+      "description": "Optional typed, catalog-backed selector. When present, topology-service validates and executes this selector before falling back to text or explicit target hints."
+    },
+    "overlaySignal": {
+      "$ref": "./TopologyOverlaySignalIntent.schema.json",
+      "description": "Optional catalog-backed metric/state overlay intent. Required when action=overlay; omitted for Phase 2 highlight/focus/hide/show/inspect/drilldown operations."
+    },
+    "relationship": {
+      "$ref": "./TopologyRelationshipIntent.schema.json",
+      "description": "Optional callable relationship intent. Required when action=relationship; topology-service validates relationship id, source, qualifiers, and render mode against scoped relationship availability."
+    },
+    "options": {
+      "type": "object",
+      "description": "Action-specific compile options that do not need separate top-level schemas.",
+      "properties": {
+        "hops": {
+          "type": "integer",
+          "description": "Neighbor expansion depth for focus or drilldown-style requests.",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "clearKinds": {
+          "type": "array",
+          "description": "Layer kinds to clear when action=clear.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "highlight",
+              "focus",
+              "hide",
+              "selection",
+              "inspect",
+              "drilldown",
+              "metric",
+              "state"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "overlayMode": {
+          "type": "string",
+          "description": "How a ready patch should relate to existing overlay layers.",
+          "enum": [
+            "append",
+            "replace_kind",
+            "replace_layer",
+            "clear_then_apply"
+          ]
+        },
+        "includeInspectSummary": {
+          "type": "boolean",
+          "description": "Whether inspect-style responses should include concise matched-element details in the response summary."
+        }
+      },
+      "additionalProperties": false
+    },
+    "context": {
+      "type": "object",
+      "description": "Non-visible request correlation and UI artifact or workbench context. This is metadata supplied by agent runtime/tool code, not prompt text for the network chatbot.",
+      "properties": {
+        "artifactId": {
+          "type": "string",
+          "description": "Chat artifact id being updated."
+        },
+        "overlayRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Topology artifact overlay revision observed by the caller when compiling an artifact-mode follow-up. Used with artifactId to guard stale target/result-scope chaining."
+        },
+        "sessionId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Visibility session id when compiling a topology workbench proposal."
+        },
+        "sessionRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Session revision observed by the caller when compilation is requested."
+        },
+        "runId": {
+          "type": "string",
+          "description": "Agent run id for tracing."
+        },
+        "messageId": {
+          "type": "string",
+          "description": "User message id that triggered the follow-up."
+        },
+        "desiredLayerIdPrefix": {
+          "type": "string",
+          "description": "Optional stable prefix for deterministic layer ids created by the compiler."
+        },
+        "selectedNodeIds": {
+          "type": "array",
+          "description": "Currently selected topology node ids, when present in incoming chat context.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "selectedEdgeIds": {
+          "type": "array",
+          "description": "Currently selected topology edge ids, when present in incoming chat context.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "activeLayerIds": {
+          "type": "array",
+          "description": "Overlay layer ids currently active on the artifact surface.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "artifact",
+    "action"
+  ],
+  "additionalProperties": false
+}

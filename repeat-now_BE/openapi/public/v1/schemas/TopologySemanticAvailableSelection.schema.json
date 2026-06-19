@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologySemanticAvailableSelection",
+  "description": "One semantic entity that can be selected on the active topology artifact surface.",
+  "type": "object",
+  "properties": {
+    "semanticEntity": {
+      "type": "string",
+      "description": "Domain entity the user means, for example inventory.device or inventory.interface.",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+    },
+    "surfaceEntity": {
+      "type": "string",
+      "description": "Topology surface entity representing the semantic entity.",
+      "enum": ["topology.node", "topology.edge"]
+    },
+    "targetKind": {
+      "type": "string",
+      "description": "Topology overlay target kind this selection resolves to.",
+      "enum": ["node", "edge"]
+    },
+    "catalogIds": {
+      "type": "array",
+      "description": "Semantic catalog field ids available for predicates or outputs on this selection.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+      },
+      "uniqueItems": true
+    },
+    "supportedActions": {
+      "type": "array",
+      "description": "Semantic catalog action ids supported for this selection and target kind.",
+      "items": {
+        "type": "string",
+        "pattern": "^topology\\.action\\.[a-z][a-z0-9_]*$"
+      },
+      "uniqueItems": true
+    },
+    "valueSummaries": {
+      "type": "array",
+      "description": "Optional bounded observed value summaries for low-cardinality catalog fields.",
+      "items": {
+        "$ref": "./TopologySemanticValueSummary.schema.json"
+      }
+    }
+  },
+  "required": ["semanticEntity", "surfaceEntity", "targetKind", "catalogIds", "supportedActions"],
+  "additionalProperties": false
+}

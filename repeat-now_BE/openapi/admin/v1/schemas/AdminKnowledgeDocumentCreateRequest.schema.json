@@ -1,0 +1,38 @@
+{
+  "allOf": [
+    {
+      "$ref": "./AdminWriteContext.schema.json"
+    },
+    {
+      "type": "object",
+      "required": [
+        "sourceType",
+        "source"
+      ],
+      "properties": {
+        "sourceType": {
+          "type": "string",
+          "enum": [
+            "url",
+            "file_ref",
+            "text"
+          ]
+        },
+        "source": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "collection": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    }
+  ],
+  "title": "AdminKnowledgeDocumentCreateRequest"
+}

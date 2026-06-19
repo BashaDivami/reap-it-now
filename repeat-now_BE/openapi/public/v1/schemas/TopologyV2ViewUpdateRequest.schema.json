@@ -1,0 +1,27 @@
+{
+  "title": "TopologyV2ViewUpdateRequest",
+  "description": "Partial update for a saved custom topology view. Metadata and/or saved template intent may be replaced.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Updated display name."
+    },
+    "description": {
+      "type": "string",
+      "nullable": true,
+      "description": "Updated human description."
+    },
+    "saveMode": {
+      "$ref": "./TopologyV2ViewScopeMode.schema.json",
+      "description": "Optional replacement scope/save mode."
+    },
+    "source": {
+      "$ref": "./TopologyV2ViewSaveSource.schema.json",
+      "description": "Optional current source from which saved intent should be replaced."
+    }
+  },
+  "minProperties": 1,
+  "additionalProperties": false
+}

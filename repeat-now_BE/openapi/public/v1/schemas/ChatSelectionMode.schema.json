@@ -1,0 +1,6 @@
+{
+  "title": "ChatSelectionMode",
+  "type": "string",
+  "description": "Selection behavior for bounded interactive prompts.",
+  "enum": ["single", "multi"]
+}

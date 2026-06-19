@@ -1,0 +1,33 @@
+{
+  "title": "DiscoveryEventWarningData",
+  "description": "Non-fatal condition encountered during discovery.",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Machine-readable warning code."
+    },
+    "message": {
+      "type": "string",
+      "description": "Human-readable warning."
+    },
+    "context": {
+      "type": "object",
+      "description": "Optional structured details.",
+      "additionalProperties": true
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "warning"
+      ]
+    }
+  },
+  "required": [
+    "code",
+    "message",
+    "type"
+  ],
+  "additionalProperties": false,
+  "x-discriminator-value": "warning"
+}

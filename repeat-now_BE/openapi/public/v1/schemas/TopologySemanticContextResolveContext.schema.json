@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologySemanticContextResolveContext",
+  "description": "Optional runtime artifact or workbench session context used when resolving topology semantic context.",
+  "type": "object",
+  "properties": {
+    "artifactId": {
+      "type": "string",
+      "description": "Chat artifact id being acted on. Used as the scoped context id when supplied."
+    },
+    "overlayRevision": {
+      "type": "integer",
+      "description": "Overlay revision observed by the caller when context is requested.",
+      "minimum": 0
+    },
+    "sessionId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Visibility session id when resolving context for a topology workbench session."
+    },
+    "sessionRevision": {
+      "type": "integer",
+      "description": "Session revision observed by the caller when context is requested.",
+      "minimum": 0
+    },
+    "proposalId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Proposal id currently being previewed or applied when the caller has one."
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "properties": {
+    "artifactId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "contentType": {
+      "type": "string"
+    },
+    "redacted": {
+      "type": "boolean"
+    },
+    "inlineText": {
+      "type": "string",
+      "description": "Inline plain-text payload when artifact content is text-based."
+    },
+    "inlineJson": {
+      "type": "object",
+      "description": "Inline JSON payload for structured artifact content.",
+      "additionalProperties": true
+    },
+    "downloadUrl": {
+      "type": "string",
+      "format": "uri"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "title": "AdminArtifactContent"
+}

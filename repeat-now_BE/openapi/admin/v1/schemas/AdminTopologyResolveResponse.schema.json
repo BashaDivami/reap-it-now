@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "properties": {
+    "graph": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "legend": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "drilldowns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "title": "AdminTopologyResolveResponse"
+}

@@ -1,0 +1,17 @@
+{
+  "title": "DeviceMergeRequest",
+  "description": "Execute a merge: consolidate 'from' devices into 'into' device. All devices must belong to the same org; 'intoDeviceId' cannot appear in 'fromDeviceIds'.",
+  "type": "object",
+  "properties": {
+    "intoDeviceId": { "type": "string", "format": "uuid", "description": "The surviving device." },
+    "fromDeviceIds": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "minItems": 1,
+      "description": "Devices to merge into the survivor."
+    }
+  },
+  "required": ["intoDeviceId", "fromDeviceIds"],
+  "additionalProperties": false
+}
+

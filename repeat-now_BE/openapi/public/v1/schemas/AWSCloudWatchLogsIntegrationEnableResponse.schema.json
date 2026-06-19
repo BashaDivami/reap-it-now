@@ -1,0 +1,12 @@
+{
+  "title": "AWSCloudWatchLogsIntegrationEnableResponse",
+  "type": "object",
+  "description": "Response returned when a disabled AWS CloudWatch Logs onboarding record is enabled again.",
+  "properties": {
+    "integration": {
+      "$ref": "./AWSCloudWatchLogsIntegration.schema.json"
+    }
+  },
+  "required": ["integration"],
+  "additionalProperties": false
+}

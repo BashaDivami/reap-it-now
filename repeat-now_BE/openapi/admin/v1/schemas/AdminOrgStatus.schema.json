@@ -1,0 +1,9 @@
+{
+  "type": "string",
+  "enum": [
+    "active",
+    "soft_locked",
+    "disabled"
+  ],
+  "title": "AdminOrgStatus"
+}

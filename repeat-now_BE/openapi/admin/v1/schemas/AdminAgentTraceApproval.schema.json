@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "required": ["id", "status", "approvalKey", "requestedAt"],
+  "properties": {
+    "id": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "approved", "rejected", "cancelled"]
+    },
+    "approvalKey": { "type": "string" },
+    "agentCallId": { "type": "string" },
+    "requestedBy": { "type": "string" },
+    "requestedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "resolvedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "decision": { "type": "string" },
+    "summary": { "type": "string" }
+  },
+  "additionalProperties": false,
+  "title": "AdminAgentTraceApproval"
+}

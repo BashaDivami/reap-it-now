@@ -1,0 +1,12 @@
+{
+  "title": "TopologyV2ParamOptionsResponse",
+  "description": "Response for dynamic parameter options.",
+  "type": "object",
+  "properties": {
+    "items": { "type": "array", "items": { "$ref": "./TopologyV2ParamOptionItem.schema.json" } },
+    "meta": { "type": "object", "additionalProperties": true }
+  },
+  "required": ["items"],
+  "additionalProperties": false
+}
+

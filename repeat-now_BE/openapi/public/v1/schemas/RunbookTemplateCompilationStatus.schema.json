@@ -1,0 +1,19 @@
+{
+  "title": "RunbookTemplateCompilationStatus",
+  "description": "Latest known state for an asynchronous runbook template compilation.",
+  "type": "object",
+  "properties": {
+    "compilation_id": { "type": "string", "format": "uuid" },
+    "org_id": { "type": "string" },
+    "status": { "type": "string" },
+    "current_stage": { "type": "string" },
+    "percent": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "error": { "type": "string" },
+    "attempt_id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "result": { "$ref": "./RunbookTemplateCompileResult.schema.json" }
+  },
+  "required": ["compilation_id", "org_id", "status"],
+  "additionalProperties": false
+}

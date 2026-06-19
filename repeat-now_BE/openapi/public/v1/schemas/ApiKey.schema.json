@@ -1,0 +1,33 @@
+{
+  "title": "ApiKey",
+  "description": "Org-scoped API key resource. The secret is shown only at creation time.",
+  "allOf": [
+    { "$ref": "./ResourceBase.schema.json" },
+    { "$ref": "./OrgScoped.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Friendly label for the key." },
+        "prefix": { "type": "string", "description": "Non-secret identifier prefix used for display and logging." },
+        "last4": { "type": "string", "description": "Last four characters of the key secret for identification." },
+        "roleIds": {
+          "type": "array",
+          "description": "Assigned org roles for this key by UUID.",
+          "items": { "type": "string", "format": "uuid" },
+          "minItems": 1
+        },
+        "rolesResolved": {
+          "type": "array",
+          "description": "Resolved role details for display convenience.",
+          "items": { "$ref": "./RoleResolved.schema.json" }
+        },
+        "status": { "type": "string", "enum": ["active", "revoked"], "description": "Lifecycle state." },
+        "createdByUserId": { "type": "string", "format": "uuid", "description": "User who created the key." },
+        "expiresAt": { "type": "string", "format": "date-time", "description": "Expiration timestamp." },
+        "lastUsedAt": { "type": "string", "format": "date-time", "nullable": true, "description": "Last successful use (server time)." }
+      },
+      "required": ["name", "roleIds", "status", "expiresAt"],
+      "additionalProperties": false
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "CloudAccessConnectionsListResponse",
+  "description": "Paginated list of cloud access connections within an organization.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": { "$ref": "./CloudAccessConnection.schema.json" }
+    },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}

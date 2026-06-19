@@ -1,0 +1,25 @@
+{
+  "title": "DelegationInviteCreate",
+  "type": "object",
+  "description": "Create a delegation invite. Backend generates a single-use token and emails the accept link.",
+  "properties": {
+    "allowedScopes": {
+      "type": "array",
+      "items": { "$ref": "./DelegationScope.schema.json" },
+      "minItems": 1,
+      "description": "Upper bound of scopes the MSP may receive."
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Explicit expiry. If omitted, a default TTL (e.g., 7 days) is applied."
+    },
+    "mspOrgSlug": {
+      "$ref": "./Slug.schema.json",
+      "description": "Optional directed invite target (MSP org slug; equals Organization.slug, immutable). If omitted, it's an open invite."
+    }
+  },
+  "required": ["allowedScopes"],
+  "additionalProperties": false
+}
+

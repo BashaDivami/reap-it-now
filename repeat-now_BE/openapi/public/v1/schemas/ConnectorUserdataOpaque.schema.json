@@ -1,0 +1,6 @@
+{
+  "title": "ConnectorUserdataOpaque",
+  "type": "object",
+  "description": "Opaque connector bootstrap payload. Shape may change without notice; treat as an arbitrary object.",
+  "additionalProperties": true
+}

@@ -1,0 +1,13 @@
+{
+  "title": "RunbookTemplateAuthoring",
+  "description": "Author-facing metadata captured alongside a saved runbook template.",
+  "type": "object",
+  "properties": {
+    "title": { "type": "string" },
+    "instructions": { "type": "string" },
+    "source_type": { "type": "string" },
+    "source_hash": { "type": "string" },
+    "source_uri": { "type": "string" }
+  },
+  "additionalProperties": false
+}

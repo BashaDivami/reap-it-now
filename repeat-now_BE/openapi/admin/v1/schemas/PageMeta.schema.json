@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "next": {
+      "type": "string"
+    },
+    "prev": {
+      "type": "string"
+    },
+    "exactTotal": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "title": "PageMeta"
+}

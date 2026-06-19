@@ -1,0 +1,6 @@
+{
+  "title": "TopologyV2ViewSharingScope",
+  "description": "Visibility model for a saved custom topology view. Phase 5 supports private views only.",
+  "type": "string",
+  "enum": ["private"]
+}

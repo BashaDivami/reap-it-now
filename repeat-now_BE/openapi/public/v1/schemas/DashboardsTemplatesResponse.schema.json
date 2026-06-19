@@ -1,0 +1,26 @@
+{
+  "title": "DashboardsTemplatesResponse",
+  "description": "Discovery/debugging response describing supported REAP pages, widget types, and Grafana panel mappings.",
+  "type": "object",
+  "properties": {
+    "pageKeys": {
+      "type": "array",
+      "items": { "$ref": "./DashboardPageKeyInfo.schema.json" }
+    },
+    "widgetTypes": {
+      "type": "array",
+      "items": { "$ref": "./DashboardWidgetTypeInfo.schema.json" }
+    },
+    "grafanaCatalog": {
+      "type": "array",
+      "items": { "$ref": "./GrafanaCatalogEntry.schema.json" }
+    },
+    "version": {
+      "type": "string",
+      "description": "Version string for the templates/catalog snapshot (e.g., git SHA or date)."
+    }
+  },
+  "required": ["pageKeys", "widgetTypes", "grafanaCatalog", "version"],
+  "additionalProperties": false
+}
+

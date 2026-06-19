@@ -1,0 +1,54 @@
+{
+  "title": "ArtifactContentChart",
+  "description": "Chart content payload for kind=chart. Supports static table-backed charts and Phase 1A live metric charts.",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["chart"],
+      "description": "Discriminator for chart content."
+    },
+    "version": {
+      "type": "string",
+      "enum": ["v1"],
+      "description": "Chart artifact content schema version."
+    },
+    "title": {
+      "type": "string",
+      "description": "Optional chart title override."
+    },
+    "renderer": {
+      "$ref": "./ChartRenderer.schema.json"
+    },
+    "chartType": {
+      "type": "string",
+      "description": "Optional semantic chart type hint, for example line, bar, pie, gauge, or heatmap."
+    },
+    "dataRefs": {
+      "type": "array",
+      "description": "References to source artifacts for static charts.",
+      "items": { "$ref": "./ChartDataRef.schema.json" }
+    },
+    "dataBinding": {
+      "$ref": "./ChartDataBinding.schema.json"
+    },
+    "refreshPlan": {
+      "$ref": "./ChartRefreshPlan.schema.json"
+    },
+    "lastSnapshot": {
+      "$ref": "./ChartSnapshot.schema.json"
+    },
+    "encodingHints": {
+      "type": "object",
+      "description": "Optional human/UI hints such as axis labels, units, and legend fields.",
+      "additionalProperties": true
+    },
+    "spec": {
+      "type": "object",
+      "description": "Renderer-specific spec. For Vega-Lite, this is a Vega-Lite JSON object.",
+      "additionalProperties": true
+    }
+  },
+  "required": ["type", "version", "renderer", "spec"],
+  "additionalProperties": false
+}

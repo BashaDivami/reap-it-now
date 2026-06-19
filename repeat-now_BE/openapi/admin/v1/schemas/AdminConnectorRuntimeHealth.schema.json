@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "properties": {
+    "state": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "lastHeartbeatAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "statusChangedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "title": "AdminConnectorRuntimeHealth"
+}

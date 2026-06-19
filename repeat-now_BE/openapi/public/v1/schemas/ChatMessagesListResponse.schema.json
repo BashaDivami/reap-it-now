@@ -1,0 +1,12 @@
+{
+  "title": "ChatMessagesListResponse",
+  "type": "object",
+  "description": "Cursor-paged list of messages in a thread.",
+  "properties": {
+    "items": { "type": "array", "items": { "$ref": "./ChatMessage.schema.json" } },
+    "meta": { "$ref": "./PageMeta.schema.json" }
+  },
+  "required": ["items", "meta"],
+  "additionalProperties": false
+}
+

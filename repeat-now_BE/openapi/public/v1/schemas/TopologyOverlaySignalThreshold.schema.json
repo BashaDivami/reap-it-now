@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TopologyOverlaySignalThreshold",
+  "description": "One threshold band or comparison requested for a topology overlay signal. topology-service validates the field, value type, and tone against catalog metadata and supported effects.",
+  "type": "object",
+  "properties": {
+    "field": {
+      "type": "string",
+      "description": "Catalog-backed field or derived signal field to compare, for example traffic.util_pct."
+    },
+    "op": {
+      "type": "string",
+      "description": "Comparison operator.",
+      "enum": ["lt", "lte", "gt", "gte", "eq", "neq"]
+    },
+    "value": {
+      "$ref": "./TopologySemanticSelectorValue.schema.json"
+    },
+    "tone": {
+      "type": "string",
+      "description": "Bounded presentation tone emitted after backend threshold evaluation.",
+      "enum": ["neutral", "info", "healthy", "warning", "critical"]
+    },
+    "label": {
+      "type": "string",
+      "description": "Optional display label for this threshold band."
+    }
+  },
+  "required": ["field", "op", "value", "tone"],
+  "additionalProperties": false
+}

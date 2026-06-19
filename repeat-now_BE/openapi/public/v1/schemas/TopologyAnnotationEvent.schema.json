@@ -1,0 +1,14 @@
+{
+  "title": "TopologyAnnotationEvent",
+  "description": "Producer-emitted annotation event (raw fact) that decorates a graph element. Typically routed by (scope, topic) and applied by the view engine during resolve/stream.",
+  "type": "object",
+  "properties": {
+    "ts": { "type": "string", "format": "date-time", "description": "When this fact was observed/true." },
+    "target": { "$ref": "./TopologyAnnotationTarget.schema.json" },
+    "op": { "$ref": "./TopologyAnnotationOp.schema.json" },
+    "payload": { "type": "object", "description": "Labels/properties/tags to apply (shape depends on op).", "additionalProperties": true }
+  },
+  "required": ["ts", "target", "op", "payload"],
+  "additionalProperties": false
+}
+
