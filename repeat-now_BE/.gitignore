@@ -24,3 +24,6 @@ Thumbs.db
 # Build output
 dist/
 build/
+
+# Auto-generated TypeScript SDK — run `npm run generate:sdk` to regenerate
+/gen/

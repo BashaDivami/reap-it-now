@@ -7,42 +7,38 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const projectRoot = path.resolve(__dirname, '..');
-const specPath = 'openapi/public/v1/openapi.yaml';
-const outDir = 'gen/typescript/openapi/public/v1';
+const specPath = path.join(projectRoot, 'openapi', 'public', 'v1', 'openapi.yaml');
+const outDir = path.join(projectRoot, 'gen', 'typescript', 'openapi', 'public', 'v1');
 const npmName = '@reap/openapi-public-v1';
-const generatorImage = 'openapitools/openapi-generator-cli:v7.6.0';
-const nodeImage = 'node:20';
 
 const run = (cmd) => execSync(cmd, { stdio: 'inherit', cwd: projectRoot });
 
 async function generate() {
   console.log('[generate-sdk] Removing existing output…');
-  await rm(path.join(projectRoot, outDir), { recursive: true, force: true });
+  await rm(outDir, { recursive: true, force: true });
 
   console.log('[generate-sdk] Generating TypeScript SDK from spec…');
   run(
-    `docker run --rm \
-      -v "${projectRoot}:/local" \
-      ${generatorImage} generate \
-      -i /local/${specPath} \
+    `OPENAPI_GENERATOR_VERSION=7.6.0 npx @openapitools/openapi-generator-cli generate \
+      -i "${specPath}" \
       -g typescript-fetch \
-      -o /local/${outDir} \
+      -o "${outDir}" \
       --additional-properties=npmName=${npmName},supportsES6=true,typescriptThreePlus=true`
   );
 
-  // Remove the .gitignore the generator writes — we manage ignores ourselves
-  await unlink(path.join(projectRoot, outDir, '.gitignore')).catch(() => {});
+  await unlink(path.join(outDir, '.gitignore')).catch(() => {});
+
+  console.log('[generate-sdk] Installing SDK dependencies…');
+  run(`npm install --no-audit --no-fund --prefer-offline --prefix "${outDir}"`);
 
   console.log('[generate-sdk] Building TypeScript…');
-  run(
-    `docker run --rm \
-      -v "${projectRoot}:/workspace" \
-      -w /workspace/${outDir} \
-      ${nodeImage} /bin/sh -c \
-      "set -eu; npm install --no-audit --no-fund --prefer-offline; npm run build; rm -rf node_modules package-lock.json"`
-  );
+  run(`npm run build --prefix "${outDir}"`);
 
-  console.log(`[generate-sdk] ✅ SDK ready at ${outDir}`);
+  console.log('[generate-sdk] Cleaning up…');
+  await rm(path.join(outDir, 'node_modules'), { recursive: true, force: true });
+  await rm(path.join(outDir, 'package-lock.json'), { force: true });
+
+  console.log(`[generate-sdk] ✅ SDK ready at gen/typescript/openapi/public/v1`);
 }
 
 generate().catch((err) => {

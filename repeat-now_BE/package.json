@@ -16,6 +16,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.38.0",
     "nodemon": "^3.0.2"
   }
 }
