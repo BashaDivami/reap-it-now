@@ -21,9 +21,6 @@ Thumbs.db
 *.swp
 *.swo
 
-# Claude internal files
-claude/
-
 # Build output
 dist/
 build/
