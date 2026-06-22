@@ -8,8 +8,23 @@ const { read, write } = require('./jsonStore');
  * @param {string} version  e.g. 'v1' | 'v2' | 'v3'
  * @param {string} resource e.g. 'users' | 'products'
  */
+
+// RFC 7807 Problem Details — matches reap-contracts Problem.schema.json
 function problem(res, status, title, detail) {
-  res.status(status).json({ title, status, detail });
+  res.status(status).json({
+    type: `https://api.reap.cloud/problems/${title.toLowerCase().replace(/\s+/g, '-')}`,
+    title,
+    status,
+    detail,
+    requestId: uuid(),
+  });
+}
+
+// Extracts a mock user ID from the Authorization header (Bearer token) or falls back to a fixed UUID
+function resolveUserId(req) {
+  const auth = req.headers['authorization'] ?? '';
+  const token = auth.startsWith('Bearer ') ? auth.slice(7) : null;
+  return token ?? '00000000-0000-0000-0000-000000000001';
 }
 
 function makeController(version, resource) {
@@ -33,7 +48,16 @@ function makeController(version, resource) {
 
     create(req, res) {
       const items = read(version, resource);
-      const newItem = { id: uuid(), ...req.body, createdAt: new Date().toISOString() };
+      const now = new Date().toISOString();
+      const userId = resolveUserId(req);
+      const newItem = {
+        id: uuid(),
+        ...req.body,
+        createdAt: now,
+        updatedAt: now,
+        createdBy: userId,
+        updatedBy: userId,
+      };
       items.push(newItem);
       write(version, resource, items);
       res.status(201).json(newItem);
@@ -43,7 +67,17 @@ function makeController(version, resource) {
       const items = read(version, resource);
       const idx = items.findIndex((i) => String(i.id) === String(req.params.id));
       if (idx === -1) return problem(res, 404, 'Not Found', `${resource} not found`);
-      items[idx] = { ...items[idx], ...req.body, updatedAt: new Date().toISOString() };
+      const userId = resolveUserId(req);
+      items[idx] = {
+        ...items[idx],
+        ...req.body,
+        updatedAt: new Date().toISOString(),
+        updatedBy: userId,
+        // preserve immutable fields
+        id: items[idx].id,
+        createdAt: items[idx].createdAt,
+        createdBy: items[idx].createdBy,
+      };
       write(version, resource, items);
       res.json(items[idx]);
     },

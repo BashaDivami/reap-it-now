@@ -45,6 +45,32 @@ Matches the real `reap-contracts` OpenAPI spec.
 
 Collections support `?limit` (1–200, default 50) and `?after` (cursor offset).
 
+## What is implemented
+
+### v1 — Endpoints used by the frontend (mirrored from openapi spec)
+
+> See full detail in [docs/v1/CHANGES.md](./v1/CHANGES.md)
+
+| Resource | Endpoints implemented |
+|----------|----------------------|
+| _(none yet — add rows here as frontend integration begins)_ | |
+
+### v2 — v1 endpoints modified for frontend needs
+
+> See full detail in [docs/v2/CHANGES.md](./v2/CHANGES.md)
+
+| Resource | What changed from v1 |
+|----------|----------------------|
+| _(none yet)_ | |
+
+### v3 — Net-new endpoints not in the openapi spec
+
+> See full detail in [docs/v3/CHANGES.md](./v3/CHANGES.md)
+
+| Resource | What it does | Screen / feature |
+|----------|--------------|-----------------|
+| _(none yet)_ | | |
+
 ## Generating v1 from openapi.yml
 
 1. Place `openapi.yml` in the project root.

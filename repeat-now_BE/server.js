@@ -9,15 +9,25 @@ app.use(express.json());
 
 app.use('/api', require('./routes'));
 
-// 404 fallback
+// 404 fallback — RFC 7807
 app.use((req, res) => {
-  res.status(404).json({ message: `Route ${req.method} ${req.path} not found` });
+  res.status(404).json({
+    type: 'https://api.reap.cloud/problems/not-found',
+    title: 'Not Found',
+    status: 404,
+    detail: `Route ${req.method} ${req.path} not found`,
+  });
 });
 
-// Global error handler
+// Global error handler — RFC 7807
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).json({ message: 'Internal server error', error: err.message });
+  res.status(500).json({
+    type: 'https://api.reap.cloud/problems/internal-error',
+    title: 'Internal Server Error',
+    status: 500,
+    detail: err.message || 'An unexpected error occurred',
+  });
 });
 
 app.listen(PORT, () => {

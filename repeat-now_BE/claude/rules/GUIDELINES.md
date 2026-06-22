@@ -78,55 +78,45 @@ Do not use `data`, `total`, or bare `message` wrappers.
 
 ---
 
-## 6. Resource names and route patterns
+## 6. Resource naming reference
 
-All resource names come from the OpenAPI spec at `openapi/public/v1/openapi.yaml`.
-Use the exact same names when calling `makeController('<version>', '<resource>')`.
+When wiring up a route, use the resource name exactly as it appears in the OpenAPI spec.
+This table is a **naming reference only** — only implement what the frontend actually needs.
 
-### URL pattern
-```
-/api/v1/auth/*                                  — authentication
-/api/v1/orgs/:orgId/<resource>                  — org-scoped resource
-/api/v1/orgs/:orgId/<resource>/:id              — single item
-/api/v1/msp/*                                   — MSP / delegations
-```
-
-### Available resources (from openapi spec)
-
-| Resource name (use in makeController) | URL prefix | Endpoints |
-|---------------------------------------|------------|-----------|
-| `auth` | `/auth/*` | 15 |
-| `orgs` | `/orgs` | 2 |
-| `api-keys` | `/orgs/:orgId/api-keys` | 2 |
-| `audit` | `/orgs/:orgId/audit/events` | 2 |
-| `chat` | `/orgs/:orgId/chat/*` | 16 |
-| `connector-clusters` | `/orgs/:orgId/connector-clusters` | 4 |
-| `connectors` | `/orgs/:orgId/connectors` | 3 |
-| `credential-assignments` | `/orgs/:orgId/credential-assignments` | 2 |
-| `credential-stores` | `/orgs/:orgId/credential-stores` | 2 |
-| `credentials` | `/orgs/:orgId/credentials` | 2 |
-| `dashboards` | `/orgs/:orgId/dashboards/*` | 4 |
-| `devices` | `/orgs/:orgId/devices` | 8 |
-| `discovery` | `/orgs/:orgId/discovery/*` | 6 |
-| `endpoints` | `/orgs/:orgId/endpoints` | 2 |
-| `files` | `/orgs/:orgId/files` | 2 |
-| `grafana` | `/orgs/:orgId/grafana/*` | 1 |
-| `idp` | `/orgs/:orgId/idp/connections` | 4 |
-| `integrations` | `/orgs/:orgId/integrations/*` | 15 |
-| `invitations` | `/orgs/:orgId/invitations` | 3 |
-| `knowledge` | `/orgs/:orgId/knowledge/*` | 7 |
-| `memberships` | `/orgs/:orgId/memberships` | 2 |
-| `metrics` | `/orgs/:orgId/metrics/*` | 2 |
-| `msp` | `/msp/*` | 3 |
-| `roles` | `/orgs/:orgId/roles` | 2 |
-| `runbooks` | `/orgs/:orgId/runbooks/*` | 9 |
-| `secrets` | `/orgs/:orgId/secrets` | 3 |
-| `signals` | `/orgs/:orgId/signals/*` | 8 |
-| `sites` | `/orgs/:orgId/sites` | 4 |
-| `topology` | `/orgs/:orgId/topology/*` | 10 |
-| `visibility` | `/orgs/:orgId/visibility/*` | 9 |
-
-Only add a resource here if the frontend actually uses it. Do not expose all 162 endpoints by default.
+| Resource name | URL pattern in spec |
+|---------------|---------------------|
+| `auth` | `/auth/*` and `/orgs/:orgId/auth/policy` |
+| `orgs` | `/orgs` and `/orgs/:orgId` |
+| `api-keys` | `/orgs/:orgId/api-keys` |
+| `audit` | `/orgs/:orgId/audit/events` |
+| `aws` | `/orgs/:orgId/aws/*` |
+| `chat` | `/orgs/:orgId/chat/*` |
+| `connector-clusters` | `/orgs/:orgId/connector-clusters` |
+| `connectors` | `/orgs/:orgId/connectors` |
+| `credential-assignments` | `/orgs/:orgId/credential-assignments` |
+| `credential-stores` | `/orgs/:orgId/credential-stores` |
+| `credentials` | `/orgs/:orgId/credentials` |
+| `dashboards` | `/orgs/:orgId/dashboards/*` |
+| `delegations` | `/orgs/:orgId/delegations/*` and `/msp/delegations/*` |
+| `devices` | `/orgs/:orgId/devices` |
+| `discovery` | `/orgs/:orgId/discovery/*` |
+| `endpoints` | `/orgs/:orgId/endpoints` |
+| `files` | `/orgs/:orgId/files` |
+| `grafana` | `/orgs/:orgId/grafana/*` |
+| `idp` | `/orgs/:orgId/idp/connections` |
+| `integrations` | `/orgs/:orgId/integrations/*` |
+| `invitations` | `/orgs/:orgId/invitations` |
+| `knowledge` | `/orgs/:orgId/knowledge/*` |
+| `memberships` | `/orgs/:orgId/memberships` |
+| `metrics` | `/orgs/:orgId/metrics/*` |
+| `msp` | `/msp/*` |
+| `roles` | `/orgs/:orgId/roles` |
+| `runbooks` | `/orgs/:orgId/runbooks/*` |
+| `secrets` | `/orgs/:orgId/secrets` |
+| `signals` | `/orgs/:orgId/signals/*` |
+| `sites` | `/orgs/:orgId/sites` |
+| `topology` | `/orgs/:orgId/topology/*` |
+| `visibility` | `/orgs/:orgId/visibility/*` |
 
 ---
 
