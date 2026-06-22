@@ -15,20 +15,21 @@ If logic is needed, it belongs in the real backend — not here.
 
 ## 2. Version discipline
 
-### v1 — Client spec (do not modify)
-- Endpoints in v1 mirror `openapi.yml` exactly.
-- Generate with `npm run generate:v1`. Do not hand-edit the output.
-- If an endpoint breaks the UI, fix it in **v2**, never in v1.
+### v1 — Frontend-used endpoints from openapi.yml (do not modify)
+- Only include endpoints that are **actually consumed by the frontend** — do not expose the full spec.
+- Each endpoint must mirror `openapi.yml` exactly — same path, method, request, and response shape.
+- Do not hand-edit v1 routes. If an endpoint needs a change for the UI, move it to v2.
 
-### v2 — Tweaks to client spec (≤ 40% of v1 surface)
-- Only endpoints that **differ** from v1 belong here.
-- Unchanged endpoints are not duplicated — frontend calls v1 for those.
+### v2 — Modified v1 endpoints (≤ 40% of v1 surface)
+- Only endpoints that exist in v1 but **need changes** to work correctly in the frontend.
+- Unchanged endpoints stay in v1 — do not duplicate them here.
 - Removed endpoints return `410 Gone` with a descriptive message.
 - Budget: at most 40% of v1 endpoints may appear in v2.
 
-### v3 — Net-new endpoints
-- Only endpoints that do **not exist** in v1 or v2 belong here.
-- Every endpoint must be tied to a specific screen (document in `docs/v3/CHANGES.md`).
+### v3 — Net-new endpoints (not in openapi.yml)
+- Only endpoints that **do not exist** in the openapi spec at all.
+- Must be tied to a specific screen or feature — document in `docs/v3/CHANGES.md`.
+- Do not add speculative endpoints; confirm with the team first.
 
 ---
 
@@ -56,15 +57,24 @@ Every change must be reflected in the corresponding changes file **before the PR
 
 ## 5. Response shape
 
-All endpoints must return one of:
+All endpoints must return one of the following shapes, matching the real contract:
 
 ```json
-{ "data": [ ... ], "total": N }      // collection
-{ "data": { ... } }                   // single item
-{ "message": "..." }                  // error or confirmation
+// Collection — cursor-based pagination
+{ "items": [ ... ], "meta": { "limit": N, "next": "cursor|null", "prev": "cursor|null", "exactTotal": N } }
+
+// Single item — no envelope, return the object directly
+{ "id": "...", "createdAt": "...", ... }
+
+// Error — RFC 7807 Problem Details
+{ "title": "Not Found", "status": 404, "detail": "resource not found" }
+
+// Removed endpoint (v2 only)
+HTTP 410 Gone  +  { "title": "Gone", "status": 410, "detail": "Removed in v2: <reason>" }
 ```
 
-Do not return raw arrays or bare objects at the top level.
+Collections support `?limit` (1–200, default 50) and `?after` (cursor offset).
+Do not use `data`, `total`, or bare `message` wrappers.
 
 ---
 
