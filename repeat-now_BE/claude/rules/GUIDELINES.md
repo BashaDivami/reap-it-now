@@ -78,20 +78,73 @@ Do not use `data`, `total`, or bare `message` wrappers.
 
 ---
 
-## 6. Adding a new resource
+## 6. Resource names and route patterns
+
+All resource names come from the OpenAPI spec at `openapi/public/v1/openapi.yaml`.
+Use the exact same names when calling `makeController('<version>', '<resource>')`.
+
+### URL pattern
+```
+/api/v1/auth/*                                  — authentication
+/api/v1/orgs/:orgId/<resource>                  — org-scoped resource
+/api/v1/orgs/:orgId/<resource>/:id              — single item
+/api/v1/msp/*                                   — MSP / delegations
+```
+
+### Available resources (from openapi spec)
+
+| Resource name (use in makeController) | URL prefix | Endpoints |
+|---------------------------------------|------------|-----------|
+| `auth` | `/auth/*` | 15 |
+| `orgs` | `/orgs` | 2 |
+| `api-keys` | `/orgs/:orgId/api-keys` | 2 |
+| `audit` | `/orgs/:orgId/audit/events` | 2 |
+| `chat` | `/orgs/:orgId/chat/*` | 16 |
+| `connector-clusters` | `/orgs/:orgId/connector-clusters` | 4 |
+| `connectors` | `/orgs/:orgId/connectors` | 3 |
+| `credential-assignments` | `/orgs/:orgId/credential-assignments` | 2 |
+| `credential-stores` | `/orgs/:orgId/credential-stores` | 2 |
+| `credentials` | `/orgs/:orgId/credentials` | 2 |
+| `dashboards` | `/orgs/:orgId/dashboards/*` | 4 |
+| `devices` | `/orgs/:orgId/devices` | 8 |
+| `discovery` | `/orgs/:orgId/discovery/*` | 6 |
+| `endpoints` | `/orgs/:orgId/endpoints` | 2 |
+| `files` | `/orgs/:orgId/files` | 2 |
+| `grafana` | `/orgs/:orgId/grafana/*` | 1 |
+| `idp` | `/orgs/:orgId/idp/connections` | 4 |
+| `integrations` | `/orgs/:orgId/integrations/*` | 15 |
+| `invitations` | `/orgs/:orgId/invitations` | 3 |
+| `knowledge` | `/orgs/:orgId/knowledge/*` | 7 |
+| `memberships` | `/orgs/:orgId/memberships` | 2 |
+| `metrics` | `/orgs/:orgId/metrics/*` | 2 |
+| `msp` | `/msp/*` | 3 |
+| `roles` | `/orgs/:orgId/roles` | 2 |
+| `runbooks` | `/orgs/:orgId/runbooks/*` | 9 |
+| `secrets` | `/orgs/:orgId/secrets` | 3 |
+| `signals` | `/orgs/:orgId/signals/*` | 8 |
+| `sites` | `/orgs/:orgId/sites` | 4 |
+| `topology` | `/orgs/:orgId/topology/*` | 10 |
+| `visibility` | `/orgs/:orgId/visibility/*` | 9 |
+
+Only add a resource here if the frontend actually uses it. Do not expose all 162 endpoints by default.
+
+---
+
+## 7. Adding a new resource
 
 1. Choose the correct version (v1/v2/v3) per the rules above.
 2. Create `data/<version>/<resource>.json` with `[]` or seed data.
 3. Add routes using `makeController('<version>', '<resource>')` in the version's `index.js`.
-4. Update the corresponding `docs/<version>/CHANGES.md`.
+4. Use the resource name from the table in §6 — do not invent new names.
+5. Update the corresponding `docs/<version>/CHANGES.md`.
 
 ---
 
-## 7. Removing or deprecating an endpoint (v2 only)
+## 8. Removing or deprecating an endpoint (v2 only)
 
 ```js
-router.delete('/resource/:id', (req, res) =>
-  res.status(410).json({ message: 'Removed in v2: <reason>' }));
+router.delete('/orgs/:orgId/resource/:id', (req, res) =>
+  res.status(410).json({ title: 'Gone', status: 410, detail: 'Removed in v2: <reason>' }));
 ```
 
 Never hard-delete a v1 route — express it as 410 in v2.
@@ -101,7 +154,7 @@ Never hard-delete a v1 route — express it as 410 in v2.
 ## Summary decision tree
 
 ```
-Is the endpoint in openapi.yml?
+Is the endpoint in openapi/public/v1/openapi.yaml?
   YES → Does it work as-is for the UI?
           YES → use v1 (no change needed)
           NO  → tweak it in v2 (within 40% budget)
