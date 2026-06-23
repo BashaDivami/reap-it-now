@@ -25,12 +25,14 @@ If logic is needed, it belongs in the real backend — not here.
 - Unchanged endpoints stay in v1 — do not duplicate them here.
 - Budget: at most 40% of v1 endpoints may appear in v2.
 - Document every tweak in `docs/v2/CHANGES.md`.
+- **If the path already exists in `openapi/public/v1/openapi.yaml`, it MUST go in v2 — never v3.** This includes cases where the response shape is wrong, required params need to become optional, status codes differ, or the mock behavior needs to be overridden. The path existing in the spec is the deciding factor, not the size of the change.
 
 ### v3 — Net-new endpoints (not in openapi.yml)
-- Only endpoints that **do not exist** in the openapi spec at all.
+- Only endpoints whose **path does not exist anywhere in `openapi/public/v1/openapi.yaml`**.
 - Must be tied to a specific screen or feature.
 - Do not add speculative endpoints; confirm with the team first.
 - Document every new endpoint in `docs/v3/CHANGES.md`.
+- **Do not use v3 for an existing spec path that needs tweaks — that is v2.**
 
 ---
 
@@ -172,21 +174,25 @@ This table is a **naming reference only** — only implement what the frontend a
 4. Use the resource name from the table in §7 — do not invent new names.
 5. Add a row to `docs/<version>/CHANGES.md` (see §3 for what to write).
 6. Update the endpoint count in `docs/OVERVIEW.md` — Version Summary table.
+7. **Update `openapi/public/v1/openapi.yaml`** with the new or modified path, then run the full SDK pipeline (see §4). This applies to v2 tweaks and v3 new endpoints — the spec is always the source of truth regardless of which version the mock route lives in.
 
 ---
 
 ## Summary decision tree
 
 ```
-Is the endpoint in openapi/public/v1/openapi.yaml?
+Is the PATH in openapi/public/v1/openapi.yaml?
   YES → Does it work as-is for the UI?
-          YES → implement in v1 (no change needed)
+          YES → use v1, no change needed
           NO  → tweak it in v2 (within 40% budget)
-  NO  → Is it a new screen or feature?
-          YES → add to v3, update openapi.yaml, run pipeline (§4)
-          NO  → do not add it yet; confirm with team
+                NEVER create a new path in v3 for an existing spec path
+                Changes allowed in v2: response shape, optional params,
+                status codes, mock behavior override
+  NO  → Is it for a specific screen or feature?
+          YES → add to v3 + update openapi.yaml + run pipeline (§4)
+          NO  → do not add it; confirm with team first
 
-After ANY spec change → run the SDK pipeline (§4):
+After ANY change to routes or openapi.yaml → run the SDK pipeline (§4):
   npm run generate:sdk   (in repeat-now_BE)
   npm run sync:sdk       (in repeat-now/reapitnow.ai)
 ```
