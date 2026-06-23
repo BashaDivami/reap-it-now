@@ -1,6 +1,20 @@
 # v1 — Client-Provided APIs (REAP API v1.3.0)
 
-Auto-generated from `openapi.yml`. Run `npm run generate:v1` after spec updates.
+Mirrored exactly from `openapi/public/v1/openapi.yaml`.
+Run `npm run generate:sdk` after any spec update (see [GUIDELINES §4](../../claude/rules/GUIDELINES.md)).
+
+---
+
+## Frontend Active Usage
+
+Track which v1 endpoints the frontend is actually calling.
+Update this table as screens are built. If an endpoint needs a change for the UI, move the tweak to v2 — do not patch v1.
+
+| Method | Path | Screen / Feature | Notes |
+|--------|------|-----------------|-------|
+| — | — | — | _(add rows as frontend integration begins)_ |
+
+---
 
 ## Summary
 
@@ -22,6 +36,8 @@ Auto-generated from `openapi.yml`. Run `npm run generate:v1` after spec updates.
 - If an endpoint breaks the UI, move the fix to **v2** — do not patch v1.
 - Action endpoints (`:attach`, `:apply`, etc.) always return `{ success: true, action, params }`.
 - Stream endpoints (`/stream`) return an SSE stub with a 5-second tick.
+
+---
 
 ## All Endpoints
 

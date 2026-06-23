@@ -1,7 +1,9 @@
 # Mock Server — API Overview
 
-This server provides three versioned API namespaces, each backed by flat JSON files.
-There is no business logic — controllers only read and write `data/<version>/<resource>.json`.
+Single source of truth for what is implemented across all three API versions.
+Update this file whenever endpoints are added or changed in any version.
+
+---
 
 ## Base URL
 
@@ -9,32 +11,39 @@ There is no business logic — controllers only read and write `data/<version>/<
 http://localhost:3001/api
 ```
 
-## Versions
+---
 
-| Prefix      | Purpose                                                        | Source        |
-|-------------|----------------------------------------------------------------|---------------|
-| `/api/v1/*` | Frontend-used endpoints mirrored exactly from `openapi.yml`    | `openapi.yml` |
-| `/api/v2/*` | v1 endpoints that need changes for the frontend (≤ 40% of v1) | Manual        |
-| `/api/v3/*` | Net-new endpoints not present in the openapi spec              | Manual        |
+## Version Summary
 
-## Change log links
+| Version | Purpose | Endpoint count | Detail |
+|---------|---------|---------------|--------|
+| `/api/v1/*` | All client-spec endpoints, mirrored exactly from `openapi.yaml` | 234 | [v1/CHANGES.md](./v1/CHANGES.md) |
+| `/api/v2/*` | v1 endpoints tweaked for frontend needs (≤ 40% of v1) | 0 | [v2/CHANGES.md](./v2/CHANGES.md) |
+| `/api/v3/*` | Net-new endpoints not in the spec, tied to specific screens | 0 | [v3/CHANGES.md](./v3/CHANGES.md) |
 
-- [v1 changes](./v1/CHANGES.md) — what the client spec contains
-- [v2 changes](./v2/CHANGES.md) — what was tweaked or removed from v1
-- [v3 changes](./v3/CHANGES.md) — what was added for new screens
+> Update the counts in the table above whenever you add rows to a CHANGES.md file.
 
-## Data stores
+---
 
-All data lives in `data/<version>/<resource>.json`.
-Each file is a JSON array of objects with an auto-generated `id` (UUID v4).
+## SDK sync pipeline
 
-## Standard response shape
+Any spec change must flow through:
 
-Matches the real `reap-contracts` OpenAPI spec.
+```
+1. Edit openapi/public/v1/openapi.yaml
+2. npm run generate:sdk          (repeat-now_BE)
+3. npm run sync:sdk              (repeat-now/reapitnow.ai)
+```
+
+See [GUIDELINES §4](../claude/rules/GUIDELINES.md) for full details.
+
+---
+
+## Standard response shapes
 
 ```json
 // Collection — cursor-based pagination
-{ "items": [ ... ], "meta": { "limit": 50, "next": "cursor|null", "prev": "cursor|null", "exactTotal": N } }
+{ "items": [...], "meta": { "limit": 50, "next": "cursor|null", "prev": "cursor|null", "exactTotal": N } }
 
 // Single item — no envelope
 { "id": "...", "createdAt": "...", ... }
@@ -45,34 +54,31 @@ Matches the real `reap-contracts` OpenAPI spec.
 
 Collections support `?limit` (1–200, default 50) and `?after` (cursor offset).
 
-## What is implemented
+---
 
-### v1 — Endpoints used by the frontend (mirrored from openapi spec)
+## Data stores
 
-> See full detail in [docs/v1/CHANGES.md](./v1/CHANGES.md)
+All data lives in `data/<version>/<resource>.json` — flat JSON arrays, no business logic.
+Each object has an auto-generated `id` (UUID v4) assigned by `makeController.create`.
 
-| Resource | Endpoints implemented |
-|----------|----------------------|
-| _(none yet — add rows here as frontend integration begins)_ | |
+---
 
-### v2 — v1 endpoints modified for frontend needs
+## Decision: which version does a new endpoint belong in?
 
-> See full detail in [docs/v2/CHANGES.md](./v2/CHANGES.md)
+```
+Is the endpoint in openapi/public/v1/openapi.yaml?
+  YES → Does it work as-is for the UI?
+          YES → implement in v1 (no change needed)
+          NO  → tweak it in v2 (within 40% budget)
+  NO  → Is it for a new screen or feature?
+          YES → add to v3, update openapi.yaml, run SDK pipeline
+          NO  → do not add it; confirm with team first
+```
 
-| Resource | What changed from v1 |
-|----------|----------------------|
-| _(none yet)_ | |
+---
 
-### v3 — Net-new endpoints not in the openapi spec
+## Per-version detail
 
-> See full detail in [docs/v3/CHANGES.md](./v3/CHANGES.md)
-
-| Resource | What it does | Screen / feature |
-|----------|--------------|-----------------|
-| _(none yet)_ | | |
-
-## Generating v1 from openapi.yml
-
-1. Place `openapi.yml` in the project root.
-2. Run `npm run generate:v1`.
-3. `routes/v1/index.js` and `data/v1/<resource>.json` files are created automatically.
+- **[v1/CHANGES.md](./v1/CHANGES.md)** — full endpoint list (234 routes across 32 domains) + frontend active usage tracker
+- **[v2/CHANGES.md](./v2/CHANGES.md)** — endpoints tweaked from v1 (what changed and why)
+- **[v3/CHANGES.md](./v3/CHANGES.md)** — net-new endpoints (what screen they serve)
