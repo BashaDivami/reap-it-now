@@ -12,7 +12,9 @@ function read(version, resource) {
 }
 
 function write(version, resource, data) {
-  fs.writeFileSync(storePath(version, resource), JSON.stringify(data, null, 2));
+  const p = storePath(version, resource);
+  fs.mkdirSync(path.dirname(p), { recursive: true });
+  fs.writeFileSync(p, JSON.stringify(data, null, 2));
 }
 
 module.exports = { read, write };

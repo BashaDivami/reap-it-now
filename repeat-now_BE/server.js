@@ -6,6 +6,13 @@ const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    console.log(`${req.method} ${req.path} ${res.statusCode} ${Date.now() - start}ms`);
+  });
+  next();
+});
 
 app.use('/api', require('./routes'));
 
@@ -33,6 +40,6 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Mock server running at http://localhost:${PORT}/api`);
   console.log('  v1 → /api/v1  (client-provided APIs)');
-  console.log('  v2 → /api/v2  (tweaked / removed endpoints)');
+  console.log('  v2 → /api/v2  (tweaked endpoints)');
   console.log('  v3 → /api/v3  (new screen APIs)');
 });
