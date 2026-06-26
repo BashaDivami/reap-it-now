@@ -1,6 +1,6 @@
 /**
  * v1 routes — strictly matches openapi/public/v1/openapi.yaml (REAP API v1.3.0)
- * 32 domains, 233 routes.
+ * 32 domains, 234 routes.
  */
 const router = require('express').Router();
 
