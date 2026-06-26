@@ -3,7 +3,7 @@
 Endpoints here **differ** from v1 in some way — response shape, field names, added fields, or status codes.
 Unchanged v1 endpoints are not duplicated here; the frontend calls v1 for those.
 
-See [GUIDELINES §2](../../claude/rules/GUIDELINES.md) for the 40% budget rule.
+See [GUIDELINES §2](../../claude/rules/GUIDELINES.md) for v2 rules.
 
 ---
 

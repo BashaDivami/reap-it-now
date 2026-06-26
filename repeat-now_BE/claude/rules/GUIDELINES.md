@@ -20,10 +20,10 @@ If logic is needed, it belongs in the real backend — not here.
 - Each endpoint must mirror `openapi.yml` exactly — same path, method, request, and response shape.
 - Do not hand-edit v1 routes. If an endpoint needs a change for the UI, move it to v2.
 
-### v2 — Modified v1 endpoints (≤ 40% of v1 surface)
+### v2 — Modified v1 endpoints
 - Only endpoints that exist in v1 but **need changes** to work correctly in the frontend.
 - Unchanged endpoints stay in v1 — do not duplicate them here.
-- Budget: at most 40% of v1 endpoints may appear in v2.
+- If a v1 path needs any change for the frontend to work, it belongs in v2 — full stop.
 - Document every tweak in `docs/v2/CHANGES.md`.
 - **If the path already exists in `openapi/public/v1/openapi.yaml`, it MUST go in v2 — never v3.** This includes cases where the response shape is wrong, required params need to become optional, status codes differ, or the mock behavior needs to be overridden. The path existing in the spec is the deciding factor, not the size of the change.
 
@@ -184,7 +184,7 @@ This table is a **naming reference only** — only implement what the frontend a
 Is the PATH in openapi/public/v1/openapi.yaml?
   YES → Does it work as-is for the UI?
           YES → use v1, no change needed
-          NO  → tweak it in v2 (within 40% budget)
+          NO  → tweak it in v2
                 NEVER create a new path in v3 for an existing spec path
                 Changes allowed in v2: response shape, optional params,
                 status codes, mock behavior override

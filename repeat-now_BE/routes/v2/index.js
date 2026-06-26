@@ -2,7 +2,7 @@
  * v2 — Modified client APIs.
  *
  * Rules:
- *  - Only endpoints that differ from v1 belong here (≤ 40% of v1 surface).
+ *  - Only endpoints that differ from v1 belong here.
  *  - Endpoints unchanged from v1 are NOT duplicated here.
  *  - No endpoints are removed — v1 always remains intact.
  *  - Document every change in docs/v2/CHANGES.md.

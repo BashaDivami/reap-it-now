@@ -20,7 +20,7 @@ cp .env.example .env
 | Prefix | Purpose |
 |--------|---------|
 | `/api/v1/*` | All 234 endpoints from `openapi/public/v1/openapi.yaml`, mirrored exactly |
-| `/api/v2/*` | v1 endpoints tweaked for the frontend (≤ 40% of v1) |
+| `/api/v2/*` | v1 endpoints tweaked for the frontend |
 | `/api/v3/*` | Net-new endpoints not in the spec, tied to specific screens |
 | `/api/health` | Health check |
 

@@ -18,7 +18,7 @@ http://localhost:3001/api
 | Version | Purpose | Endpoint count | Detail |
 |---------|---------|---------------|--------|
 | `/api/v1/*` | All client-spec endpoints, mirrored exactly from `openapi.yaml` | 234 | [v1/CHANGES.md](./v1/CHANGES.md) |
-| `/api/v2/*` | v1 endpoints tweaked for frontend needs (≤ 40% of v1) | 0 | [v2/CHANGES.md](./v2/CHANGES.md) |
+| `/api/v2/*` | v1 endpoints tweaked for frontend needs |  | [v2/CHANGES.md](./v2/CHANGES.md) |
 | `/api/v3/*` | Net-new endpoints not in the spec, tied to specific screens | 0 | [v3/CHANGES.md](./v3/CHANGES.md) |
 
 > Update the counts in the table above whenever you add rows to a CHANGES.md file.
@@ -69,7 +69,7 @@ Each object has an auto-generated `id` (UUID v4) assigned by `makeController.cre
 Is the endpoint in openapi/public/v1/openapi.yaml?
   YES → Does it work as-is for the UI?
           YES → implement in v1 (no change needed)
-          NO  → tweak it in v2 (within 40% budget)
+          NO  → tweak it in v2
   NO  → Is it for a new screen or feature?
           YES → add to v3, update openapi.yaml, run SDK pipeline
           NO  → do not add it; confirm with team first
