@@ -44,9 +44,65 @@ Document every change **as you implement it** — not after.
 | Change | File to update | What to write |
 |--------|---------------|---------------|
 | Frontend starts using a v1 endpoint | `docs/v1/CHANGES.md` — **Frontend Active Usage** table | Method, path, screen/feature name |
-| v2 tweak added | `docs/v2/CHANGES.md` — Endpoints table | Method, path, what changed, why |
-| v3 endpoint added | `docs/v3/CHANGES.md` — Endpoints table | Method, path, screen/feature, description |
+| v2 tweak added | `docs/v2/CHANGES.md` — Endpoints section | Full endpoint block (see template below) |
+| v3 endpoint added | `docs/v3/CHANGES.md` — Endpoints section | Full endpoint block (see template below) |
 | Any of the above | `docs/OVERVIEW.md` — Version Summary table | Update the endpoint count for that version |
+
+### Documentation template — required for every v2 and v3 endpoint
+
+Every endpoint added to `docs/v2/CHANGES.md` or `docs/v3/CHANGES.md` must use this full block. A one-line table row is not acceptable.
+
+~~~markdown
+### METHOD /path/to/endpoint
+
+**Screen / Feature:** Name of the screen or feature that uses this endpoint
+
+**Description:** What this endpoint does and why it exists.
+
+**Path parameters**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `orgId` | string (UUID) | Yes | Organisation ID |
+| `resourceId` | string (UUID) | Yes | Resource ID |
+
+**Query parameters**
+
+| Parameter | Type | Required | Default | Allowed values | Description |
+|-----------|------|----------|---------|----------------|-------------|
+| `timeframe` | string | No | `7D` | `1D`, `7D`, `14D`, `30D` | Time window for the data |
+| `limit` | integer | No | `50` | 1–200 | Maximum items to return |
+
+**Request body** *(mutations only — omit for GET)*
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `title` | string | Yes | Display name |
+| `status` | string | No | One of: `draft`, `published` |
+
+**Response**
+
+Shape: single object / collection `{ items, meta }` *(pick one)*
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `timeframe` | string | Echoes the requested timeframe |
+| `kpis` | array | KPI metric objects (see below) |
+| `kpis[].id` | string | Metric identifier |
+| `kpis[].label` | string | Display label |
+| `kpis[].value` | string | Pre-formatted value with unit (e.g. `"3.4h"`, `"79%"`) |
+| `kpis[].trend.percent` | number | Change magnitude vs previous period |
+| `kpis[].trend.direction` | `"up"` \| `"down"` | Direction of change |
+| `kpis[].trend.improving` | boolean | Whether the change is desirable |
+| `kpis[].health` | `"good"` \| `"borderline"` \| `"poor"` | Health band |
+| `kpis[].tooltip` | string | Tooltip explanation text |
+
+**Data file:** `data/<version>/<resource>.json`
+
+**Controller:** `routes/<version>/controllers/<resource>.controller.js`
+~~~
+
+Omit sections that do not apply (e.g. omit **Request body** for GET endpoints, omit **Query parameters** if there are none). Do not leave placeholder text — fill every field with real values.
 
 ---
 
@@ -101,6 +157,15 @@ Each file is a JSON **array** of objects. Every object has an `id` field (UUID v
 
 - Seed data can be added manually; `makeController` will not overwrite existing files.
 - Do not put sensitive or real user data in these files.
+
+### Seed data sourcing (priority order)
+
+When creating `data/v2/<resource>.json` or `data/v3/<resource>.json`, use this order to source the seed data:
+
+1. **Check the frontend component first** — if the component or `src/mocks/data/` already has stub/mock data for this resource, copy it directly into the backend JSON file. It already has the correct shape and realistic values — do not invent data from scratch when a stub exists.
+2. **Fallback to `openapi.yaml`** — if no frontend stub exists, craft representative data manually that matches the schema defined in the spec.
+
+> `src/mocks/data/` files in the frontend are NOT deleted after migration — they remain as test fixtures for unit tests only.
 
 ---
 
@@ -168,13 +233,64 @@ This table is a **naming reference only** — only implement what the frontend a
 
 ## 8. Adding a new resource
 
+### Route structure (mandatory for all versions)
+
+Every version follows the same structure as v1 — handler logic lives in a controller file, `index.js` only mounts routes:
+
+```
+routes/
+├── v1/
+│   ├── controllers/<domain>.controller.js   ← handler logic here
+│   └── index.js                             ← mounts routes only, no inline handlers
+├── v2/
+│   ├── controllers/<domain>.controller.js   ← handler logic here
+│   └── index.js                             ← mounts routes only, no inline handlers
+└── v3/
+    ├── controllers/<domain>.controller.js   ← handler logic here
+    └── index.js                             ← mounts routes only, no inline handlers
+```
+
+**Never write inline handler functions in `index.js`.** Every handler belongs in its own controller file.
+
+- For standard CRUD (v1/v2): use `makeController('<version>', '<resource>')` in the controller file, export it, and mount it in `index.js`.
+- For custom logic (v2 tweaks, v3 net-new): write named handler functions in the controller file, export them, and mount in `index.js`.
+
+**v1 controller pattern (standard CRUD):**
+```js
+// routes/v1/controllers/signals.controller.js
+'use strict';
+const makeController = require('../../../lib/makeController');
+module.exports = makeController('v1', 'signals');
+```
+```js
+// routes/v1/index.js
+const signalsCtrl = require('./controllers/signals.controller');
+router.get('/orgs/:orgId/signals/incidents', signalsCtrl.getAll);
+```
+
+**v2/v3 controller pattern (custom logic):**
+```js
+// routes/v3/controllers/analytics.controller.js
+'use strict';
+const { read } = require('../../../lib/jsonStore');
+exports.getSummary = (req, res) => { ... };
+```
+```js
+// routes/v3/index.js
+const analyticsCtrl = require('./controllers/analytics.controller');
+router.get('/orgs/:orgId/analytics/summary', analyticsCtrl.getSummary);
+```
+
+### Steps to add a new resource
+
 1. Choose the correct version (v1/v2/v3) per the rules above.
 2. Create `data/<version>/<resource>.json` with `[]` or seed data.
-3. Add routes using `makeController('<version>', '<resource>')` in the version's `index.js`.
-4. Use the resource name from the table in §7 — do not invent new names.
-5. Add a row to `docs/<version>/CHANGES.md` (see §3 for what to write).
-6. Update the endpoint count in `docs/OVERVIEW.md` — Version Summary table.
-7. **Update `openapi/public/v1/openapi.yaml`** with the new or modified path, then run the full SDK pipeline (see §4). This applies to v2 tweaks and v3 new endpoints — the spec is always the source of truth regardless of which version the mock route lives in.
+3. Create `routes/<version>/controllers/<resource>.controller.js` with the handler logic.
+4. Mount the controller in `routes/<version>/index.js` — one line per route, no inline logic.
+5. Use the resource name from the table in §7 — do not invent new names.
+6. Add a row to `docs/<version>/CHANGES.md` (see §3 for what to write).
+7. Update the endpoint count in `docs/OVERVIEW.md` — Version Summary table.
+8. **Update `openapi/public/v1/openapi.yaml`** with the new or modified path, then run the full SDK pipeline (see §4). This applies to v2 tweaks and v3 new endpoints — the spec is always the source of truth regardless of which version the mock route lives in.
 
 ---
 
